@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/order.css') }}">
+{% endblock css %}
+{% block main %}
+<div id="order_container">
+    <form method="POST" class="responsive_form">
+        {{ form.hidden_tag() }}
+        <div class="form_row">
+            <div class="input_container">
+                {{ form.phone_number(placeholder=" ") }}
+                {{ form.phone_number.label() }}
+            </div>
+        </div>
+        <div class="form_row">
+            <div class="input_container">
+                {{ form.full_adress(placeholder=" ", class="error" if form.full_adress.errors) }}
+                {{ form.full_adress.label() }}
+                <div class="errors">
+                    {% for error in form.full_adress.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div id="map_container">
+            <div id="map"></div>
+            <div id="infowindow-content">
+                <img src="" width="16" height="16" id="place-icon">
+                <span id="place-name" class="title"></span><br>
+                <span id="place-address"></span>
+            </div>
+        </div>
+        <div class="form_row">
+            <div class="input_container">
+                {{ form.submit() }}
+            </div>
+        </div>
+        <div class="form_row">
+            <div class="input_container">
+                <p class="info">Genom att klicka på "Skicka" accepterar jag <a href="">personuppgiftspolicyn</a>.</p>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock main %}
+{% block javascript %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/order.js') }}"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key={{ config.GOOGLE_MAPS_API_KEY }}&libraries=places,geometry&callback=initMap"
+        async defer></script>
+{% endblock javascript %}

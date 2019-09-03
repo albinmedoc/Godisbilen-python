@@ -1,0 +1,17 @@
+:root {
+    /* Nav */
+    --nav-background-color: #b1e8ed;
+    --nav-logo-color: #e86ed0;
+    --nav-height: 70px;
+    --nav-link-color: #e86ed0;
+
+    /* Responsive form */
+    --responsive-form-info-color: #e86ed0;
+}
+*{
+    font-family: 'Titillium Web', sans-serif;
+}
+body{
+    margin: 0;
+    background-color: #f9f7f7;
+}

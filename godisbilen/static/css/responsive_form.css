@@ -1,0 +1,168 @@
+.responsive_form {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 20px 0;
+    margin: 30px auto;
+}
+
+.responsive_form fieldset {
+    /* Tar bort standard-CSS */
+    border: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* Måste ta upp hela form, annars försvinner formuläret vid klick */
+}
+
+.responsive_form .form_row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.responsive_form .input_container {
+    position: relative;
+    flex-grow: 1;
+    min-width: 200px;
+    margin: 12px 20px;
+    width: calc(50% - 40px);
+    /*  50% minus margin 20px på båda sidorna */
+}
+
+.responsive_form label {
+    pointer-events: none;
+    position: absolute;
+    line-height: 40px;
+    left: 0;
+    top: 0;
+    transition: opacity .2s ease, transform .2s ease, font-size .2s ease;
+    opacity: 0.5;
+}
+.responsive_form input[type="checkbox"]{
+    height: 30px;
+    width: 30px;
+}
+
+.responsive_form input[type="checkbox"] + label{
+    opacity: 0.5;
+    font-size: inherit;
+    line-height: unset;
+}
+
+.responsive_form input:required + label:after {
+    content: " *";
+    color: red;
+}
+
+.responsive_form input,
+.responsive_form textarea,
+.responsive_form button {
+    height: 40px;
+    width: 100%;
+    border: 1px solid #efefef;
+    background-color: white;
+    outline: none;
+    box-shadow: 0 0 3px transparent;
+    transition: box-shadow .2s;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.responsive_form input,
+.responsive_form textarea,
+.responsive_form .input_container>label,
+.responsive_form>.form_row {
+    padding: 0 10px;
+}
+.responsive_form input[type="submit"],
+.responsive_form input[type="checkbox"]{
+    cursor: pointer;
+}
+
+.responsive_form input:focus:not([type="checkbox"]),
+.responsive_form textarea:focus {
+    box-shadow: 0 1px 3px lightgrey;
+}
+
+.responsive_form input.error,
+.responsive_form textarea.error {
+    border: 2px solid red;
+    animation: shake .3s backwards;
+}
+
+.responsive_form .info {
+    margin: 0;
+    color: var(--responsive-form-info-color);
+}
+.responsive_form .info > a{
+    color: var(--responsive-form-info-url-color);
+}
+
+.responsive_form .input_container .error {
+    text-align: center;
+    color: red;
+    margin: 0;
+    text-align: left;
+    font-size: 14px;
+    visibility: visible;
+    opacity: 1;
+    max-height: none;
+}
+
+.responsive_form input:focus:not([type="checkbox"])+label,
+.responsive_form input:not(:placeholder-shown):not([type="checkbox"])+label,
+.responsive_form textarea:focus+label,
+.responsive_form textarea:not(:placeholder-shown)+label {
+    opacity: 1;
+    font-size: 15px;
+    transform: translateY(-30px) translateX(-10px);
+}
+
+.responsive_form textarea{
+    min-height: 40px;
+    resize: vertical;
+}
+
+.responsive_form button {
+    border: none;
+    font-size: 16px;
+    background: rgba(230, 230, 230, 0.27);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+    transition: box-shadow .2s, background-color .2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 0;
+}
+
+.responsive_form button::before {
+    content: '';
+    position: absolute;
+    background: rgba(230, 230, 230, 0.63);
+    width: 100%;
+    height: 100%;
+    transform: scaleX(0);
+    transition: transform .4s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transform-origin: right;
+    z-index: -1;
+}
+
+.responsive_form button:hover::before {
+    transform: none;
+}
+
+.responsive_form button::after {
+    font-family: "Material Icons Outlined";
+    content: 'send';
+    margin-left: 7px;
+}
+
+@media (min-width:768px) {
+    .responsive_form {
+        height: auto;
+        max-width: 600px;
+        border-radius: 5px;
+    }
+}

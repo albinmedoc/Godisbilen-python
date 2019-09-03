@@ -1,0 +1,38 @@
+#hours{
+    width: calc(100% - 60px);
+    text-align: center;
+    background-color: #edb5f5;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+#hours > div > h3{
+    margin: 0;
+    font-size: 40px;
+}
+
+#hours > div > p{
+    margin: 0;
+    font-size: 25px;
+}
+
+#hours > div > a{
+    background-color: #b1e8ed;
+    text-decoration: none;
+    margin-top: 20px;
+    padding: 10px 20px;
+    display: block;
+    font-size: 25px;
+    color: #e86ed0;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+#hours > div > a:hover{
+    -webkit-box-shadow: 14px 14px 14px -8px rgba(0,0,0,0.52);
+    -moz-box-shadow: 14px 14px 14px -8px rgba(0,0,0,0.52);
+    box-shadow: 14px 14px 14px -8px rgba(0,0,0,0.52);
+}

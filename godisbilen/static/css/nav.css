@@ -1,0 +1,122 @@
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--nav-background-color);
+}
+
+#logo {
+    color: var(--nav-logo-color);
+    font-family: var(--nav-logo-font-family);
+    text-decoration: none;
+}
+
+#logo > img{
+    height: calc(100% - 20px);
+    display: none;
+}
+
+nav>ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+.nav_link>span {
+    margin-left: 10px;
+    display: none;
+    font-size: 20px;
+}
+
+.nav_link {
+    display: flex;
+    align-items: center;
+    height: var(--nav-height);
+    padding: 0 15px;
+    position: relative;
+    background-color: var(--nav-background-color);
+    color: var(--nav-link-color);
+    text-decoration: none;
+}
+
+#logo::after,
+nav ul li>a::after,
+.dropdown a::after {
+    /* Animation vid hover */
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    background-color: transparent;
+    height: 2px;
+    transition: transform .3s cubic-bezier(0.075, 0.82, 0.165, 1), background-color .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transform: scaleX(0);
+}
+
+.dropdown {
+    position: relative;
+    display: block;
+}
+
+.dropdown_content {
+    visibility: hidden;
+    position: absolute;
+    min-width: 150px;
+    box-shadow: 0px 2px 5px var(--shadow_color);
+    opacity: 0;
+    transform: translateY(-200px);
+    background-color: var(--nav-background-color);
+    right: 0;
+    z-index: 4;
+}
+
+.dropdown_content>a {
+    height: 45px;
+    line-height: 45px;
+    padding: 0 15px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    color: var(--nav-link-color);
+}
+
+.dropdown_content>a::after {
+    width: 80%;
+    transform-origin: right;
+}
+
+.dropdown_content,
+.dropdown_content>a:last-child {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    overflow: hidden;
+}
+
+.dropdown_content>a>i {
+    margin-left: 8px;
+}
+
+.dropdown:hover>.dropdown_content {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+}
+
+@media (min-width:490px) {
+    .nav_link>label,
+    .nav_link>span {
+        display: block;
+    }
+}
+
+@media (min-width:325px) {
+    #logo > img{
+        display: block;
+    }
+}
