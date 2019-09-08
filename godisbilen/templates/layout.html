@@ -4,6 +4,17 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    {% if not config["DEBUG"] is defined or not config["DEBUG"] or not config["GOOGLE_ANALYTICS_TRACK_ID"] %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ config['GOOGLE_ANALYTICS_TRACK_ID'] }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag("js", new Date());
+
+            gtag("config", "{{ config['GOOGLE_ANALYTICS_TRACK_ID'] }}");
+        </script>
+    {% endif %}
     {% block css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
@@ -25,17 +36,6 @@
     </main>
     {% block javascript %}
         <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-        {% if not config["DEBUG"] is defined or not config["DEBUG"] %}
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-34129633-4"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
-
-            gtag('config', 'UA-34129633-4');
-        </script>
-        {% endif %}
     {% endblock javascript %}
 </body>
 
