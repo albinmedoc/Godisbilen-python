@@ -6,7 +6,7 @@ from config import Config
 
 db = SQLAlchemy()
 basic_auth = BasicAuth()
-admin = Admin(name="Godisbilen", endpoint="flask_admin")
+admin = Admin(name="Godisbilen")
 
 
 def create_app(config_class=Config, create_db=False):
