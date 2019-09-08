@@ -1,6 +1,5 @@
 import os
 from dotenv import load_dotenv
-from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
 class Config(object):
     load_dotenv()
