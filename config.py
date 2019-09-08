@@ -12,6 +12,9 @@ class Config(object):
     GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
     GOOGLE_ANALYTICS_TRACK_ID = os.getenv("GOOGLE_ANALYTICS_TRACK_ID")
 
+    BASIC_AUTH_USERNAME = "basic"
+    BASIC_AUTH_PASSWORD = "basic"
+
     #Database
     SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
     
