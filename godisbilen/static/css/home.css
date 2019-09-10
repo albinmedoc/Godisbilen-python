@@ -32,7 +32,7 @@
 }
 
 #hours > div > a:hover{
-    -webkit-box-shadow: 14px 14px 14px -8px rgba(0,0,0,0.52);
-    -moz-box-shadow: 14px 14px 14px -8px rgba(0,0,0,0.52);
-    box-shadow: 14px 14px 14px -8px rgba(0,0,0,0.52);
+    -webkit-box-shadow: 8px 8px 8px -8px rgba(0,0,0,0.52);
+    -moz-box-shadow: 8px 8px 8px -8px rgba(0,0,0,0.52);
+    box-shadow: 8px 8px 8px -8px rgba(0,0,0,0.52);
 }
