@@ -18,5 +18,5 @@ body{
 
 main{
     margin-top: 70px;
-    min-height: calc(100vh - 258px);
+    min-height: calc(100vh - 240px);
 }
