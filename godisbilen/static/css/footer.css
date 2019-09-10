@@ -1,0 +1,59 @@
+footer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap-reverse;
+    justify-content: space-around;
+    width: 100%;
+    background-color: var(--nav-background-color);
+    color: #e86ed0;
+}
+
+footer > section{
+    padding: 20px 30px;
+    position: relative;
+}
+
+footer h3{
+    margin: 0;
+    text-decoration: underline;
+}
+
+footer > #motto{
+    text-align: right;
+}
+
+footer > #motto::after{
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 70%;
+    top: 15%;
+    right: -1;
+    background-color: #e86ed0;
+    border-radius: 4px;
+}
+
+footer > #motto > h3{
+    font-size: 30px;
+    margin: 10px 0;
+}
+
+footer > #motto > p{
+    margin: 0;
+    font-size: 20px;
+}
+
+footer > #links >ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+footer > #links a {
+    color: #e86ed0;
+    text-decoration: none;
+}
+
+footer > #links a:hover {
+    text-decoration: underline;
+}

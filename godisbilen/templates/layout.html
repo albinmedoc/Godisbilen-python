@@ -18,6 +18,7 @@
     {% block css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive_form.css') }}">
     {% endblock css %}
     {% block fonts %}
@@ -54,10 +55,15 @@
     </main>
     {% block footer %}
     <footer>
-        <section>
+        <section id="motto">
+            <h3>Godisbilen</h3>
+            <p><q>Fixar godis när du behöver det!</q></p>
+            <small>&copy; Copyright 2019, Godisbilen</small>
+        </section>
+        <section id="links">
             <h3>Snabblänkar</h3>
             <ul>
-                <li><a>Leveransområde</a></li>
+                <li><a href="{{ url_for('main.working_areas') }}">Leveransområde</a></li>
                 <li><a href="{{  url_for('main.tos') }}">Allmänna villkor</a></li>
                 <li><a>Vanliga frågor</a></li>
                 <li><a>Kontakta oss</a></li>
