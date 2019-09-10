@@ -27,6 +27,7 @@
 </head>
 
 <body>
+    {% block nav %}
     <nav>
         <a href="{{ url_for('main.home') }}" id="logo" class="nav_link">
             <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Godisbilen logo">
@@ -46,10 +47,25 @@
             </li>
         </ul>
     </nav>
+    {% endblock nav %}
     <main id="main">
         {% block main %}
         {% endblock main %}
     </main>
+    {% block footer %}
+    <footer>
+        <section>
+            <h3>Snabblänkar</h3>
+            <ul>
+                <li>Leveransområde</li>
+                <li>Allmänna villkor</li>
+                <li>Vanliga frågor</li>
+                <li>Kontakta oss</li>
+                <li>Om oss</li>
+            </ul>
+        </section>
+    </footer>
+    {% endblock footer %}
     {% block javascript %}
         <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% endblock javascript %}
