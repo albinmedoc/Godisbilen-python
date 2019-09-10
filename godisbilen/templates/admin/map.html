@@ -7,13 +7,14 @@
 {% endblock nav %}
 {% block main %}
     <img id="logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="Godisbilen logo">
-    <div id="map_overlay" style="display: none;">
+    <div id="map_overlay">
         <div id="current_order">
             <h2>Nuvarande order:</h2>
+            <p class="order_number"></p>
             <p class="address"></p>
             <p class="phone_number"></p>
-            <button class="start">Starta</button>
-            <button class="complete">Färdig</button>
+            <button id="start_order" class="start">Starta</button>
+            <button id="end_order" class="complete">Färdig</button>
         </div>
     </div>
     <div id="map"></div>
@@ -25,3 +26,5 @@
         src="https://maps.googleapis.com/maps/api/js?key={{ config.GOOGLE_MAPS_API_KEY }}&libraries=places&callback=initMap"
         async defer></script>
 {% endblock javascript %}
+{% block footer %}
+{% endblock footer %}

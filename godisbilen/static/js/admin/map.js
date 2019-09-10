@@ -9,10 +9,10 @@ setInterval(function () {
     reload_markers();
 }, 120000);
 
-//Uppdatera nuvarande plats vart 10s
+/* //Uppdatera nuvarande plats vart 10s
 setInterval(function () {
     update_position();
-}, 10000);
+}, 10000); */
 
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
@@ -23,7 +23,7 @@ function initMap() {
     });
 
     infowindow = new google.maps.InfoWindow();
-    update_position();
+    //update_position();
     show_markers();
 }
 
@@ -32,6 +32,9 @@ function show_markers() {
         if (err !== null) {
             alert("Something went wrong: " + err);
         } else {
+            if (!orders.length) {
+                return;
+            }
             for (var i = 0; i < orders.length; i++) {
                 var point = new google.maps.LatLng(parseFloat(orders[i]["lat"]), parseFloat(orders[i]["lng"]));
                 var icon_color = (orders[i]["phase"] == 1) ? "blue" : "green";
@@ -50,14 +53,16 @@ function show_markers() {
                     }
                 })(marker, i));
             }
+            document.querySelectorAll("#current_order > .order_number")[0].innerHTML = orders[0]["order_number"];
             document.querySelectorAll("#current_order > .address")[0].innerHTML = "<a target='_blank' href='https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + orders[0]["lat"] + "," + orders[0]["lng"] + "'>" + orders[0]["street"] + " " + orders[0]["street_number"];
             document.querySelectorAll("#current_order > .phone_number")[0].innerHTML = "<a href='sms:" + orders[0]["tel"] + "'</a>" + orders[0]["tel"];
-            if(orders[0]["phase"] == 1){
+            if (orders[0]["phase"] == 1) {
                 document.querySelectorAll("#current_order > .complete")[0].setAttribute("disabled", "disabled");
                 document.querySelectorAll("#current_order > .start")[0].removeAttribute("disabled");
-            }else if(orders[0]["phase"] == 2){
+            } else if (orders[0]["phase"] == 2) {
                 document.querySelectorAll("#current_order > .start")[0].setAttribute("disabled", "disabled");
                 document.querySelectorAll("#current_order > .complete")[0].removeAttribute("disabled");
+
             }
         }
     }, "phase=1&phase=2");
@@ -76,7 +81,27 @@ function reload_markers() {
     show_markers();
 }
 
-function update_position() {
+document.getElementById("start_order").addEventListener("click", function () {
+    var order_number = document.querySelectorAll("#current_order > .order_number")[0].innerHTML;
+    getJSON("POST", "/admin/start_order", function (err) {
+        if (err !== null) {
+            alert("Something went wrong: " + err);
+        }
+    }, "order_number=" + order_number);
+    location.reload();
+});
+
+document.getElementById("end_order").addEventListener("click", function () {
+    var order_number = document.querySelectorAll("#current_order > .order_number")[0].innerHTML;
+    getJSON("POST", "/admin/end_order", function (err) {
+        if (err !== null) {
+            alert("Something went wrong: " + err);
+        }
+    }, "order_number=" + order_number);
+    location.reload();
+});
+
+/* function update_position() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             if (currrent_pos_marker !== undefined) {
@@ -101,4 +126,4 @@ function update_position() {
             currrent_pos_radius.setMap(map);
         });
     }
-}
+} */
