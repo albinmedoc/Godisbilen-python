@@ -41,7 +41,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="nav_link">
+                <a href="{{ url_for('order.new_order') }}" class="nav_link">
                     <i class="material-icons-outlined">local_shipping</i>
                     <span>Beställ</span>
                 </a>
@@ -65,7 +65,7 @@
             <ul>
                 <li><a href="{{ url_for('main.working_areas') }}">Leveransområde</a></li>
                 <li><a href="{{  url_for('main.tos') }}">Allmänna villkor</a></li>
-                <li><a>Vanliga frågor</a></li>
+                <!-- <li><a>Vanliga frågor</a></li> -->
                 <li><a>Kontakta oss</a></li>
                 <li><a>Om oss</a></li>
             </ul>
