@@ -4,6 +4,7 @@ from wtforms.fields.html5 import TelField
 from wtforms.validators import DataRequired
 from wtforms.widgets import HiddenInput
 from shapely.geometry import Point, Polygon
+from godisbilen.main.utils import shop_open
 from godisbilen.location.utils import get_city_boundaries
 
 
@@ -30,6 +31,14 @@ class OrderForm(FlaskForm):
     submit = SubmitField("Skicka")
 
     def validate(self):
+        # Check if shop is open
+        if(not shop_open()):
+            temp = list(self.full_adress.errors)
+            temp.append("Godisbilen har för tillfället stängt")
+            self.full_adress.errors = tuple(temp)
+            return False
+
+        # Check if inside working areas
         lat = self.lat.data
         lng = self.lng.data
         point = Point(lat, lng)
@@ -49,3 +58,11 @@ class OrderForm(FlaskForm):
             self.full_adress.errors = tuple(temp)
             return False
         return True
+
+def is_time_between(begin_time, end_time, check_time=None):
+    # If check time is not given, default to current UTC time
+    check_time = check_time or datetime.utcnow().time()
+    if begin_time < end_time:
+        return check_time >= begin_time and check_time <= end_time
+    else: # crosses midnight
+        return check_time >= begin_time or check_time <= end_time
