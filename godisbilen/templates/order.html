@@ -4,6 +4,10 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/order.css') }}">
 {% endblock css %}
 {% block main %}
+<section id="sub_header">
+    <h3>Beställ</h3>
+    <p>Snabbt och bekvämt</p>
+</section>
 <div id="order_container">
     <form method="POST" class="responsive_form">
         {{ form.hidden_tag() }}
