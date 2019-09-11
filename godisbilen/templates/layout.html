@@ -23,7 +23,7 @@
     {% endblock css %}
     {% block fonts %}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Titillium+Web&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
     {% endblock fonts %}
 </head>
 
@@ -33,20 +33,6 @@
         <a href="{{ url_for('main.home') }}" id="logo" class="nav_link">
             <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Godisbilen logo">
         </a>
-        <ul>
-            <li>
-                <a href="#" class="nav_link">
-                    <i class="material-icons-outlined">info</i>
-                    <span>Info</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('order.new_order') }}" class="nav_link">
-                    <i class="material-icons-outlined">local_shipping</i>
-                    <span>Beställ</span>
-                </a>
-            </li>
-        </ul>
     </nav>
     {% endblock nav %}
     <main id="main">
