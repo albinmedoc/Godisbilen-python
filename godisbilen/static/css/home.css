@@ -1,25 +1,11 @@
 #hours{
-    width: calc(100% - 60px);
-    text-align: center;
-    background-color: #edb5f5;
-    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 30px;
 }
 
-#hours > div > h3{
-    margin: 0;
-    font-size: 40px;
-}
-
-#hours > div > p{
-    margin: 0;
-    font-size: 25px;
-}
-
-#hours > div > a{
+#sub_header > div > a{
     background-color: #fff;
     text-decoration: none;
     margin-top: 20px;
@@ -29,9 +15,10 @@
     color: #e86ed0;
     border-radius: 10px;
     transition: 0.2s;
+    display: inline-block;
 }
 
-#hours > div > a:hover{
+#sub_header > div > a:hover{
     -webkit-box-shadow: 8px 8px 8px -8px rgba(0,0,0,0.52);
     -moz-box-shadow: 8px 8px 8px -8px rgba(0,0,0,0.52);
     box-shadow: 8px 8px 8px -8px rgba(0,0,0,0.52);

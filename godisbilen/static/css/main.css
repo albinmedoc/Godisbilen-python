@@ -23,3 +23,20 @@ main{
     margin-top: 70px;
     min-height: calc(100vh - 240px);
 }
+
+#sub_header{
+    width: calc(100% - 60px);
+    text-align: center;
+    background-color: #edb5f5;
+    color: #fff;
+    padding: 10px 30px;
+}
+
+#sub_header h3{
+    margin: 0;
+    font-size: 40px;
+}
+#sub_header p{
+    margin: 0;
+    font-size: 20px;
+}

@@ -4,11 +4,15 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 {% endblock css %}
 {% block main %}
-<section id="hours">
+<section id="sub_header">
     <div>
         <h3>Öppettider</h3>
         <p>Fre-Lör: 20-04</p>
+        {% if shop_open %}
         <a href="{{ url_for('order.new_order') }}">Beställ nu</a>
+        {% else %}
+        <a>Stängt</a>
+        {% endif %}
     </div>
 </section>
 {% endblock main %}
