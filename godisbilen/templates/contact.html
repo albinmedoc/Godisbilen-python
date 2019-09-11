@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+{% endblock css %}
+{% block main %}
+<section id="sub_header">
+    <h3>Kontakta oss</h3>
+    <p>Vi svarar snarast</p>
+</section>
+<form id="contact_form" class="responsive_form">
+</form>
+{% endblock main %}
