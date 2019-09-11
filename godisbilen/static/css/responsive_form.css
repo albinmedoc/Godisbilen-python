@@ -50,7 +50,9 @@
 }
 
 .responsive_form input:required + label:after,
-.responsive_form input.required + label:after {
+.responsive_form input.required + label:after,
+.responsive_form textarea:required + label:after,
+.responsive_form textarea.required + label:after {
     content: " *";
     color: red;
 }
