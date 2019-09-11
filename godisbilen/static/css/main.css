@@ -7,9 +7,12 @@
 
     /* Responsive form */
     --responsive-form-info-color: #e86ed0;
+
+
+    --main-font: 'Righteous', cursive;
 }
 *{
-    font-family: 'Titillium Web', sans-serif;
+    font-family: var(--main-font);
 }
 body{
     margin: 0;
