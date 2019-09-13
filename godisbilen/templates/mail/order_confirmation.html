@@ -257,8 +257,8 @@
 
     .purchase_item {
       padding: 10px 0;
-      color: #51545E;
-      font-size: 15px;
+      color: #fff;
+      font-size: 22px;
       line-height: 18px;
     }
 
@@ -472,20 +472,45 @@
                           <td colspan="2">
                             <table class="purchase_content" width="100%" cellpadding="0" cellspacing="0">
                               <tr>
-                                <td class="purchase_item"><span class="f-fallback">Ordernummer</span></td>
-                                <td class="align-right" class="purchase_item"><span
-                                    class="f-fallback">{{ order.order_number }}</span></td>
+                                <td colspan="2">
+                                  <table>
+                                    <tr>
+                                      <td class="purchase_item"><span class="f-fallback">Ordernummer</span></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="purchase_item"><span
+                                          class="f-fallback">{{ order.order_number }}</span></td>
+                                    </tr>
+                                  </table>
+                                </td>
                               </tr>
                               <tr>
-                                <td class="purchase_item"><span class="f-fallback">Telefonnummer</span></td>
-                                <td class="align-right" class="purchase_item"><span
-                                    class="f-fallback">{{ order.user.phone_number }}</span></td>
+                                <td colspan="2">
+                                  <table>
+                                    <tr>
+                                      <td class="purchase_item"><span class="f-fallback">Telefonnummer</span></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="purchase_item"><span
+                                          class="f-fallback">{{ order.user.phone_number }}</span></td>
+                                    </tr>
+                                  </table>
+                                </td>
                               </tr>
                               <tr>
-                                <td class="purchase_item"><span class="f-fallback">Leveransaddress</span></td>
-                                <td class="align-right" class="purchase_item"><span
-                                    class="f-fallback">{{ order.location.street }} {{ order.location.street_number }},
-                                    {{ order.location.postal_code }} {{ order.location.city }}</span></td>
+                                <td colspan="2">
+                                  <table>
+                                    <tr>
+                                      <td class="purchase_item"><span class="f-fallback">Leveransaddress</span></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="purchase_item"><span
+                                          class="f-fallback">{{ order.location.street }}
+                                          {{ order.location.street_number }},
+                                          {{ order.location.postal_code }} {{ order.location.city }}</span></td>
+                                    </tr>
+                                  </table>
+                                </td>
                               </tr>
                             </table>
                           </td>
