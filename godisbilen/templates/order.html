@@ -3,6 +3,13 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/order.css') }}">
 {% endblock css %}
+{% block javascript %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/order.js') }}"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key={{ config.GOOGLE_MAPS_API_KEY }}&libraries=places,geometry&callback=initMap"
+        async defer></script>
+{% endblock javascript %}
 {% block main %}
 <section id="sub_header">
     <h3>Beställ</h3>
@@ -49,10 +56,3 @@
     </form>
 </div>
 {% endblock main %}
-{% block javascript %}
-    {{ super() }}
-    <script src="{{ url_for('static', filename='js/order.js') }}"></script>
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key={{ config.GOOGLE_MAPS_API_KEY }}&libraries=places,geometry&callback=initMap"
-        async defer></script>
-{% endblock javascript %}
