@@ -3,6 +3,10 @@
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/order_confirmation.css') }}">
 {% endblock css %}
+{% block javascript %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/order_confirmation.js') }}"></script>
+{% endblock javascript %}
 {% block main %}
     <div id="container">
         <img src="{{ url_for('static', filename='img/order_confirmation.svg') }}" style="width:150px;">
@@ -12,7 +16,7 @@
         </section>
         <div id="queue_position">
             <h2>Köplats: {{ order.queue_position() }}</h2>
-            <h2>Beräknad tid: {{ order.estimated_time(format_="min")  }}min</h2>
+            <h2>Beräknad leverans: {{ order.estimated_time.time().strftime("%H:%M") }}</h2>
         </div>
         <section id="order_info">
             <h2>Orderinformation</h2>

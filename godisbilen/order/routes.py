@@ -49,7 +49,7 @@ def get_orders():
     for order in orders:
         temp = {}
         temp["order_number"] = order.order_number
-        temp["estimated_time"] = order.estimated_time()
+        temp["estimated_time"] = order.estimated_time
         temp["phase"] = order.phase
         temp["queue_position"] = order.queue_position()
         temp["tel"] = order.user.phone_number

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, or_
 from sqlalchemy.orm import relationship
 from godisbilen.app import db
@@ -20,15 +20,13 @@ class Order(db.Model):
             return None
         return Order.query.filter(Order.placed < self.placed).filter(or_(Order.phase == 1, Order.phase == 2)).count() + 1
     
-    def estimated_time(self, format_=float):
+    @property
+    def estimated_time(self):
         if(self.phase > 2):
             return None
         orders = Order.query.filter(Order.placed < self.placed).filter(or_(Order.phase == 1, Order.phase == 2)).all()
         if(not orders):
-            time = 300
-            if(format_ == "min"):
-                return round(time/60)
-            return time
+            return datetime.now() + timedelta(seconds=300)
         time = 0
         last_location = None
         for order in orders:
@@ -40,6 +38,4 @@ class Order(db.Model):
         time = time + get_time_between(last_location, (self.location.lat, self.location.lng))
         #Add stoptime (8min) 
         time = time + (len(orders) * 480)
-        if(format_ == "min"):
-            return round(time/60)
-        return time
+        return datetime.now() + timedelta(seconds=time)
