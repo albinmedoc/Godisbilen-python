@@ -13,6 +13,7 @@ class User(db.Model):
     phone_number = Column(String, unique=True, nullable=False)
     orders = relationship("Order", back_populates="user")
     locations = relationship("Location", secondary=user_location, back_populates="users")
+    purchases = relationship("Purchase", back_populates="user")
 
     def get_home_adress(self):
         if(not self.locations):
