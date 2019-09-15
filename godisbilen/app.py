@@ -28,6 +28,8 @@ def create_app(config_class=Config, create_db=False):
     from godisbilen.order import Order
     from godisbilen.user import User
     from godisbilen.location import Location
+    from godisbilen.purchase import Purchase
+    from godisbilen.product import Product
 
     if(create_db):
         with app.test_request_context():
