@@ -6,3 +6,4 @@ class ProductView(AdminView):
     can_view_details = True
     create_modal = True
     edit_modal = True
+    column_list = ("title", "stock")
