@@ -9,3 +9,6 @@ class Product(db.Model):
     title = Column(String(100), unique=True)
     stock = Column(Integer, unique=True)
     purchases = relationship("Purchase", secondary=purchase_products, back_populates="products")
+
+    def __repr__(self):
+        return self.title

@@ -39,3 +39,6 @@ class Order(db.Model):
         #Add stoptime (8min) 
         time = time + (len(orders) * 480)
         return datetime.now() + timedelta(seconds=time)
+    
+    def __repr__(self):
+        return self.order_number

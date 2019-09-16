@@ -15,3 +15,6 @@ class Location(db.Model):
     lng = Column(Float, nullable=False)
     orders = relationship("Order", back_populates="location")
     users = relationship("User", secondary=user_location, back_populates="locations")
+
+    def __repr__(self):
+        return "<" + self.street + " " + str(self.street_number) + ", " + self.city + ">"
