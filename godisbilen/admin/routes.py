@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, jsonify
 from godisbilen.app import basic_auth, db
 from godisbilen.order import Order
+from godisbilen.purchase import PurchaseForm, PurchaseProducts, Purchase
+from godisbilen.product import Product
 
 bp_admin = Blueprint("admin_route", __name__)
 
@@ -32,3 +34,23 @@ def end_order():
             db.session.commit()
             return jsonify(True), 200, {"ContentType": "application/json"}
     return jsonify(False), 400, {"ContentType": "application/json"}
+
+@bp_admin.route("/new/purchase", methods=["POST", "GET"])
+def new_purchase():
+    form = PurchaseForm()
+    if request.method == "GET":
+        order_number = request.values.get("order_number", default=None)
+        order = Order.query.filter_by(order_number=order_number).first()
+        if(order is not None):
+            form.order_number.data = order_number
+    else:
+        hidden_entry = form.products.entries.pop(0)
+        if(form.validate_on_submit()):
+            for entry in form.products.entries:
+                purchase = Purchase(order_number=form.order_number.data)
+                product=Product.query.filter_by(title=entry.data["product"]).first()
+                purchase.products.append(PurchaseProducts(purchase_id=purchase.id, product=product, count=entry.data["count"]))
+                db.session.add(purchase)
+                db.session.commit()
+        form.products.entries.insert(0, hidden_entry)
+    return render_template("admin/create_purchase.html", form=form)
