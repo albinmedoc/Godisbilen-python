@@ -14,6 +14,8 @@ class Order(db.Model):
     user = relationship("User", back_populates="orders")
     phase = Column(Integer, default=1)
     placed = Column(DateTime, nullable=False, default=datetime.now)
+    completed = Column(DateTime, nullable=True)
+    purchase = relationship("Purchase", uselist=False, back_populates="order")
 
     def queue_position(self):
         if(self.phase > 2):
@@ -39,6 +41,17 @@ class Order(db.Model):
         #Add stoptime (8min) 
         time = time + (len(orders) * 480)
         return datetime.now() + timedelta(seconds=time)
+    
+    @property
+    def status(self):
+        if(self.phase == 1):
+            return "Queueing"
+        elif(self.phase == 2):
+            return "On going"
+        elif(self.phase == 3):
+            return "Completed"
+        else:
+            return None
     
     def __repr__(self):
         return self.order_number
