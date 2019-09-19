@@ -4,7 +4,7 @@ from godisbilen.app import db
 
 class PurchaseProducts(db.Model):
     __tablename__ = "purchase_products"
-    purchase_id = Column(String(20), ForeignKey("purchase.id"), primary_key=True)
+    purchase_id = Column(Integer, ForeignKey("purchase.id"), primary_key=True)
     purchase = relationship("Purchase", back_populates="products")
     product_id = Column(Integer, ForeignKey("product.id"), primary_key=True)
     product = relationship("Product", back_populates="purchases")
