@@ -28,7 +28,7 @@
     {% for product in form.products %}
         <div class="form_row" {% if loop.index0==0 %} id="template" {% endif %}>
             <div class="input_container">
-                {{ product.product(class="error" if product.errors) }}
+                {{ product.product(class="error" if product.product.errors) }}
                 {{ product.product.label() }}
                 <div class="errors">
                     {% for error in product.product.errors %}
@@ -37,10 +37,10 @@
                 </div>
             </div>
             <div class="input_container">
-                {{ product.count(placeholder=" ", class="error" if product.errors) }}
+                {{ product.count(placeholder=" ", class="error" if product.count.errors) }}
                 {{ product.count.label() }}
                 <div class="errors">
-                    {% for error in product.product.errors %}
+                    {% for error in product.count.errors %}
                     <p class="error">{{ error }}</p>
                     {% endfor %}
                 </div>
