@@ -7,4 +7,4 @@ class UserView(AdminView):
     create_modal = True
     edit_modal = True
     column_hide_backrefs = False
-    column_list = ("phone_number", "home_adress", "count_purchases")
+    column_list = ("phone_number", "home_adress", "count_orders")
