@@ -6,11 +6,11 @@ from godisbilen.order import Order
 from godisbilen.form_fields import DatalistField
 
 class ContactForm(FlaskForm):
-    name = StringField("Namn", validators=[DataRequired()])
+    name = StringField("Namn", validators=[DataRequired(message="Detta fält är obligatoriskt.")])
     email = EmailField("Email", validators=[DataRequired()])
-    subject = DatalistField("Ämne", datalist=["Angående order", "Fråga"], validators=[DataRequired()])
+    subject = DatalistField("Ämne", datalist=["Angående order", "Fråga"], validators=[DataRequired(message="Detta fält är obligatoriskt.")])
     order_number = StringField("Ordernummer")
-    message = TextAreaField("Meddelande", validators=[DataRequired()])
+    message = TextAreaField("Meddelande", validators=[DataRequired(message="Detta fält är obligatoriskt.")])
     submit = SubmitField("Skicka")
 
     def validate_order_number(self, order_number):
