@@ -11,8 +11,6 @@ class DatalistInput(TextInput):
         self.datalist = datalist
 
     def __call__(self, field, **kwargs):
-        kwargs.setdefault('id', field.id)
-        kwargs.setdefault('name', field.name)
 
         html = [u'<datalist id="{}_list">'.format(field.id)]
 
