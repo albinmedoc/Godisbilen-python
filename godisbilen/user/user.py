@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.hybrid import hybrid_property
 from godisbilen.app import db
 
 user_location = db.Table("user_location",
@@ -14,12 +13,11 @@ class User(db.Model):
     phone_number = Column(String, unique=True, nullable=False)
     orders = relationship("Order", back_populates="user")
     locations = relationship("Location", secondary=user_location, back_populates="users")
-    purchases = relationship("Purchase", back_populates="user", lazy="dynamic")
 
-    @hybrid_property
-    def count_purchases(self):
-        return self.purchases.count()
-
+    @property
+    def count_orders(self):
+        return len(self.orders)
+    
     @property
     def home_adress(self):
         if(not self.locations):
