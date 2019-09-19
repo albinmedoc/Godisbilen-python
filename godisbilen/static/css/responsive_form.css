@@ -98,6 +98,7 @@
     color: var(--responsive-form-info-color);
 }
 .responsive_form .info > a{
+    cursor: pointer;
     color: var(--responsive-form-info-url-color);
 }
 
