@@ -17,4 +17,4 @@ class Location(db.Model):
     users = relationship("User", secondary=user_location, back_populates="locations")
 
     def __repr__(self):
-        return "<" + self.street + " " + str(self.street_number) + ", " + self.city + ">"
+        return self.street + " " + str(self.street_number) + ", " + self.city
