@@ -1,9 +1,11 @@
+blinker==1.4
 certifi==2019.9.11
 chardet==3.0.4
 Click==7.0
 Flask==1.1.1
 Flask-Admin==1.5.3
 Flask-BasicAuth==0.2.0
+Flask-Mail==0.9.1
 Flask-SQLAlchemy==2.4.0
 Flask-WTF==0.14.2
 googlemaps==3.1.2
