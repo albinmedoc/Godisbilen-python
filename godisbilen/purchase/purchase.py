@@ -1,24 +1,32 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Table
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.hybrid import hybrid_property
 from godisbilen.app import db
 
-purchase_products = db.Table("purchase_products",
-    Column("purchase_id", Integer, ForeignKey("purchase.id")),
-    Column("product_id", Integer, ForeignKey("product.id"))
-)
+class PurchaseProducts(db.Model):
+    __tablename__ = "purchase_products"
+    purchase_id = Column(String(20), ForeignKey("purchase.id"), primary_key=True)
+    purchase = relationship("Purchase", back_populates="products")
+    product_id = Column(Integer, ForeignKey("product.id"), primary_key=True)
+    product = relationship("Product", back_populates="purchases")
+    count = Column(Integer, nullable=False)
+
+    def __repr__(self):
+        return str(self.count) + "st " +  self.product.title
 
 class Purchase(db.Model):
     __tablename__ = "purchase"
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("person.id"))
-    user = relationship("User", back_populates="purchases")
-    products = relationship("Product", secondary=purchase_products, back_populates="purchases", lazy="joined")
+    order_number = Column(String(20), ForeignKey("order.order_number"))
+    order = relationship("Order", back_populates="purchase")
+    products = relationship("PurchaseProducts", cascade="all, delete-orphan", back_populates="purchase")
 
-    @hybrid_property
+    @property
     def count_products(self):
-        return len(self.products)
+        temp = 0
+        for product in self.products:
+            temp = temp + product.count
+        return temp
 
-    @count_products.expression
-    def count_products(cls):
-        return db.select([db.func.count(purchase_products.c.product_id)]).where(purchase_products.c.purchase_id == cls.id)
+    @property
+    def user(self):
+        return self.order.user
