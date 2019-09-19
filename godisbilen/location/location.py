@@ -9,7 +9,7 @@ class Location(db.Model):
     street_number = Column(String, nullable=False)
     street = Column(String, nullable=False)
     city = Column(String, nullable=False)
-    country = Column(String, default="sv", nullable=False)
+    country = Column(String, default="SE", nullable=False)
     postal_code = Column(String, nullable=False)
     lat = Column(Float, nullable=False)
     lng = Column(Float, nullable=False)
