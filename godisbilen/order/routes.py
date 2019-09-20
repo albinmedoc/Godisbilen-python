@@ -28,14 +28,14 @@ def new_order():
             user.locations.append(location)
         db.session.commit()
         return redirect(url_for("order.order_confirmation", order_number=order.order_number))
-    return render_template("order.html", form=form)
+    return render_template("order/order.html", form=form)
 
 @bp_order.route("/order_confirmation/<order_number>")
 def order_confirmation(order_number):
     order = Order.query.filter_by(order_number=order_number).first()
     if(not order):
         return "Ordern hittades inte"
-    return render_template("order_confirmation.html", order=order)
+    return render_template("order/order_confirmation.html", order=order)
 
 @bp_order.route("/get_orders", methods=["GET", "POST"])
 def get_orders():
