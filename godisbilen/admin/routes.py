@@ -35,7 +35,7 @@ def end_order():
             return jsonify(True), 200, {"ContentType": "application/json"}
     return jsonify(False), 400, {"ContentType": "application/json"}
 
-@bp_admin.route("/new/purchase", methods=["POST", "GET"])
+@bp_admin.route("/admin/new_purchase", methods=["POST", "GET"])
 def new_purchase():
     form = PurchaseForm()
     if request.method == "GET":
