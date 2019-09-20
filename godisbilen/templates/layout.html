@@ -4,6 +4,7 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <title>Godisbilen</title>
     {% if not config["DEBUG"] is defined or not config["DEBUG"] or not config["GOOGLE_ANALYTICS_TRACK_ID"] %}
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ config['GOOGLE_ANALYTICS_TRACK_ID'] }}"></script>
@@ -25,6 +26,24 @@
     <meta property="og:url" content="{{ url_for('main.home', _external=True) }}">
     <meta name="twitter:card" content="{{ url_for('static', filename='img/preview.png', _external=True) }}">
     <meta name="twitter:image:alt" content="Godisbilen förhandsvisning">
+
+    <!-- Favicons -->
+    <!-- generics -->
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon/favicon-32.png') }}" sizes="32x32">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon/favicon-57.png') }}" sizes="57x57">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon/favicon-76.png') }}" sizes="76x76">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon/favicon-96.png') }}" sizes="96x96">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon/favicon-128.png') }}" sizes="128x128">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon/favicon-192.png') }}" sizes="192x192">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon/favicon-228.png') }}" sizes="228x228">
+
+    <!-- Android -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon/favicon-192.png') }}" sizes="196x196">
+
+    <!-- iOS -->
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/favicon/favicon-120.png') }}" sizes="120x120">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/favicon/favicon-152.png') }}" sizes="152x152">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/favicon/favicon-180.png') }}" sizes="180x180">
 
     {% block css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
