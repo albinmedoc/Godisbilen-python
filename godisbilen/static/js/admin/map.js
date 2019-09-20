@@ -9,11 +9,6 @@ setInterval(function () {
     reload_markers();
 }, 120000);
 
-/* //Uppdatera nuvarande plats vart 10s
-setInterval(function () {
-    update_position();
-}, 10000); */
-
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 10,
@@ -59,10 +54,13 @@ function show_markers() {
             if (orders[0]["phase"] == 1) {
                 document.querySelectorAll("#current_order > .complete")[0].setAttribute("disabled", "disabled");
                 document.querySelectorAll("#current_order > .start")[0].removeAttribute("disabled");
+                document.getElementById("add_products").style.display = "none";
+                document.getElementById("add_products").href = "";
             } else if (orders[0]["phase"] == 2) {
                 document.querySelectorAll("#current_order > .start")[0].setAttribute("disabled", "disabled");
                 document.querySelectorAll("#current_order > .complete")[0].removeAttribute("disabled");
-
+                document.getElementById("add_products").style.display = "";
+                document.getElementById("add_products").href = "/admin/new_purchase?order_number=" + orders[0]["order_number"];
             }
         }
     }, "phase=1&phase=2");
@@ -100,30 +98,3 @@ document.getElementById("end_order").addEventListener("click", function () {
     }, "order_number=" + order_number);
     location.reload();
 });
-
-/* function update_position() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            if (currrent_pos_marker !== undefined) {
-                currrent_pos_marker.setMap(null);
-            }
-            if (currrent_pos_radius !== undefined) {
-                currrent_pos_radius.setMap(null);
-            }
-            currrent_pos_marker = new google.maps.Marker({
-                icon: "https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue.png",
-                position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-            });
-
-            currrent_pos_radius = new google.maps.Circle({
-                strokeWeight: 0,
-                fillColor: "#09ace3",
-                fillOpacity: 0.35,
-                radius: position.coords.accuracy,
-            });
-            currrent_pos_radius.bindTo("center", currrent_pos_marker, "position");
-            currrent_pos_marker.setMap(map);
-            currrent_pos_radius.setMap(map);
-        });
-    }
-} */
