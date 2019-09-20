@@ -2,10 +2,12 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_basicauth import BasicAuth
 from flask_admin import Admin
+from flask_mail import Mail
 from config import Config
 
 db = SQLAlchemy()
 basic_auth = BasicAuth()
+mail = Mail()
 admin = Admin(name="Godisbilen")
 
 
@@ -15,6 +17,7 @@ def create_app(config_class=Config, create_db=False):
 
     db.init_app(app)
     basic_auth.init_app(app)
+    mail.init_app(app)
 
     from .main.routes import bp_main
     from .order.routes import bp_order
