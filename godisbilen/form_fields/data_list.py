@@ -11,9 +11,11 @@ class DatalistInput(TextInput):
         self.datalist = datalist
 
     def __call__(self, field, **kwargs):
-        kwargs.setdefault("type", self.input_type)
+        kwargs.setdefault("type", "text")
         if(field.flags.required):
             kwargs.setdefault("required", True)
+        if(field.data is None):
+            field.data = ""
 
         html = [u'<datalist id="{}_list">'.format(field.id)]
 
@@ -21,9 +23,7 @@ class DatalistInput(TextInput):
             html.append(u'<option value="{}">'.format(item))
 
         html.append(u'</datalist>')
-        if(field.data is None):
-            field.data = ""
-        html.append(u'<input list="{}_list" {}>'.format(field.id, self.html_params(**kwargs)))
+        html.append(u'<input list="{}_list" value="{}" name="{}" {}>'.format(field.id, field.data, field.name, self.html_params(**kwargs)))
 
         return HTMLString(u''.join(html))
 
@@ -37,9 +37,4 @@ class DatalistField(StringField):
     def __init__(self, label=None, datalist="", validators=None, **kwargs):
         super(DatalistField, self).__init__(label, validators, **kwargs)
         self.datalist = datalist
-
-    def _value(self):
-        if self.data:
-            return u''.join(self.data)
-        else:
-            return u''
+        
