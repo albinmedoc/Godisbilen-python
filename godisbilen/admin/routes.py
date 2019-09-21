@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for
 from godisbilen.app import basic_auth, db
 from godisbilen.order import Order
 from godisbilen.purchase import PurchaseForm, PurchaseProducts, Purchase
@@ -8,7 +8,7 @@ bp_admin = Blueprint("admin_route", __name__)
 
 @bp_admin.route("/admin/map")
 @basic_auth.required
-def test():
+def map():
     return render_template("admin/map.html")
 
 @bp_admin.route("/admin/start_order", methods=["POST"])
@@ -36,6 +36,7 @@ def end_order():
     return jsonify(False), 400, {"ContentType": "application/json"}
 
 @bp_admin.route("/admin/new_purchase", methods=["POST", "GET"])
+@basic_auth.required
 def new_purchase():
     form = PurchaseForm()
     if request.method == "GET":
@@ -52,5 +53,7 @@ def new_purchase():
                 purchase.products.append(PurchaseProducts(purchase_id=purchase.id, product=product, count=entry.data["count"]))
                 db.session.add(purchase)
                 db.session.commit()
+            return redirect(url_for(request.args.get("next", "main.home")))
+
         form.products.entries.insert(0, hidden_entry)
     return render_template("admin/create_purchase.html", form=form)
