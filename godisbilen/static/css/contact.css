@@ -1,0 +1,9 @@
+.message_sent{
+    padding: 15px;
+    background-color: #b1e8ed;
+    border-radius: 10px;
+}
+
+.message_sent > p{
+    font-size: 30px;
+}

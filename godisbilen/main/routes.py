@@ -27,7 +27,7 @@ def contact():
         if(form.order_number.data.strip() != ""):
             msg.body = msg.body + ". Ordernummer: " + form.order_number.data
         mail.send(msg)
-        return "Form validated"
+        return render_template("main/contact.html", form=form, message_sent=True)
     return render_template("main/contact.html", form=form)
 
 @bp_main.route("/about")   

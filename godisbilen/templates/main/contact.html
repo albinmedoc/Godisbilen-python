@@ -9,6 +9,13 @@
     <p>Vi svarar snarast</p>
 </section>
 <form id="contact_form" class="responsive_form" method="POST">
+    {% if message_sent %}
+    <div class="form_row">
+        <div class="input_container message_sent">
+            <p class="info">Ditt meddelande har skickats! Vi hör av oss så fort som möjligt.</p>
+        </div>
+    </div>
+    {% endif %}
     {{ form.hidden_tag() }}
     {% for field in form if field.widget.input_type != "hidden" and field.widget.input_type != "submit" %}
         <div class="form_row">
