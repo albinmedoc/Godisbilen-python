@@ -60,7 +60,7 @@ function show_markers() {
                 document.querySelectorAll("#current_order > .start")[0].setAttribute("disabled", "disabled");
                 document.querySelectorAll("#current_order > .complete")[0].removeAttribute("disabled");
                 document.getElementById("add_products").style.display = "";
-                document.getElementById("add_products").href = "/admin/new_purchase?order_number=" + orders[0]["order_number"];
+                document.getElementById("add_products").href = "/admin/new_purchase?order_number=" + orders[0]["order_number"] + "&next=admin_route.map";
             }
         }
     }, "phase=1&phase=2");
