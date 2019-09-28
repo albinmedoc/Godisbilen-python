@@ -6,4 +6,4 @@ class OrderView(AdminView):
     can_view_details = True
     create_modal = True
     edit_modal = True
-    column_list = ("order_number", "user", "location", "placed", "estimated_time", "completed", "status")
+    column_list = ("order_number", "user", "location", "placed", "estimated_delivery", "completed", "status")

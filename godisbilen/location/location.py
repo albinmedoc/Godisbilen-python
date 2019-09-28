@@ -1,20 +1,67 @@
-from sqlalchemy import Column, Integer, String, Float
+from flask import current_app
+import googlemaps
+from sqlalchemy import Column, Integer, ForeignKey, func
 from sqlalchemy.orm import relationship
+from geoalchemy2 import Geography
 from godisbilen.app import db
 from godisbilen.user.user import user_location
+from godisbilen.region import Region
 
 class Location(db.Model):
     __tablename__ = "location"
     id = Column(Integer, primary_key=True)
-    street_number = Column(String, nullable=False)
-    street = Column(String, nullable=False)
-    city = Column(String, nullable=False)
-    country = Column(String, default="SE", nullable=False)
-    postal_code = Column(String, nullable=False)
-    lat = Column(Float, nullable=False)
-    lng = Column(Float, nullable=False)
+    coord = Column(Geography("POINT"))
+    region_id = Column(Integer, ForeignKey("region.id"))
+    region = relationship("Region", back_populates="locations")
     orders = relationship("Order", back_populates="location")
     users = relationship("User", secondary=user_location, back_populates="locations")
 
+    def __init__(self, lat, lng, *args, **kwargs):
+        self.coord = "POINT({} {})".format(lng, lat)
+        self.region = Region.query.filter(Region.bounds.ST_Intersects(self.coord)).first()
+        super().__init__(*args, **kwargs)
+
+    @property
+    def lat(self):
+        return db.session.scalar(self.coord.ST_Y())
+
+    @property
+    def lng(self):
+        return db.session.scalar(self.coord.ST_X())
+    
+    @property
+    def street_name(self):
+        gmaps = googlemaps.Client(key=current_app.config["GOOGLE_MAPS_API_KEY"])
+        data = gmaps.reverse_geocode((self.lat, self.lng))[0]
+        for x in data["address_components"]:
+            if("route" in x["types"]):
+                return x["long_name"]
+        return None
+    
+    @property
+    def street_number(self):
+        gmaps = googlemaps.Client(key=current_app.config["GOOGLE_MAPS_API_KEY"])
+        data = gmaps.reverse_geocode((self.lat, self.lng))[0]
+        for x in data["address_components"]:
+            if("street_number" in x["types"]):
+                return int(x["long_name"])
+        return None
+    
+    @property
+    def postal_town(self):
+        gmaps = googlemaps.Client(key=current_app.config["GOOGLE_MAPS_API_KEY"])
+        data = gmaps.reverse_geocode((self.lat, self.lng))[0]
+        for x in data["address_components"]:
+            if("postal_town" in x["types"]):
+                return x["long_name"]
+        return None
+
+    def time_between(self, destination):
+        gmaps = googlemaps.Client(key=current_app.config["GOOGLE_MAPS_API_KEY"])
+        data = gmaps.distance_matrix((self.lat, self.lng), (destination.lat, destination.lng), mode="driving")
+        if(data["status"] == "OK"):
+            return data["rows"][0]["elements"][0]["duration"]["value"]
+        return 600
+
     def __repr__(self):
-        return self.street + " " + str(self.street_number) + ", " + self.city
+        return self.street_name + " " + str(self.street_number) + ", " + self.postal_town

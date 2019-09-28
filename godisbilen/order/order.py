@@ -2,8 +2,9 @@ from datetime import datetime, timedelta
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, or_
 from sqlalchemy.orm import relationship
 from godisbilen.app import db
+from godisbilen.location import Location
+from godisbilen.region import Region
 from .utils import random_order_number
-from godisbilen.location.utils import get_time_between
 
 class Order(db.Model):
     __tablename__ = "order"
@@ -17,29 +18,28 @@ class Order(db.Model):
     completed = Column(DateTime, nullable=True)
     purchase = relationship("Purchase", uselist=False, back_populates="order")
 
+    @property
     def queue_position(self):
         if(self.phase > 2):
             return None
         return Order.query.filter(Order.placed < self.placed).filter(or_(Order.phase == 1, Order.phase == 2)).count() + 1
     
     @property
-    def estimated_time(self):
+    def estimated_delivery(self):
         if(self.phase > 2):
             return None
-        orders = Order.query.filter(Order.placed < self.placed).filter(or_(Order.phase == 1, Order.phase == 2)).all()
+        orders = Order.query.join(Location).join(Region).filter(Region.id == self.location.region.id).filter(Order.placed < self.placed).filter(or_(Order.phase == 1, Order.phase == 2)).all()
         if(not orders):
             return datetime.now() + timedelta(seconds=300)
+        orders.append(self)
         time = 0
         last_location = None
-        for order in orders:
-            current_location = (order.location.lat, order.location.lng)
+        for location in [order.location for order in orders]:
             if(last_location):
-                time_between = get_time_between(last_location, current_location)
-                time = time + time_between
-            last_location = current_location
-        time = time + get_time_between(last_location, (self.location.lat, self.location.lng))
+                time = time + last_location.time_between(location)
+            last_location = location
         #Add stoptime (8min) 
-        time = time + (len(orders) * 480)
+        time = time + ((len(orders) - 1) * 480)
         return datetime.now() + timedelta(seconds=time)
     
     @property
@@ -55,3 +55,17 @@ class Order(db.Model):
     
     def __repr__(self):
         return self.order_number
+
+    @property
+    def json(self):
+        temp =  {}
+        temp["order_number"] = self.order_number
+        temp["estimated_delivery"] = self.estimated_delivery
+        temp["phase"] = self.phase
+        temp["queue_position"] = self.queue_position
+        temp["tel"] = self.user.phone_number
+        temp["street"] = self.location.street_name
+        temp["street_number"] = self.location.street_number
+        temp["lat"] = self.location.lat
+        temp["lng"] = self.location.lng
+        return temp

@@ -3,10 +3,11 @@ from wtforms import StringField, HiddenField, DecimalField, SubmitField
 from wtforms.fields.html5 import TelField
 from wtforms.validators import DataRequired
 from wtforms.widgets import HiddenInput
-from shapely.geometry import Point, Polygon
+from sqlalchemy import func
+from geoalchemy2 import WKTElement
+from godisbilen.app import db
+from godisbilen.region import Region
 from godisbilen.main.utils import shop_open
-from godisbilen.location.utils import get_city_boundaries
-
 
 class OrderForm(FlaskForm):
     full_adress = StringField("Vart ska vi komma?")
@@ -37,32 +38,11 @@ class OrderForm(FlaskForm):
             temp.append("Godisbilen har för tillfället stängt")
             self.full_adress.errors = tuple(temp)
             return False
-
-        # Check if inside working areas
-        lat = self.lat.data
-        lng = self.lng.data
-        point = Point(lat, lng)
-        city_boundaries = get_city_boundaries()
-
-        inside = False
-        for city in city_boundaries:
-            city_boundary = []
-            for coord in city_boundaries[city]:
-                city_boundary.append((coord["lat"], coord["lng"]))
-            city_boundary = Polygon(city_boundary)
-            if(city_boundary.contains(point)):
-                inside = True
+        
+        inside = Region.query.filter(Region.bounds.ST_Intersects(WKTElement("POINT({} {})".format(self.lng.data, self.lat.data)))).first()
         if(not inside):
             temp = list(self.full_adress.errors)
             temp.append("Addressen är utanför våra leveransområden")
             self.full_adress.errors = tuple(temp)
             return False
         return True
-
-def is_time_between(begin_time, end_time, check_time=None):
-    # If check time is not given, default to current UTC time
-    check_time = check_time or datetime.utcnow().time()
-    if begin_time < end_time:
-        return check_time >= begin_time and check_time <= end_time
-    else: # crosses midnight
-        return check_time >= begin_time or check_time <= end_time

@@ -10,9 +10,9 @@ bp_main = Blueprint("main", __name__)
 def home():
     return render_template("main/home.html", shop_open=shop_open())
 
-@bp_main.route("/working_areas")   
-def working_areas():
-    return render_template("main/working_areas.html")
+@bp_main.route("/regions")   
+def regions():
+    return render_template("main/regions.html")
 
 @bp_main.route("/tos")   
 def tos():
