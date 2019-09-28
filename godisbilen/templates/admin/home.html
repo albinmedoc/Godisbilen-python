@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/home.css') }}">
+{% endblock css %}
+{% block main %}
+<section id="sub_header">
+    <h3>Admin - Hem</h3>
+    <p>Välkommen {{ current_user.admin.firstname + " " + current_user.admin.lastname }}!</p>
+</section>
+<div id="box_container">
+    <a class="box" href="{{ url_for('admin_route.select_regions') }}">
+        <h4>Arbetsområde</h4>
+        <div>
+            {% for region in current_user.admin.regions %}
+            <p>{{ region.name }}</p>
+            {% endfor %}
+        </div>
+    </a>
+    <a class="box" href="{{ url_for('admin_route.map') }}">
+        <h4>Karta</h4>
+    </a>
+    {% if current_user.has_roles("developer") %}
+    <a class="box" href="{{ url_for('admin_route.new_purchase') }}">
+        <h4>Order Produkter</h4>
+    </a>
+    <a class="box" href="{{ url_for('admin.index') }}">
+        <h4>Databas</h4>
+    </a>
+    {% endif %}
+    <a class="box" href="{{ url_for('admin_route.logout') }}">
+        <h4>Logga ut</h4>
+    </a>
+</div>
+{% endblock main %}
