@@ -13,9 +13,6 @@ class Config(object):
     GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
     GOOGLE_ANALYTICS_TRACK_ID = os.getenv("GOOGLE_ANALYTICS_TRACK_ID")
 
-    BASIC_AUTH_USERNAME = "basic"
-    BASIC_AUTH_PASSWORD = "basic"
-
     #Mail
     MAIL_SERVER = os.getenv("MAIL_SERVER")
     MAIL_PORT = os.getenv("MAIL_PORT")
