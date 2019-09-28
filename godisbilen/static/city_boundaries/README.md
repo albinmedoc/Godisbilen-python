@@ -1,1 +1,0 @@
-Hämta koordinater från "https://nominatim.openstreetmap.org/search.php?q=Staffanstorp+Sweden&polygon_geojson=1&format=json"
