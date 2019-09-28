@@ -23,7 +23,7 @@ function initMap() {
     });
 
     //Setup autocomplete
-    var input = document.getElementById("full_adress");
+    var input = document.getElementById("search");
 
     var autocomplete = new google.maps.places.Autocomplete(input);
     autocomplete.setComponentRestrictions(
@@ -33,48 +33,8 @@ function initMap() {
 
     autocomplete.addListener("place_changed", function () {
         var place = autocomplete.getPlace();
-
-        for (var component in componentForm) {
-            document.getElementById(component).value = "";
-            document.getElementById(component).disabled = false;
-        }
-
-        for (var i = 0; i < place.address_components.length; i++) {
-            var addressType = place.address_components[i].types[0];
-            if (componentForm[addressType]) {
-                var val = place.address_components[i][componentForm[addressType]];
-                document.getElementById(addressType).value = val;
-            }
-        }
         document.getElementById("lat").value = place.geometry.location.lat();
         document.getElementById("lng").value = place.geometry.location.lng();
-
-        //Rensar felmeddelande
-        document.getElementById("full_adress").nextElementSibling.nextElementSibling.innerHTML = "";
-        document.getElementById("submit").removeAttribute("disabled");
-
-        //Visar felmeddelande
-
-        //Kontrollerar gatunummer
-        if (!document.getElementById("street_number").value) {
-            show_error("Gatunummer saknas");
-        }
-        //Kontrollerar gatunummer
-        if (!document.getElementById("route").value) {
-            show_error("Gata saknas");
-        }
-        //Kontrollerar gatunummer
-        if (!document.getElementById("postal_town").value) {
-            show_error("Stad saknas");
-        }
-        //Kontrollerar gatunummer
-        if (!document.getElementById("postal_code").value) {
-            show_error("Postnummer saknas");
-        }
-        //Hoppar över resten av koden om det finns felmeddelande
-        if (document.getElementById("full_adress").nextElementSibling.nextElementSibling.innerHTML) {
-            return;
-        }
 
         document.getElementById("map").parentElement.classList.add("active");
         infowindow.close();
@@ -105,48 +65,7 @@ function initMap() {
         infowindowContent.children["place-name"].textContent = place.name;
         infowindowContent.children["place-address"].textContent = address;
         infowindow.open(map, marker);
-
-        //Kontrollerar om address är inom arbetsområde
-        var inside = false;
-        for (var city in city_boundaries) {
-            if (google.maps.geometry.poly.containsLocation(place.geometry.location, city_boundaries[city])) {
-                inside = true;
-            }
-        }
-        if (!inside) {
-            //Load city boundries
-            get_city_boundaries(function (err, cities) {
-                if (err === null) {
-                    var bounds = new google.maps.LatLngBounds();
-                    for (var city in cities) {
-                        console.log("Rendering outline for: " + city);
-                        var outline = new google.maps.Polygon({
-                            paths: cities[city],
-                            strokeColor: "#00FF00",
-                            strokeOpacity: 1.0,
-                            strokeWeight: 3,
-                            fillColor: "#00FF00",
-                            fillOpacity: 0.35,
-                        });
-                        outline.setMap(map);
-                        for (var i = 0; i < cities[city].length; i++) {
-                            bounds.extend(cities[city][i]);
-                        }
-                    }
-                    console.log(bounds.getCenter().lat() + ", " + bounds.getCenter().lng());
-                    map.fitBounds(bounds);
-                }
-            });
-        }
     });
-
-    function show_error(message) {
-        var error = document.createElement("p");
-        error.classList.add("error");
-        error.innerHTML = message;
-        document.getElementById("full_adress").nextElementSibling.nextElementSibling.appendChild(error);
-        document.getElementById("submit").setAttribute("disabled", "disabled");
-    }
 
     var infowindow = new google.maps.InfoWindow();
     var infowindowContent = document.getElementById("infowindow-content");
