@@ -22,7 +22,7 @@ class Order(db.Model):
     def queue_position(self):
         if(self.phase > 2):
             return None
-        return Order.query.filter(Order.placed < self.placed).filter(or_(Order.phase == 1, Order.phase == 2)).count() + 1
+        return Order.query.join(Location).join(Region).filter(Region.id == self.location.region.id).filter(Order.placed < self.placed).filter(or_(Order.phase == 1, Order.phase == 2)).count() + 1
     
     @property
     def estimated_delivery(self):
