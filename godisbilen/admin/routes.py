@@ -29,18 +29,6 @@ def start_order():
             return jsonify(True), 200, {"ContentType": "application/json"}
     return jsonify(False), 400, {"ContentType": "application/json"}
 
-@bp_admin.route("/admin/end_order", methods=["POST"])
-@roles_accepted("Admin")
-def end_order():
-    order_number = request.values.get("order_number")
-    if(order_number):
-        order = Order.query.filter_by(order_number=order_number).first()
-        if(order and order.phase == 2):
-            order.phase = 3
-            db.session.commit()
-            return jsonify(True), 200, {"ContentType": "application/json"}
-    return jsonify(False), 400, {"ContentType": "application/json"}
-
 @bp_admin.route("/admin/new_purchase", methods=["POST", "GET"])
 @roles_accepted("Admin")
 def new_purchase():
@@ -53,13 +41,16 @@ def new_purchase():
     else:
         hidden_entry = form.products.entries.pop(0)
         if(form.validate_on_submit()):
-            for entry in form.products.entries:
-                purchase = Purchase(order_number=form.order_number.data)
-                product=Product.query.filter_by(title=entry.data["product"]).first()
-                purchase.products.append(PurchaseProducts(purchase_id=purchase.id, product=product, count=entry.data["count"]))
-                db.session.add(purchase)
+            order = Order.query.filter_by(order_number=form.order_number.data).first()
+            if(order):
+                order.phase = 3
+                for entry in form.products.entries:
+                    purchase = Purchase(order_number=form.order_number.data)
+                    product=Product.query.filter_by(title=entry.data["product"]).first()
+                    purchase.products.append(PurchaseProducts(purchase_id=purchase.id, product=product, count=entry.data["count"]))
+                    db.session.add(purchase)
                 db.session.commit()
-            return redirect(url_for(request.args.get("next", "main.home")))
+                return redirect(url_for(request.args.get("next", "main.home")))
 
         form.products.entries.insert(0, hidden_entry)
     return render_template("admin/create_purchase.html", form=form)
