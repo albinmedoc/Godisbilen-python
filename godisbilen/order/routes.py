@@ -41,8 +41,9 @@ def order_confirmation(order_number):
 @roles_accepted("Admin")
 def get_orders():
     phases = request.values.getlist("phase", type=int)
+    all_regions = request.values.get("all_regions", default="false") in ["true", "True"]
     orders = db.session.query(Order)
-    if(True):
+    if(not all_regions):
         orders = orders.join(Location).join(Region).filter(Region.id.in_([region.id for region in current_user.admin.regions]))
     if(phases):
         orders = orders.filter(Order.phase.in_(phases))
