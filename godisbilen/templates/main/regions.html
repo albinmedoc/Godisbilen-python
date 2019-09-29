@@ -3,13 +3,13 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/main/regions.css') }}">
 {% endblock css %}
-{% block main %}
-<div id="map"></div>
-{% endblock main %}
 {% block javascript %}
 {{ super() }}
-<script src="{{ url_for('static', filename='js/regions.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main/regions.js') }}"></script>
 <script
     src="https://maps.googleapis.com/maps/api/js?key={{ config.GOOGLE_MAPS_API_KEY }}&libraries=places&callback=initMap"
     async defer></script>
 {% endblock javascript %}
+{% block main %}
+<div id="map"></div>
+{% endblock main %}
