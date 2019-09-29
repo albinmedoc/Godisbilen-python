@@ -21,10 +21,23 @@ main{
     right: 0;
     top: 0;
     z-index: 4;
-    background-color: rgba(0,0,0,.3);
+    background-color: #e6f8f9;
     padding: 30px;
-    color: #fff;
+    color: #e86ed0;
+    border-left: 6px solid #e86ed0;
+    border-bottom: 6px solid #e86ed0;
+    border-bottom-left-radius: 10px;
 }
+
 #map_overlay  a{
-    color: #fff;
+    color: #e86ed0;
+}
+
+#map_overlay  .action{
+    background-color: #b1e8ed;
+    color: #e86ed0;
+    padding: 8px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer
 }

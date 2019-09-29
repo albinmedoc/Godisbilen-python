@@ -18,7 +18,6 @@ function initMap() {
     });
 
     infowindow = new google.maps.InfoWindow();
-    //update_position();
     show_markers();
 }
 
@@ -52,15 +51,11 @@ function show_markers() {
             document.querySelectorAll("#current_order > .address")[0].innerHTML = "<a target='_blank' href='https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + orders[0]["lat"] + "," + orders[0]["lng"] + "'>" + orders[0]["street"] + " " + orders[0]["street_number"];
             document.querySelectorAll("#current_order > .phone_number")[0].innerHTML = "<a href='sms:" + orders[0]["tel"] + "'</a>" + orders[0]["tel"];
             if (orders[0]["phase"] == 1) {
-                document.querySelectorAll("#current_order > .complete")[0].setAttribute("disabled", "disabled");
-                document.querySelectorAll("#current_order > .start")[0].removeAttribute("disabled");
-                document.getElementById("add_products").style.display = "none";
-                document.getElementById("add_products").href = "";
+                document.querySelectorAll("#current_order > .action")[0].onclick = start_order;
+                document.querySelectorAll("#current_order > .action")[0].innerHTML = "Starta";
             } else if (orders[0]["phase"] == 2) {
-                document.querySelectorAll("#current_order > .start")[0].setAttribute("disabled", "disabled");
-                document.querySelectorAll("#current_order > .complete")[0].removeAttribute("disabled");
-                document.getElementById("add_products").style.display = "";
-                document.getElementById("add_products").href = "/admin/new_purchase?order_number=" + orders[0]["order_number"] + "&next=admin_route.map";
+                document.querySelectorAll("#current_order > .action")[0].onclick = add_products;
+                document.querySelectorAll("#current_order > .action")[0].innerHTML = "Avsluta / Lägg till varor";
             }
         }
     }, "phase=1&phase=2");
@@ -79,7 +74,7 @@ function reload_markers() {
     show_markers();
 }
 
-document.getElementById("start_order").addEventListener("click", function () {
+function start_order() {
     var order_number = document.querySelectorAll("#current_order > .order_number")[0].innerHTML;
     getJSON("POST", "/admin/start_order", function (err) {
         if (err !== null) {
@@ -87,14 +82,9 @@ document.getElementById("start_order").addEventListener("click", function () {
         }
     }, "order_number=" + order_number);
     location.reload();
-});
+}
 
-document.getElementById("end_order").addEventListener("click", function () {
+function add_products(){
     var order_number = document.querySelectorAll("#current_order > .order_number")[0].innerHTML;
-    getJSON("POST", "/admin/end_order", function (err) {
-        if (err !== null) {
-            alert("Something went wrong: " + err);
-        }
-    }, "order_number=" + order_number);
-    location.reload();
-});
+    location.href = location.origin + "/admin/new_purchase?order_number=" + order_number + "&next=admin_route.map";
+}
