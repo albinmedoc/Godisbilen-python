@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for
 from flask_login import login_user, logout_user, current_user
 from sqlalchemy import func
@@ -44,6 +45,8 @@ def new_purchase():
             order = Order.query.filter_by(order_number=form.order_number.data).first()
             if(order):
                 order.phase = 3
+                if not order.completed:
+                    order.completed = datetime.now()
                 for entry in form.products.entries:
                     purchase = Purchase(order_number=form.order_number.data)
                     product=Product.query.filter_by(title=entry.data["product"]).first()
