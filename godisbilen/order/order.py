@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, or_
 from sqlalchemy.orm import relationship
 from godisbilen.app import db
+from godisbilen.user import User
 from godisbilen.location import Location
 from godisbilen.region import Region
 from .utils import random_order_number
@@ -9,30 +10,36 @@ from .utils import random_order_number
 class Order(db.Model):
     __tablename__ = "order"
     order_number = Column(String(20), primary_key=True, default=random_order_number)
-    location_id = Column(Integer, ForeignKey("location.id"))
+    location_id = Column(Integer, ForeignKey("location.id"), nullable=False)
     location = relationship("Location", back_populates="orders")
-    user_id = Column(Integer, ForeignKey("person.id"))
+    user_id = Column(Integer, ForeignKey("person.id"), nullable=False)
     user = relationship("User", back_populates="orders")
     phase = Column(Integer, default=1)
     placed = Column(DateTime, nullable=False, default=datetime.now)
+    estimated_delivery = Column(DateTime, nullable=True)
     completed = Column(DateTime, nullable=True)
     purchase = relationship("Purchase", uselist=False, back_populates="order")
 
-    @property
-    def queue_position(self):
-        if(self.phase > 2):
-            return None
-        return Order.query.join(Location).join(Region).filter(Region.id == self.location.region.id).filter(Order.placed < self.placed).filter(or_(Order.phase == 1, Order.phase == 2)).count() + 1
-    
-    @property
-    def estimated_delivery(self):
-        if(self.phase > 2):
-            return None
-        orders = Order.query.join(Location).join(Region).filter(Region.id == self.location.region.id).filter(Order.placed < self.placed).filter(or_(Order.phase == 1, Order.phase == 2)).all()
-        if(not orders):
-            return datetime.now() + timedelta(seconds=300)
-        orders.append(self)
-        time = 0
+    def __init__(self, phone_number, lat, lng, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        location = Location.query.filter_by(lat=lat, lng=lng).first()
+        if(not location):
+            location = Location(lat=lat, lng=lng)
+            db.session.add(location)
+            db.session.commit()
+        self.location = location
+        
+        user = User.query.filter_by(phone_number=phone_number).first()
+        if(not user):
+            user = User(phone_number=phone_number)
+        self.user = user
+
+        if(location not in user.locations):
+            user.locations.append(location)
+        db.session.commit()
+        
+        orders = Order.query.join(Location).join(Region).filter(Region.id == self.location.region.id).filter(Order.placed <= self.placed).filter(or_(Order.phase == 1, Order.phase == 2)).all()
+        time = 300
         last_location = None
         for location in [order.location for order in orders]:
             if(last_location):
@@ -40,7 +47,13 @@ class Order(db.Model):
             last_location = location
         #Add stoptime (8min) 
         time = time + ((len(orders) - 1) * 480)
-        return datetime.now() + timedelta(seconds=time)
+        self.estimated_delivery = self.placed + timedelta(seconds=time)
+
+    @property
+    def queue_position(self):
+        if(self.phase > 2):
+            return None
+        return Order.query.join(Location).join(Region).filter(Region.id == self.location.region.id).filter(Order.placed < self.placed).filter(or_(Order.phase == 1, Order.phase == 2)).count() + 1
     
     @property
     def status(self):

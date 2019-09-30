@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for
 from flask_login import current_user
 from godisbilen.order import Order, OrderForm
-from godisbilen.user import User, roles_accepted
+from godisbilen.user import roles_accepted
 from godisbilen.location import Location
 from godisbilen.region import Region
 from godisbilen.app import db
@@ -13,19 +13,8 @@ bp_order = Blueprint("order", __name__)
 def new_order():
     form = OrderForm()
     if(form.validate_on_submit()):
-        location = Location.query.filter_by(lat=form.lat.data, lng=form.lng.data).first()
-        if(not location):
-            location = Location(lat=form.lat.data, lng=form.lng.data)
-            db.session.add(location)
-        user = User.query.filter_by(
-            phone_number=form.phone_number.data).first()
-        if(not user):
-            user = User(phone_number=form.phone_number.data)
-            db.session.add(user)
-        order = Order(location=location, user=user)
+        order = Order(phone_number=form.phone_number.data, lat=form.lat.data, lng=form.lng.data)
         db.session.add(order)
-        if(location not in user.locations):
-            user.locations.append(location)
         db.session.commit()
         return redirect(url_for("order.order_confirmation", order_number=order.order_number))
     return render_template("order/order.html", form=form)
