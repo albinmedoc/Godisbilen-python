@@ -78,26 +78,27 @@ def login():
 @bp_admin.route("/admin/logout")
 @roles_accepted("Admin")
 def logout():
-    current_user.admin.clear_regions()
+    current_user.admin.region = None
+    db.session.commit()
     logout_user()
     return redirect(url_for("main.home"))
 
 @bp_admin.route("/admin/home")
 @roles_accepted("Admin")
 def home():
-    return render_template("admin/home.html")
+    region_form = AdminRegionForm(region=current_user.admin.region.id if current_user.admin.region else 0)
+    return render_template("admin/home.html", region_form=region_form)
 
-@bp_admin.route("/admin/select_regions", methods=["GET", "POST"])
+@bp_admin.route("/admin/select_region", methods=["POST"])
 @roles_accepted("Admin")
-def select_regions():
+def select_region():
     form = AdminRegionForm()
-    if(request.method == "POST"):
-        current_user.admin.clear_regions()
-        for field in form:
-            if(field.widget.input_type == "checkbox" and field.data):
-                region = Region.query.filter_by(name=field.label.text).first()
-                if(region):
-                    current_user.admin.regions.append(region)
+    if(form.validate_on_submit()):
+        if(form.region.data == "0"):
+            current_user.admin.region = None
+        else:
+            region = Region.query.filter_by(id=form.region.data).first()
+            if(region):
+                current_user.admin.region = region
         db.session.commit()
-        return redirect(url_for("admin_route.home"))
-    return render_template("admin/select_regions.html", form=form, login=False)
+    return redirect(url_for("admin_route.home"))
