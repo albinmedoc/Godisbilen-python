@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import Form as NoCsrfForm, FieldList
-from wtforms import StringField, PasswordField, FormField, BooleanField, SubmitField
+from wtforms import Form as NoCsrfForm
+from wtforms import StringField, PasswordField, SelectField, SubmitField
 from wtforms.fields.html5 import TelField, EmailField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 from flask_login import current_user
@@ -47,14 +47,20 @@ class AdminRegisterForm(FlaskForm):
             raise ValidationError("Det finns redan ett Admin-konto med denna emailen.")
 
 class AdminRegionForm(FlaskForm):
+    region = SelectField("Region")
     submit = SubmitField("Spara")
 
     def __init__(self, *args, **kwargs):
         super(AdminRegionForm, self).__init__(*args, **kwargs)
-        regions = Region.query.all()
-        if(regions):
-            for region in regions:
-                selected = region in current_user.admin.regions
-                setattr(AdminRegionForm, region.name, BooleanField(region.name, default=selected))
-
-
+        self.region.choices = [(0, "Ingen")] + [(region.id, region.name.capitalize()) for region in Region.query.all()]
+    
+    def validate(self):
+        region = Region.query.filter_by(id=self.region.data).first()
+        print(type(self.region.data))
+        print(self.region.data)
+        if(not region and not self.region.data == "0"):
+            temp = list(self.region.errors)
+            temp.append("Arbetsområdet finns ej!")
+            self.region.errors = tuple(temp)
+            return False
+        return True

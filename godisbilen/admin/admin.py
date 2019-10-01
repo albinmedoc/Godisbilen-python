@@ -3,23 +3,15 @@ from sqlalchemy.orm import relationship
 from godisbilen.app import db, bcrypt
 from godisbilen.user import User
 
-admin_regions = db.Table("admin_regions",
-    db.Column("admin_id", db.Integer(), db.ForeignKey("admin.user_id", ondelete="CASCADE")),
-    db.Column("region_id", db.Integer(), db.ForeignKey("region.id", ondelete="CASCADE"))
-)
-
 class Admin(db.Model):
     user_id = Column(Integer, ForeignKey("person.id"), primary_key=True)
     user = relationship("User", back_populates="admin")
-    firstname = db.Column(db.String(30))
-    lastname = db.Column(db.String(30))
-    email = db.Column(db.String(60))
-    password = db.Column(db.String(60))
-    regions = db.relationship("Region", secondary=admin_regions, back_populates="admins")
-
-    def clear_regions(self):
-        self.regions[:] = []
-        db.session.commit()
+    firstname = Column(String(30))
+    lastname = Column(String(30))
+    email = Column(String(60))
+    password = Column(String(60))
+    region_id = Column(Integer, ForeignKey("region.id"))
+    region = relationship("Region", back_populates="admins")
 
     def __repr__(self):
         return "Admin(" + self.firstname + " " + self.lastname + ")"

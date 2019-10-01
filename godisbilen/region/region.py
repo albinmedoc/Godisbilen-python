@@ -3,7 +3,6 @@ from sqlalchemy import Column, Integer, String, func
 from sqlalchemy.orm import relationship
 from geoalchemy2 import Geography
 from godisbilen.app import db
-from godisbilen.admin.admin import admin_regions
 
 class Region(db.Model):
     __tablename__ = "region"
@@ -11,7 +10,7 @@ class Region(db.Model):
     name = Column(String, nullable=False)
     locations = relationship("Location", back_populates="region")
     bounds = Column(Geography("POLYGON"))
-    admins = relationship("Admin", secondary=admin_regions, back_populates="regions")
+    admins = relationship("Admin", back_populates="region")
 
     @staticmethod
     def get_bounds(regions=None, lat_lng=False):
