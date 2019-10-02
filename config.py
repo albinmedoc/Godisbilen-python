@@ -10,6 +10,9 @@ class Config(object):
     SECRET_KEY = os.urandom(24)
     FLASK_DEBUG=1
 
+    # How long does the van stay at each stop (seconds)
+    STOP_TIME = 480
+
     GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
     GOOGLE_ANALYTICS_TRACK_ID = os.getenv("GOOGLE_ANALYTICS_TRACK_ID")
 
@@ -22,6 +25,7 @@ class Config(object):
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 
     OPENING_HOURS = {
+        "2": [[time(4), time(23, 59, 59, 59)]],
         "4": [[time(20), time(23, 59, 59, 59)]],
         "5": [[time(0), time(4)], [time(20), time(23, 59, 59, 59)]],
         "6": [[time(0), time(4)], [time(20), time(23, 59, 59, 59)]]
