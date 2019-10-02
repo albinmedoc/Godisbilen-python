@@ -26,7 +26,7 @@
         <h4>Karta</h4>
         <img src="{{ url_for('static', filename='img/map.svg') }}">
     </a>
-    {% if current_user.has_roles("developer") %}
+    {% if current_user.has_roles(["Developer", "Manager"]) %}
     <a class="box" href="{{ url_for('admin.index') }}">
         <h4>Databas</h4>
         <img src="{{ url_for('static', filename='img/database.svg') }}">
