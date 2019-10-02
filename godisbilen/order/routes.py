@@ -13,7 +13,7 @@ bp_order = Blueprint("order", __name__)
 def new_order():
     form = OrderForm()
     if(form.validate_on_submit()):
-        order = Order(phone_number=form.phone_number.data, lat=form.lat.data, lng=form.lng.data)
+        order = Order.create(form.phone_number.data, form.lat.data, form.lng.data)
         db.session.add(order)
         db.session.commit()
         return redirect(url_for("order.order_confirmation", order_number=order.order_number))

@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from flask import current_app
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, or_
 from sqlalchemy.orm import relationship
 from godisbilen.app import db
@@ -19,35 +20,35 @@ class Order(db.Model):
     estimated_delivery = Column(DateTime, nullable=True)
     completed = Column(DateTime, nullable=True)
     purchase = relationship("Purchase", uselist=False, back_populates="order")
-
-    def __init__(self, phone_number, lat, lng, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    
+    @staticmethod
+    def create(phone_number, lat, lng):
+        user = User.query.filter_by(phone_number=phone_number).first()
+        if(not user):
+            user = User(phone_number=phone_number)
+            db.session.add(user)
         location = Location.query.filter_by(lat=lat, lng=lng).first()
         if(not location):
             location = Location(lat=lat, lng=lng)
             db.session.add(location)
-            db.session.commit()
-        self.location = location
-        
-        user = User.query.filter_by(phone_number=phone_number).first()
-        if(not user):
-            user = User(phone_number=phone_number)
-        self.user = user
-
         if(location not in user.locations):
             user.locations.append(location)
         db.session.commit()
-        
-        orders = Order.query.join(Location).join(Region).filter(Region.id == self.location.region.id).filter(Order.placed <= self.placed).filter(or_(Order.phase == 1, Order.phase == 2)).all()
+
+        now = datetime.now()
+        orders = Order.query.join(Location).join(Region).filter(Region.id == location.region.id).filter(Order.placed < now).filter(or_(Order.phase == 1, Order.phase == 2)).all()
         time = 300
         last_location = None
-        for location in [order.location for order in orders]:
+        locations = [order.location for order in orders] + [location]
+        for _location in locations:
             if(last_location):
-                time = time + last_location.time_between(location)
-            last_location = location
+                time = time + last_location.time_between(_location)
+            last_location = _location
         #Add stoptime (8min) 
-        time = time + ((len(orders) - 1) * 480)
-        self.estimated_delivery = self.placed + timedelta(seconds=time)
+        time = time + len(orders) * current_app.config["STOP_TIME"]
+        estimated_delivery = now + timedelta(seconds=time)
+        order = Order(location=location, user=user, estimated_delivery=estimated_delivery, placed=now)
+        return order
 
     @property
     def queue_position(self):
@@ -65,9 +66,6 @@ class Order(db.Model):
             return "Completed"
         else:
             return None
-    
-    def __repr__(self):
-        return self.order_number
 
     @property
     def json(self):
@@ -82,3 +80,6 @@ class Order(db.Model):
         temp["lat"] = self.location.lat
         temp["lng"] = self.location.lng
         return temp
+
+    def __repr__(self):
+        return self.order_number
