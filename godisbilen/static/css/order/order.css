@@ -3,7 +3,6 @@
     margin: 0 auto;
 }
 #map_container {
-    width: 600px;
     transition: 0.5s;
     height: 0;
 }
