@@ -28,4 +28,4 @@ class Region(db.Model):
         return result
 
     def __repr__(self):
-        return str(self.id) + " " + self.name
+        return self.name.capitalize()
