@@ -1,6 +1,7 @@
 import json
-from sqlalchemy import Column, Integer, String, func
+from sqlalchemy import Column, Integer, String, func, select
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.hybrid import hybrid_property
 from geoalchemy2 import Geography
 from godisbilen.app import db
 
@@ -11,6 +12,14 @@ class Region(db.Model):
     locations = relationship("Location", back_populates="region")
     bounds = Column(Geography("POLYGON"))
     admins = relationship("Admin", back_populates="region")
+
+    @hybrid_property
+    def area(self):
+        return db.session.query(func.ST_AREA(Region.bounds)).filter(Region.id == self.id).first()[0] / 1000
+    
+    @area.expression
+    def area(cls):
+        return cls.bounds.ST_Area()
 
     @staticmethod
     def get_bounds(regions=None, lat_lng=False):
