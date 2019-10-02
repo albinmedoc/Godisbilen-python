@@ -72,13 +72,13 @@ def login():
     if(form.validate_on_submit()):
         user = User.query.filter_by(phone_number=form.phone_number.data).first()
         login_user(user, remember=True)
-        return redirect(url_for("admin_route.home"))
+        next_page = request.args.get("next")
+        return redirect(next_page) if next_page else redirect(url_for("admin_route.home"))
     return render_template("admin/login_register.html", form=form, login=True)
 
 @bp_admin.route("/admin/logout")
 @roles_accepted("Admin")
 def logout():
-    current_user.admin.region = None
     db.session.commit()
     logout_user()
     return redirect(url_for("main.home"))
