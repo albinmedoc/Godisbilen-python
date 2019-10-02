@@ -14,7 +14,7 @@ class Admin(db.Model):
     region = relationship("Region", back_populates="admins")
 
     def __repr__(self):
-        return "Admin(" + self.firstname + " " + self.lastname + ")"
+        return self.firstname + " " + self.lastname
 
     
     @staticmethod
