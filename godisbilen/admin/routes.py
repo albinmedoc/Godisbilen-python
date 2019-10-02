@@ -59,7 +59,7 @@ def new_purchase():
     return render_template("admin/create_purchase.html", form=form)
 
 @bp_admin.route("/admin/register", methods=["GET", "POST"])
-#@roles_accepted("Admin", "Developer")
+@roles_accepted( "Admin", "Developer")
 def register():
     form = AdminRegisterForm()
     if(form.validate_on_submit()):

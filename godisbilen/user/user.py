@@ -50,13 +50,14 @@ class User(db.Model, UserMixin):
                         authorized = True
                         break
                 if not authorized:
-                    return False
+                    return False                    # tuple_of_role_names requirement failed: return False
             else:
                 # this is a role_name requirement
                 role_name = requirement
                 # the user must have this role
                 if not role_name in role_names:
-                    return False
+                    return False                    # role_name requirement failed: return False
+
         # All requirements have been met: return True
         return True
     
