@@ -1,22 +1,3 @@
-var componentForm = {
-    street_number: "short_name",
-    route: "long_name",
-    postal_town: "long_name",
-    country: "short_name",
-    postal_code: "short_name"
-};
-
-var city_boundaries = {};
-get_city_boundaries(function (err, cities) {
-    if (err === null) {
-        for (var city in cities) {
-            city_boundaries[city] = new google.maps.Polygon({ paths: cities[city] });
-
-        }
-    }
-});
-
-
 function initMap() {
     var map = new google.maps.Map(document.getElementById("map"), {
         disableDefaultUI: true
@@ -52,18 +33,11 @@ function initMap() {
         marker.setPosition(place.geometry.location);
         marker.setVisible(true);
 
-        var address = '';
-        if (place.address_components) {
-            address = [
-                (place.address_components[0] && place.address_components[0].short_name || ''),
-                (place.address_components[1] && place.address_components[1].short_name || ''),
-                (place.address_components[2] && place.address_components[2].short_name || '')
-            ].join(' ');
-        }
-
         infowindowContent.children["place-icon"].src = place.icon;
         infowindowContent.children["place-name"].textContent = place.name;
-        infowindowContent.children["place-address"].textContent = address;
+        if(place.address_components[6] && place.address_components[6].short_name && place.address_components[3] && place.address_components[3].short_name){
+            infowindowContent.children["postal"].textContent = place.address_components[6].short_name + " " + place.address_components[3].short_name;
+        }
         infowindow.open(map, marker);
     });
 
