@@ -7,3 +7,12 @@ class OrderView(AdminView):
     create_modal = True
     edit_modal = True
     column_list = ("order_number", "user", "location", "placed", "estimated_delivery", "completed", "status")
+    column_labels = {
+        "order_number": "Ordernummer",
+        "user": "Användare",
+        "location": "Adress",
+        "placed": "Placerad",
+        "estimated_delivery": "Beräknad leverans",
+        "completed": "Levererad",
+        "status": "Status"
+    }
