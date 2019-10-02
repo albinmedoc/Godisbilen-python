@@ -1,10 +1,23 @@
-from flask import Blueprint, render_template, current_app
+import os
+from flask import Blueprint, render_template, current_app, url_for
 from flask_mail import Message
 from .utils import shop_open
 from .forms import ContactForm
 from godisbilen.app import mail
 
 bp_main = Blueprint("main", __name__)
+
+@bp_main.context_processor
+def override_url_for():
+    return dict(url_for=dated_url_for)
+
+def dated_url_for(endpoint, **values):
+    if endpoint == "static":
+        filename = values.get("filename", None)
+        if filename:
+            file_path = os.path.join(current_app.root_path, endpoint, filename)
+            values["q"] = int(os.stat(file_path).st_mtime)
+    return url_for(endpoint, **values)
 
 @bp_main.route("/")
 def home():
