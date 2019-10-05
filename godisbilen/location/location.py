@@ -67,7 +67,10 @@ class Location(db.Model):
 
     def time_between(self, destination):
         gmaps = googlemaps.Client(key=current_app.config["GOOGLE_MAPS_API_KEY"])
-        data = gmaps.distance_matrix((self.lat, self.lng), (destination.lat, destination.lng), mode="driving")
+        if(isinstance(destination, list)):
+            data = gmaps.distance_matrix((self.lat, self.lng), (destination[0], destination[1]), mode="driving")
+        else:
+            data = gmaps.distance_matrix((self.lat, self.lng), (destination.lat, destination.lng), mode="driving")
         if(data["status"] == "OK"):
             return data["rows"][0]["elements"][0]["duration"]["value"]
         return 600
