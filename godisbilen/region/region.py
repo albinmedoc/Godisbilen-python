@@ -21,6 +21,14 @@ class Region(db.Model):
     def area(cls):
         return cls.bounds.ST_Area()
 
+    @hybrid_property
+    def center(self):
+        return db.session.scalar(self.bounds.ST_Centroid())
+    
+    @center.expression
+    def center(cls):
+        return cls.bounds.ST_Centroid()
+
     @staticmethod
     def get_bounds(regions=None, lat_lng=False):
         bounds = db.session.query(Region.name, func.ST_AsGeoJSON(Region.bounds))
