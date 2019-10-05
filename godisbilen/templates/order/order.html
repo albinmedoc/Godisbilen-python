@@ -20,6 +20,12 @@
         {{ form.hidden_tag() }}
         <div class="form_row">
             <div class="input_container">
+                <p class="info">Minsta belopp: 100kr</p>
+                <p class="info">Betalning sker vid leverans</p>
+            </div>
+        </div>
+        <div class="form_row">
+            <div class="input_container">
                 {{ form.phone_number(placeholder=" ", class="error" if form.phone_number.errors) }}
                 {{ form.phone_number.label() }}
             </div>
