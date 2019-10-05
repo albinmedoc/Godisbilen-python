@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.hybrid import hybrid_property
 from flask_login import UserMixin
 from godisbilen.app import db, login
 from godisbilen.user.role import Role
@@ -27,9 +28,13 @@ class User(db.Model, UserMixin):
     roles = db.relationship("Role", secondary=user_roles, backref="users")
     admin = relationship("Admin", uselist=False, back_populates="user")
 
-    @property
+    @hybrid_property
     def count_orders(self):
         return len(self.orders)
+    
+    @count_orders.expression
+    def count_orders(cls):
+        return cls.orders.count()
     
     @property
     def home_adress(self):
