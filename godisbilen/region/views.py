@@ -6,9 +6,9 @@ class RegionView(AdminView):
     page_size = 50
     can_view_details = True
     create_modal = False
-    column_list = ("id", "name", "admins", "area")
+    column_list = ("id", "name", "admins", "center")
     column_labels = {
         "name": "Namn",
         "admins": "Admins",
-        "area": "Area"
+        "center": "Center"
     }
