@@ -15,7 +15,7 @@ class Region(db.Model):
 
     @hybrid_property
     def area(self):
-        return db.session.query(func.ST_AREA(Region.bounds)).filter(Region.id == self.id).first()[0] / 1000
+        return db.session.query(func.ST_AREA(Region.bounds)).filter(Region.id == self.id).first()[0]
     
     @area.expression
     def area(cls):
