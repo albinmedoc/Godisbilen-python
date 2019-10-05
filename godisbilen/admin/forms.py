@@ -30,7 +30,7 @@ class AdminLoginForm(FlaskForm):
 class AdminRegisterForm(FlaskForm):
     phone_number = TelField("Telefonnummer", validators=[DataRequired()])
     firstname = StringField("Förnamn", validators=[DataRequired()])
-    lastname = StringField("Förnamn", validators=[DataRequired()])
+    lastname = StringField("Efternamn", validators=[DataRequired()])
     email = EmailField("Email", validators=[DataRequired()])
     password = PasswordField("Lösenord", validators=[DataRequired(), Length(min=4)])
     confirm_password = PasswordField("Bekräfta lösenord", validators=[DataRequired(), EqualTo("password")])
