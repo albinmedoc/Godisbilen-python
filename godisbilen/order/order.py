@@ -37,14 +37,17 @@ class Order(db.Model):
 
         now = datetime.now()
         orders = Order.query.join(Location).join(Region).filter(Region.id == location.region.id).filter(Order.placed < now).filter(or_(Order.phase == 1, Order.phase == 2)).all()
-        time = 300
-        last_location = None
+        # Adding current order location to list
         locations = [order.location for order in orders] + [location]
+
+        # Should start at region center to first location + startup
+        time = 240 + locations[0].time_between([db.session.scalar(location.region.center.ST_Y()), db.session.scalar(location.region.center.ST_X())])
+        last_location = None
         for _location in locations:
             if(last_location):
                 time = time + last_location.time_between(_location)
             last_location = _location
-        #Add stoptime (8min) 
+        # Add stoptime (8min) 
         time = time + len(orders) * current_app.config["STOP_TIME"]
         estimated_delivery = now + timedelta(seconds=time)
         order = Order(location=location, user=user, estimated_delivery=estimated_delivery, placed=now)
