@@ -1,4 +1,7 @@
 {% extends "layout.html" %}
+{% block title %}
+Ny order
+{% endblock title %}
 {% block css %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/order/order.css') }}">
@@ -44,7 +47,7 @@
         <div id="map_container">
             <div id="map"></div>
             <div id="infowindow-content">
-                <img src="" width="16" height="16" id="place-icon">
+                <img width="16" height="16" id="place-icon" alt="Plats ikon">
                 <span id="place-name" class="title"></span><br>
                 <span id="postal"></span>
             </div>
