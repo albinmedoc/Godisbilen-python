@@ -17,13 +17,13 @@ class DatalistInput(TextInput):
         if(field.data is None):
             field.data = ""
 
-        html = [u'<datalist id="{}_list">'.format(field.id)]
+        html = [u'<datalist id="{}">'.format(field.id)]
 
         for item in field.datalist:
             html.append(u'<option value="{}">'.format(item))
 
         html.append(u'</datalist>')
-        html.append(u'<input list="{}_list" value="{}" name="{}" {}>'.format(field.id, field.data, field.name, self.html_params(**kwargs)))
+        html.append(u'<input list="{}" value="{}" name="{}" {}>'.format(field.id, field.data, field.name, self.html_params(**kwargs)))
 
         return HTMLString(u''.join(html))
 
