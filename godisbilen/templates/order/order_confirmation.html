@@ -1,4 +1,7 @@
 {% extends "layout.html" %}
+{% block title %}
+Order placerad
+{% endblock title %}
 {% block css %}
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/order/order_confirmation.css') }}">
