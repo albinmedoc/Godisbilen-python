@@ -31,8 +31,6 @@ class Order(db.Model):
         if(not location):
             location = Location(lat=lat, lng=lng)
             db.session.add(location)
-        if(location not in user.locations):
-            user.locations.append(location)
         db.session.commit()
 
         now = datetime.now()
