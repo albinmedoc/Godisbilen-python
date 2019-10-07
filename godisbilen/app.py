@@ -64,12 +64,12 @@ def create_app(config_class=Config, create_db=False):
     from godisbilen.purchase.views import PurchaseView
     from godisbilen.region.views import RegionView
 
-    admin.add_view(OrderView(Order, db.session, endpoint="orders", name="Ordrar"))
-    admin.add_view(UserView(User, db.session, endpoint="users", name="Användare"))
-    admin.add_view(LocationView(Location, db.session, endpoint="location", name="Adresser"))
-    admin.add_view(ProductView(Product, db.session, endpoint="product", name="Produkter"))
-    admin.add_view(PurchaseView(Purchase, db.session, endpoint="purchase", name="Köp"))
-    admin.add_view(RegionView(Region, db.session, endpoint="region", name="Områden"))
+    admin.add_view(OrderView(Order, db.session, endpoint="orders", name="Ordrar", menu_icon_type="glyph", menu_icon_value="glyphicon-earphone"))
+    admin.add_view(UserView(User, db.session, endpoint="users", name="Användare", menu_icon_type="glyphicon", menu_icon_value="glyphicon-user"))
+    admin.add_view(LocationView(Location, db.session, endpoint="location", name="Adresser", menu_icon_type="glyphicon", menu_icon_value="glyphicon-globe"))
+    admin.add_view(ProductView(Product, db.session, endpoint="product", name="Produkter", menu_icon_type="glyph", menu_icon_value="glyphicon-ice-lolly"))
+    admin.add_view(PurchaseView(Purchase, db.session, endpoint="purchase", name="Köp", menu_icon_type="glyph", menu_icon_value="glyphicon-shopping-cart"))
+    admin.add_view(RegionView(Region, db.session, endpoint="region", name="Områden", menu_icon_type="glyph", menu_icon_value="glyphicon-map-marker"))
     admin.init_app(app)
 
     return app
