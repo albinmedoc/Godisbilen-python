@@ -1,14 +1,10 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, select
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from flask_login import UserMixin
 from godisbilen.app import db, login
 from godisbilen.user.role import Role
-
-user_location = db.Table("user_location",
-    db.Column("user_id", Integer, ForeignKey("person.id"), primary_key=True),
-    db.Column("location_id", Integer, ForeignKey("location.id"), primary_key=True)
-)
+from godisbilen.location import Location
 
 user_roles = db.Table("user_roles",
     db.Column("user_id", db.Integer(), db.ForeignKey("person.id", ondelete="CASCADE")),
@@ -24,9 +20,13 @@ class User(db.Model, UserMixin):
     id = Column(Integer, primary_key=True)
     phone_number = Column(String, unique=True, nullable=False)
     orders = relationship("Order", back_populates="user")
-    locations = relationship("Location", secondary=user_location, back_populates="users")
     roles = db.relationship("Role", secondary=user_roles, backref="users")
     admin = relationship("Admin", uselist=False, back_populates="user")
+
+    @property
+    def locations(self):
+        # No duplicates
+        return list(dict.fromkeys([order.location for order in self.orders]))
 
     @hybrid_property
     def count_orders(self):

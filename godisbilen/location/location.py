@@ -5,7 +5,6 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from geoalchemy2 import Geometry
 from godisbilen.app import db
-from godisbilen.user.user import user_location
 from godisbilen.region import Region
 
 class Location(db.Model):
@@ -15,7 +14,6 @@ class Location(db.Model):
     region_id = Column(Integer, ForeignKey("region.id"))
     region = relationship("Region", back_populates="locations")
     orders = relationship("Order", back_populates="location")
-    users = relationship("User", secondary=user_location, back_populates="locations")
 
     def __init__(self, lat, lng, *args, **kwargs):
         self.coord = "POINT({} {})".format(lng, lat)
