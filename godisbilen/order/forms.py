@@ -1,9 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField, DecimalField, SubmitField
+from wtforms import StringField, DecimalField, SubmitField
 from wtforms.fields.html5 import TelField
 from wtforms.validators import DataRequired
 from wtforms.widgets import HiddenInput
-from sqlalchemy import func
 from geoalchemy2 import WKTElement
 from godisbilen.app import db
 from godisbilen.region import Region
