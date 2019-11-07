@@ -1,5 +1,4 @@
 from flask_wtf import FlaskForm
-from wtforms import Form as NoCsrfForm
 from wtforms import StringField, PasswordField, SelectField, SubmitField
 from wtforms.fields.html5 import TelField, EmailField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
