@@ -2,6 +2,7 @@ import os
 from flask import Flask, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
+from flask_admin.base import MenuLink
 from flask_mail import Mail
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -9,7 +10,7 @@ from config import Config
 
 db = SQLAlchemy()
 mail = Mail()
-admin = Admin(name="Godisbilen", url="/admin/db")
+admin = Admin(name="Godisbilen", url="/admin/db", template_mode="bootstrap3")
 bcrypt = Bcrypt()
 login = LoginManager()
 
@@ -52,6 +53,7 @@ def create_app(config_class=Config, create_db=False):
     from godisbilen.region import Region
     from godisbilen.purchase import Purchase
     from godisbilen.product import Product
+    from godisbilen.campaign import Campaign, CampaignProducts, CampaignUsers
 
     if(create_db):
         with app.test_request_context():
@@ -65,11 +67,12 @@ def create_app(config_class=Config, create_db=False):
     from godisbilen.region.views import RegionView
 
     admin.add_view(OrderView(Order, db.session, endpoint="orders", name="Ordrar", menu_icon_type="glyph", menu_icon_value="glyphicon-earphone"))
-    admin.add_view(UserView(User, db.session, endpoint="users", name="Användare", menu_icon_type="glyphicon", menu_icon_value="glyphicon-user"))
-    admin.add_view(LocationView(Location, db.session, endpoint="location", name="Adresser", menu_icon_type="glyphicon", menu_icon_value="glyphicon-globe"))
+    admin.add_view(UserView(User, db.session, endpoint="users", name="Användare", menu_icon_type="glyph", menu_icon_value="glyphicon-user"))
+    admin.add_view(LocationView(Location, db.session, endpoint="location", name="Adresser", menu_icon_type="glyph", menu_icon_value="glyphicon-map-marker"))
     admin.add_view(ProductView(Product, db.session, endpoint="product", name="Produkter", menu_icon_type="glyph", menu_icon_value="glyphicon-ice-lolly"))
     admin.add_view(PurchaseView(Purchase, db.session, endpoint="purchase", name="Köp", menu_icon_type="glyph", menu_icon_value="glyphicon-shopping-cart"))
-    admin.add_view(RegionView(Region, db.session, endpoint="region", name="Områden", menu_icon_type="glyph", menu_icon_value="glyphicon-map-marker"))
+    admin.add_view(RegionView(Region, db.session, endpoint="region", name="Områden", menu_icon_type="glyph", menu_icon_value="glyphicon-globe"))
+    admin.add_link(MenuLink(name="Admin Hem", endpoint="admin_route.home", icon_type="glyph", icon_value="glyphicon-home"))
     admin.init_app(app)
 
     return app
