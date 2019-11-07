@@ -1,8 +1,4 @@
 {% extends "layout.html" %}
-{% block css %}
-{{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/create_purchase.css') }}">
-{% endblock css %}
 {% block javascript %}
 {{ super() }}
 <script src="{{ url_for('static', filename='js/admin/create_purchase.js') }}"></script>
@@ -26,9 +22,9 @@
         </div>
     </div>
     {% for product in form.products %}
-        <div class="form_row" {% if loop.index0==0 %} id="template" {% endif %}>
+        <div class="form_row" {% if loop.index0==0 %} id="template" style="display: none;" {% endif %}>
             <div class="input_container">
-                {{ product.product(class="error" if product.product.errors) }}
+                {{ product.product(placeholder=" ", class="error" if product.product.errors) }}
                 {{ product.product.label() }}
                 <div class="errors">
                     {% for error in product.product.errors %}
@@ -37,10 +33,10 @@
                 </div>
             </div>
             <div class="input_container">
-                {{ product.count(placeholder=" ", class="error" if product.count.errors) }}
-                {{ product.count.label() }}
+                {{ product.amount(placeholder=" ", class="error" if product.amount.errors) }}
+                {{ product.amount.label() }}
                 <div class="errors">
-                    {% for error in product.count.errors %}
+                    {% for error in product.amount.errors %}
                     <p class="error">{{ error }}</p>
                     {% endfor %}
                 </div>
