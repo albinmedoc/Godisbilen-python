@@ -6,6 +6,10 @@ Kontakta oss
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/main/contact.css') }}">
 {% endblock css %}
+{% block javascript %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/main/contact.js') }}"></script>
+{% endblock javascript %}
 {% block main %}
 <section id="sub_header">
     <h3>Kontakta oss</h3>
