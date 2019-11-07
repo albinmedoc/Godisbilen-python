@@ -7,7 +7,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    SECRET_KEY = os.urandom(24)
+    SECRET_KEY = "SECRET_KEY"
     FLASK_DEBUG=1
 
     # How long does the van stay at each stop (seconds)
@@ -25,7 +25,6 @@ class Config(object):
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 
     OPENING_HOURS = {
-        "2": [[time(4), time(23, 59, 59, 59)]],
         "4": [[time(20), time(23, 59, 59, 59)]],
         "5": [[time(0), time(4)], [time(20), time(23, 59, 59, 59)]],
         "6": [[time(0), time(4)], [time(20), time(23, 59, 59, 59)]]
