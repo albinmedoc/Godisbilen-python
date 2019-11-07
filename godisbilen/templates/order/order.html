@@ -5,13 +5,14 @@ Ny order
 {% block css %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/order/order.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/address_picker.css') }}">
 {% endblock css %}
 {% block javascript %}
-    {{ super() }}
-    <script src="{{ url_for('static', filename='js/order/order.js') }}"></script>
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key={{ config.GOOGLE_MAPS_API_KEY }}&libraries=places,geometry&callback=initMap"
-        async defer></script>
+{{ super() }}
+<script src="{{ url_for('static', filename='js/address_picker.js') }}"></script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key={{ config.GOOGLE_MAPS_API_KEY }}&libraries=places,geometry&callback=initMap"
+    async defer></script>
 {% endblock javascript %}
 {% block main %}
 <section id="sub_header">
