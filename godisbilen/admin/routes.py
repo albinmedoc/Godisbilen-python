@@ -1,5 +1,7 @@
+import os
+import secrets
 from datetime import datetime
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for, current_app
 from flask_login import login_user, logout_user, current_user
 from sqlalchemy import func
 from godisbilen.app import db
@@ -10,6 +12,8 @@ from godisbilen.region import Region
 from godisbilen.user import User, roles_accepted
 from godisbilen.admin import Admin
 from godisbilen.admin.forms import AdminLoginForm, AdminRegisterForm, AdminRegionForm
+from godisbilen.campaign import Campaign, CampaignProducts
+from godisbilen.campaign.forms import CreateCampaignForm
 
 bp_admin = Blueprint("admin_route", __name__)
 
@@ -34,7 +38,7 @@ def start_order():
 @roles_accepted("Admin")
 def new_purchase():
     form = PurchaseForm()
-    if request.method == "GET":
+    if(request.method == "GET"):
         order_number = request.values.get("order_number", default=None)
         order = Order.query.filter_by(order_number=order_number).first()
         if(order is not None):
@@ -47,11 +51,11 @@ def new_purchase():
                 order.phase = 3
                 if not order.completed:
                     order.completed = datetime.now()
+                purchase = Purchase(order_number=form.order_number.data)
                 for entry in form.products.entries:
-                    purchase = Purchase(order_number=form.order_number.data)
-                    product=Product.query.filter_by(title=entry.data["product"]).first()
-                    purchase.products.append(PurchaseProducts(purchase_id=purchase.id, product=product, count=entry.data["count"]))
-                    db.session.add(purchase)
+                    product = Product.query.filter_by(title=entry.data["product"]).first()
+                    purchase.products.append(PurchaseProducts(purchase_id=purchase.id, product=product, count=entry.data["amount"]))
+                db.session.add(purchase)
                 db.session.commit()
                 return redirect(url_for(request.args.get("next", "main.home")))
 
@@ -102,3 +106,38 @@ def select_region():
                 current_user.admin.region = region
         db.session.commit()
     return redirect(url_for("admin_route.home"))
+
+@bp_admin.route("/admin/create_campaign", methods=["GET", "POST"])
+@roles_accepted("Admin")
+def create_campaign():
+    form = CreateCampaignForm()
+    if(request.method == "POST"):
+        hidden_entry = form.products.entries.pop(0)
+        if(form.validate_on_submit()):
+            # Save image
+            location = os.path.join(current_app.root_path, "static/img/campaign")
+            filename = secrets.token_hex(8) + ".png"
+            while os.path.isfile(os.path.join(location, filename)):
+                filename = secrets.token_hex(8) + ".png"
+
+            # Checking if upload directory exists
+            if(not os.path.exists(location)):
+                # Creating the directory if needed
+                os.makedirs(location)
+            
+            image = form.image.data
+            image.save(os.path.join(location, filename))
+            
+            start = datetime.combine(form.start_date.data, form.start_time.data)
+            end = datetime.combine(form.end_date.data, form.end_time.data)
+
+            campaign = Campaign(image=filename, info=form.info.data, terms=form.terms.data, start=start, end=end, delivery=form.delivery.data, per_user=form.per_user.data, per_address=form.per_address.data, amount=form.amount.data)
+            for entry in form.products.entries:
+                product = Product.query.filter_by(title=entry.data["product"]).first()
+                campaign.products.append(CampaignProducts(campaign_id=campaign.id, product=product, amount=entry.data["amount"]))
+            db.session.add(campaign)
+            db.session.commit()
+            return redirect(url_for("admin_route.home"))
+
+        form.products.entries.insert(0, hidden_entry)
+    return render_template("admin/create_campaign.html", form=form)
