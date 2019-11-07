@@ -1,3 +1,4 @@
+// Requires map element and #search, #lat, #lng input fields
 function initMap() {
     var map = new google.maps.Map(document.getElementById("map"), {
         disableDefaultUI: true
