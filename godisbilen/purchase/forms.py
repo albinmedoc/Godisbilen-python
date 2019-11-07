@@ -9,7 +9,7 @@ from godisbilen.order import Order
 
 class ProductForm(NoCsrfForm):
     product = DatalistField("Produkt", validators=[DataRequired(message="Detta fält är obligatoriskt")])
-    count = IntegerField("Antal", validators=[DataRequired(message="Detta fält är obligatoriskt"), NumberRange(min=1, message="Minsta antal är 1")])
+    amount = IntegerField("Antal", validators=[DataRequired(message="Detta fält är obligatoriskt"), NumberRange(min=1, message="Minsta antal är 1")])
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -20,13 +20,13 @@ class ProductForm(NoCsrfForm):
         if(not product):
             raise ValidationError("Produkten finns inte inlagd i databasen.")
     
-    def validate_count(self, count):
+    def validate_amount(self, amount):
         product = Product.query.filter_by(title=self.product.data).first()
-        if(product and product.stock < count.data):
+        if(product and product.stock < amount.data):
             raise ValidationError("Det ska inte finnas så många i lager, är du säker på att du skrev rätt?")
 
     def __repr__(self):
-        return self.count + "st " + self.product
+        return self.amount + "st " + self.product
 
 
 class PurchaseForm(FlaskForm):
