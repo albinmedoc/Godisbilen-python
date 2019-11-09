@@ -36,7 +36,12 @@ main{
     margin: 0;
     font-size: 40px;
 }
+
 #sub_header p{
     margin: 0;
     font-size: 20px;
+}
+
+#sub_header p > a{
+    color: inherit;
 }
