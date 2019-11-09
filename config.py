@@ -25,9 +25,8 @@ class Config(object):
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 
     OPENING_HOURS = {
-        "4": [[time(20), time(23, 59, 59, 59)]],
-        "5": [[time(0), time(4)], [time(20), time(23, 59, 59, 59)]],
-        "6": [[time(0), time(4)], [time(20), time(23, 59, 59, 59)]]
+        "4": [[time(18), time(23, 59, 59, 59)]],
+        "5": [[time(0), time(1)], [time(18), time(23, 59, 59, 59)]]
     }
 
     #Database
