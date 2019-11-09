@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block title %}
+Vanliga frågor
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main/faq.css') }}">
+{% endblock css %}
+{% block main %}
+<section id="sub_header">
+    <h3>Vanliga frågor</h3>
+    <p>Hittar du inte svaret här? <a href="{{ url_for('main.contact') }}">Kontakta oss</a>.</p>
+</section>
+<div id="faq_container">
+    <section class="faq">
+        <h4>Vilka betalningsmetoder kan användas?</h4>
+        <p>Godisbilen.nu accepterar både swish och kortköp. (ej kontanter)</p>
+    </section>
+    <section class="faq">
+        <h4>Hur beställer jag hem godisbilen?</h4>
+        <p>Från startsidan klickar du på "Beställ nu", eller klickar <a href="{{ url_for('order.new_order') }}">här.</a>
+            Där behöver du skriva in ditt telefonnummer samt en adress vart vi ska komma. När du klickar på skicka är din beställning lagd.
+        </p>
+    </section>
+    <section class="faq">
+        <h4>Kan ni inte börja köra i min by/stad?</h4>
+        <p>Vi utökar våra leveransområden löpande. Håll utkik på våra socialamedier för att veta när nya byar och städer införs.</p>
+    </section>
+    <section class="faq">
+        <h4>Finns ni på socialamedier?</h4>
+        <p>Ni hittar oss både på <a href="https://www.facebook.com/Godisbilennu-112916336786817">Facebook</a> och <a href="https://www.instagram.com/godisbilen.nu/">Instagram</a>. Där finner ni dom senaste händelserna, tävlingar och erbjudande.</p>
+    </section>
+</div>
+{% endblock main %}
