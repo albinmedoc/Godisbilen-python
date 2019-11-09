@@ -70,18 +70,18 @@
         {% block footer %}
         <footer>
             <section id="motto">
-                <h3>Godisbilen</h3>
+                <h3>Godisbilen.nu</h3>
                 <p><q>Fixar godis när du behöver det!</q></p>
-                <small>&copy; Copyright 2019, Godisbilen</small>
+                <small>&copy; Copyright 2019, Godisbilen Staffanstorp AB</small>
             </section>
             <section id="links">
                 <h3>Snabblänkar</h3>
                 <ul>
                     <li><a href="{{ url_for('main.regions') }}">Leveransområde</a></li>
                     <li><a href="{{  url_for('main.tos') }}">Allmänna villkor</a></li>
-                    <!-- <li><a>Vanliga frågor</a></li> -->
+                    <li><a href="{{ url_for('main.faq') }}">Vanliga frågor</a></li>
                     <li><a href="{{ url_for('main.contact') }}">Kontakta oss</a></li>
-                    <li><a>Om oss</a></li>
+                    <li><a href="{{ url_for('main.about') }}">Om oss</a></li>
                 </ul>
             </section>
         </footer>
