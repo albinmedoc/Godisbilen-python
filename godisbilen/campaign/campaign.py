@@ -27,7 +27,8 @@ class CampaignProducts(db.Model):
 
 class CampaignUsers(db.Model):
     __tablename__ = "campaign_users"
-    campaign_id = Column(Integer, ForeignKey("campaign.id"), primary_key=True)
+    id = Column(Integer, primary_key=True)
+    campaign_id = Column(Integer, ForeignKey("campaign.id"))
     campaign = relationship("Campaign", back_populates="buyers")
     user_id = Column(Integer, ForeignKey("person.id"), nullable=False)
     user = relationship("User", back_populates="campaigns")
