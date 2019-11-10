@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, render_template, current_app, url_for
 from flask_mail import Message
 from .utils import shop_open
@@ -12,7 +13,8 @@ bp_main = Blueprint("main", __name__)
 
 @bp_main.route("/")
 def home():
-    return render_template("main/home.html", shop_open=shop_open())
+    campaigns = Campaign.query.filter(Campaign.start < datetime.now(), Campaign.end > datetime.now()).all()
+    return render_template("main/home.html", shop_open=shop_open(), campaigns=campaigns)
 
 @bp_main.route("/campaign/<int:campaign_id>", methods=["GET", "POST"])
 def campaign(campaign_id):

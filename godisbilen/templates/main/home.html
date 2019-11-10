@@ -15,4 +15,14 @@
         {% endif %}
     </div>
 </section>
+<div id="campaigns">
+    <a class="campaign">
+        <img src="{{ url_for('static', filename='img/static_campaign/dubblastycksaker.png') }}" alt="Dubbla stycksaker">
+    </a>
+    {% for campaign in campaigns%}
+        <a href="{{ url_for('main.campaign', campaign_id=campaign.id) }}" class="campaign">
+            <img src="{{ url_for('static', filename='img/campaign/' + campaign.image) }}" alt="Erbjudande">
+        </a>
+    {% endfor %}
+</div>
 {% endblock main %}
