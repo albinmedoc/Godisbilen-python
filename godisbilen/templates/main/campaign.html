@@ -58,7 +58,5 @@ Erbjudande
     </form>
     <p id="description">{{ campaign.description }}</p>
     <p id="notice">Erbjudandet gäller endast fram till {{ campaign.end.strftime("%d/%m") }} {% if campaign.end.strftime("%H:%M") != "23:59" %}{{ campaign.end.strftime("%H:%M") }}{% endif%}.</p>
-    {% if campaign.terms %}
-        <p id="terms">Villkor: {{ campaign.terms }}</p>
-    {% endif %}
+    <p id="terms">Villkor: {{ "Endast " + campaign.per_user|string + " nyttjande per telefonnummer." if campaign.per_user }} {{ "Endast " + campaign.per_address|string + " nyttjande per adress." if campaign.per_address }} {{ campaign.terms if campaign.terms }}</p>
 {% endblock main %}
