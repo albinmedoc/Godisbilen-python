@@ -40,6 +40,9 @@ class JoinCampaignForm(FlaskForm):
             return False
         user_order_count = CampaignUsers.query.filter_by(user_id=current_user.id).count()
         if(campaign.per_user and user_order_count >= campaign.per_user):
+            temp = list(self.phone_number.errors)
+            temp.append("Du har nått maxantalet ordrar för detta erbjudande (" + campaign.per_user + "st).")
+            self.phone_number.errors = tuple(temp)
             return False
         return True
 
