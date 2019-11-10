@@ -31,7 +31,7 @@ def campaign(campaign_id):
             db.session.add(user)
         location = Location.query.filter_by(lat=form.lat.data, lng=form.lng.data).first()
         if(not location):
-            location = Location(lat=orm.lat.data, lng=form.lng.data)
+            location = Location(lat=form.lat.data, lng=form.lng.data)
             db.session.add(location)
         campaign.buyers.append(CampaignUsers(campaign_id=campaign_id, user=user, location=location))
         db.session.commit()
