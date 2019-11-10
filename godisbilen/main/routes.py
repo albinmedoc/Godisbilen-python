@@ -27,7 +27,7 @@ def campaign(campaign_id):
         # Join campaign
         user = User.query.filter_by(phone_number=form.phone_number.data).first()
         if(not user):
-            user = User(phone_number=phone_number)
+            user = User(phone_number=form.phone_number.data)
             db.session.add(user)
         location = Location.query.filter_by(lat=form.lat.data, lng=form.lng.data).first()
         if(not location):
