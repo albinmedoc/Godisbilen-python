@@ -51,9 +51,7 @@ def create_app(config_class=Config, create_db=False):
     from godisbilen.user.role import Role
     from godisbilen.location import Location
     from godisbilen.region import Region
-    from godisbilen.purchase import Purchase
-    from godisbilen.product import Product
-    from godisbilen.campaign import Campaign, CampaignProducts, CampaignUsers
+    from godisbilen.campaign import Campaign, CampaignUsers
 
     if(create_db):
         with app.test_request_context():
@@ -62,15 +60,11 @@ def create_app(config_class=Config, create_db=False):
     from godisbilen.order.views import OrderView
     from godisbilen.user.views import UserView
     from godisbilen.location.views import LocationView
-    from godisbilen.product.views import ProductView
-    from godisbilen.purchase.views import PurchaseView
     from godisbilen.region.views import RegionView
 
     admin.add_view(OrderView(Order, db.session, endpoint="orders", name="Ordrar", menu_icon_type="glyph", menu_icon_value="glyphicon-earphone"))
     admin.add_view(UserView(User, db.session, endpoint="users", name="Användare", menu_icon_type="glyph", menu_icon_value="glyphicon-user"))
     admin.add_view(LocationView(Location, db.session, endpoint="location", name="Adresser", menu_icon_type="glyph", menu_icon_value="glyphicon-map-marker"))
-    admin.add_view(ProductView(Product, db.session, endpoint="product", name="Produkter", menu_icon_type="glyph", menu_icon_value="glyphicon-ice-lolly"))
-    admin.add_view(PurchaseView(Purchase, db.session, endpoint="purchase", name="Köp", menu_icon_type="glyph", menu_icon_value="glyphicon-shopping-cart"))
     admin.add_view(RegionView(Region, db.session, endpoint="region", name="Områden", menu_icon_type="glyph", menu_icon_value="glyphicon-globe"))
     admin.add_link(MenuLink(name="Admin Hem", endpoint="admin_route.home", icon_type="glyph", icon_value="glyphicon-home"))
     admin.init_app(app)

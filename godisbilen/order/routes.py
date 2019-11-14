@@ -8,17 +8,6 @@ from godisbilen.app import db
 
 bp_order = Blueprint("order", __name__)
 
-
-@bp_order.route("/order", methods=["GET", "POST"])
-def new_order():
-    form = OrderForm()
-    if(form.validate_on_submit()):
-        order = Order.create(form.phone_number.data, form.lat.data, form.lng.data)
-        db.session.add(order)
-        db.session.commit()
-        return redirect(url_for("order.order_confirmation", order_number=order.order_number))
-    return render_template("order/order.html", form=form)
-
 @bp_order.route("/order_confirmation/<order_number>")
 def order_confirmation(order_number):
     order = Order.query.filter_by(order_number=order_number).first()

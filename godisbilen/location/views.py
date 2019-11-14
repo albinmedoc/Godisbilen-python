@@ -13,7 +13,6 @@ class LocationView(AdminView):
         "lat": "Latitude",
         "lng": "Longitude",
         "region": "Region",
-        "products": "Produkter"
     }
 
     def is_visible(self):

@@ -24,6 +24,9 @@ Erbjudande
             <div class="input_container">
                 {{ form.phone_number(placeholder=" ", class="error" if form.phone_number.errors) }}
                 {{ form.phone_number.label() }}
+                {% for error in form.phone_number.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
             </div>
         </div>
         <div class="form_row">

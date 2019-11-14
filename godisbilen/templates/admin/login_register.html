@@ -9,7 +9,7 @@
     <p>Registrera ny admin</p>
     {% endif %}
 </section>
-<form method="POST" class="responsive_form" id="purchase_form">
+<form method="POST" class="responsive_form">
     {{ form.hidden_tag() }}
     {% for field in form if field.widget.input_type != "hidden" and field.widget.input_type != "submit" %}
         <div class="form_row">

@@ -1,20 +1,32 @@
 from datetime import datetime
-from flask import Blueprint, render_template, current_app, url_for
+import json, os
+from flask import Blueprint, render_template, current_app, url_for, redirect
 from flask_mail import Message
 from .utils import shop_open
 from .forms import ContactForm
 from godisbilen.app import mail, db
 from godisbilen.user import User
 from godisbilen.location import Location
+from godisbilen.order import Order, OrderForm
 from godisbilen.campaign import Campaign, CampaignUsers
 from godisbilen.campaign.forms import JoinCampaignForm
 
 bp_main = Blueprint("main", __name__)
 
-@bp_main.route("/")
+@bp_main.route("/", methods=["GET", "POST"])
 def home():
     campaigns = Campaign.query.filter(Campaign.start < datetime.now(), Campaign.end > datetime.now()).all()
-    return render_template("main/home.html", shop_open=shop_open(), campaigns=campaigns)
+    order_form = OrderForm()
+    if(order_form.validate_on_submit()):
+        order = Order.create(order_form.phone_number.data, order_form.lat.data, order_form.lng.data)
+        return redirect(url_for("order.order_confirmation", order_number=order.order_number))
+    return render_template("main/home.html", shop_open=shop_open(), campaigns=campaigns, order_form=order_form)
+
+@bp_main.route("/products")
+def products():
+    with open(os.path.join(current_app.root_path, "products.json")) as json_file:
+        products = json.load(json_file)
+    return render_template("main/products.html", products=products)
 
 @bp_main.route("/campaign/<int:campaign_id>", methods=["GET", "POST"])
 def campaign(campaign_id):

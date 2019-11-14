@@ -19,7 +19,6 @@ class Order(db.Model):
     placed = Column(DateTime, nullable=False, default=datetime.now)
     estimated_delivery = Column(DateTime, nullable=True)
     completed = Column(DateTime, nullable=True)
-    purchase = relationship("Purchase", uselist=False, back_populates="order")
     
     @staticmethod
     def create(phone_number, lat, lng):
@@ -49,6 +48,8 @@ class Order(db.Model):
         time = time + len(orders) * current_app.config["STOP_TIME"]
         estimated_delivery = now + timedelta(seconds=time)
         order = Order(location=location, user=user, estimated_delivery=estimated_delivery, placed=now)
+        db.session.add(order)
+        db.session.commit()
         return order
 
     @property

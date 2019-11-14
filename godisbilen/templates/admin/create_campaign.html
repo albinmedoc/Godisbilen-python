@@ -1,8 +1,4 @@
 {% extends "layout.html" %}
-{% block javascript %}
-{{ super() }}
-<script src="{{ url_for('static', filename='js/admin/create_campaign.js') }}"></script>
-{% endblock javascript %}
 {% block main %}
 <section id="sub_header">
     <h3>Skapa erbjudande</h3>
@@ -10,7 +6,7 @@
 </section>
 <form method="POST" class="responsive_form" id="campaign_form" enctype="multipart/form-data" novalidate>
     {{ form.hidden_tag() }}
-    {% for field in form if field.widget.input_type != "hidden" and field.widget.input_type != "submit" and field.name != "products" %}
+    {% for field in form if field.widget.input_type != "hidden" and field.widget.input_type != "submit" %}
         <div class="form_row">
             <div class="input_container">
                 {{ field(placeholder=" ", class="error" if field.errors) }}
@@ -21,33 +17,6 @@
             </div>
         </div>
     {% endfor %}
-    {% for product in form.products %}
-        <div class="form_row" {% if loop.index0==0 %} id="template" style="display: none;" {% endif %}>
-            <div class="input_container">
-                {{ product.product(placeholder=" ", class="error" if product.product.errors) }}
-                {{ product.product.label() }}
-                <div class="errors">
-                    {% for error in product.product.errors %}
-                    <p class="error">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="input_container">
-                {{ product.amount(placeholder=" ", class="error" if product.amount.errors) }}
-                {{ product.amount.label() }}
-                <div class="errors">
-                    {% for error in product.amount.errors %}
-                    <p class="error">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    {% endfor %}
-    <div class="form_row">
-        <div class="input_container">
-            <p class="info" onclick="add_product(this);"><a>Lägg till vara</a></p>
-        </div>
-    </div>
     <div class="form_row">
         <div class="input_container">
             {{ form.submit() }}

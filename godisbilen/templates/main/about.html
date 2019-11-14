@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %}
+Om oss
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main/about.css') }}">
+{% endblock css %}
+{% block main %}
+<section id="sub_header">
+    <h3>Om oss</h3>
+    <p>Information om Godisbilen</p>
+</section>
+<div id="info">
+    <section>
+        <h4></h4>
+        <p>Godisbilen är ett nystartar företag i Staffanstorp som leverera godis hem till dig. 
+            Bilen är alltid välfylld med godis, snacks och drycker.
+            För att beställa hem godibilen är telefonnummer och en adress det enda vi behöver.
+            Betalningen sker på plats. Kom ihåg att minsta belopp är 100kr annars tillkommer 45kr för utkörningen.
+        </p>
+    </section>
+</div>
+{% endblock main %}

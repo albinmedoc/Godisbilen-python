@@ -54,8 +54,8 @@ function show_markers() {
                 document.querySelectorAll("#current_order > .action")[0].onclick = start_order;
                 document.querySelectorAll("#current_order > .action")[0].innerHTML = "Starta";
             } else if (orders[0]["phase"] == 2) {
-                document.querySelectorAll("#current_order > .action")[0].onclick = add_products;
-                document.querySelectorAll("#current_order > .action")[0].innerHTML = "Avsluta / Lägg till varor";
+                document.querySelectorAll("#current_order > .action")[0].onclick = complete_order;
+                document.querySelectorAll("#current_order > .action")[0].innerHTML = "Färdig";
             }
         }
     }, "phase=1&phase=2");
@@ -84,7 +84,13 @@ function start_order() {
     location.reload();
 }
 
-function add_products(){
+function complete_order(){
     var order_number = document.querySelectorAll("#current_order > .order_number")[0].innerHTML;
-    location.href = location.origin + "/admin/new_purchase?order_number=" + order_number + "&next=admin_route.map";
+    var order_number = document.querySelectorAll("#current_order > .order_number")[0].innerHTML;
+    getJSON("POST", "/admin/complete_order", function (err) {
+        if (err !== null) {
+            alert("Something went wrong: " + err);
+        }
+    }, "order_number=" + order_number);
+    location.reload();
 }
