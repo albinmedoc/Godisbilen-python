@@ -22,8 +22,13 @@
     border-radius: 15px;
     margin: 0 0 20px 0;
 }
+
 #queue_position > h2{
     margin: 0;
+}
+
+#order_info > img{
+    width: 100%;
 }
 
 #order_info > h3{

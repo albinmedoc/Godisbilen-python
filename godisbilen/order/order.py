@@ -1,22 +1,24 @@
 from datetime import datetime, timedelta
 from flask import current_app
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, or_
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, or_, select
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 from godisbilen.app import db
+from godisbilen.order_number import OrderNumber
 from godisbilen.user import User
 from godisbilen.location import Location
 from godisbilen.region import Region
-from .utils import random_order_number
 
 class Order(db.Model):
     __tablename__ = "order"
-    order_number = Column(String(20), primary_key=True, default=random_order_number)
+    id = Column(Integer, primary_key=True)
+    order_number_id = Column(Integer, ForeignKey("order_number.id"), nullable=False)
+    order_number = relationship("OrderNumber")
     location_id = Column(Integer, ForeignKey("location.id"), nullable=False)
     location = relationship("Location", back_populates="orders")
     user_id = Column(Integer, ForeignKey("person.id"), nullable=False)
     user = relationship("User", back_populates="orders")
     phase = Column(Integer, default=1)
-    placed = Column(DateTime, nullable=False, default=datetime.now)
     estimated_delivery = Column(DateTime, nullable=True)
     completed = Column(DateTime, nullable=True)
     
@@ -47,10 +49,18 @@ class Order(db.Model):
         # Add stoptime (8min) 
         time = time + len(orders) * current_app.config["STOP_TIME"]
         estimated_delivery = now + timedelta(seconds=time)
-        order = Order(location=location, user=user, estimated_delivery=estimated_delivery, placed=now)
+        order = Order(order_number=OrderNumber(sufix="O"), location=location, user=user, estimated_delivery=estimated_delivery)
         db.session.add(order)
         db.session.commit()
         return order
+    
+    @hybrid_property
+    def placed(self):
+        return self.order_number.created
+    
+    @placed.expression
+    def placed(cls):
+        return select([OrderNumber.created]).where(OrderNumber.id==cls.order_number_id).label("placed")
 
     @property
     def queue_position(self):
@@ -61,18 +71,18 @@ class Order(db.Model):
     @property
     def status(self):
         if(self.phase == 1):
-            return "Queueing"
+            return "Köande"
         elif(self.phase == 2):
-            return "On going"
+            return "Pågående"
         elif(self.phase == 3):
-            return "Completed"
+            return "Färdig"
         else:
             return None
 
     @property
     def json(self):
         temp =  {}
-        temp["order_number"] = self.order_number
+        temp["order_number"] = self.order_number.number
         temp["estimated_delivery"] = self.estimated_delivery
         temp["phase"] = self.phase
         temp["queue_position"] = self.queue_position
@@ -84,4 +94,4 @@ class Order(db.Model):
         return temp
 
     def __repr__(self):
-        return self.order_number
+        return self.order_number.number

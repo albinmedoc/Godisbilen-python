@@ -1,6 +1,6 @@
 from flask import current_app
 import googlemaps
-from sqlalchemy import Column, Integer, ForeignKey, func
+from sqlalchemy import Column, Integer, ForeignKey, func, select
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from geoalchemy2 import Geometry
@@ -35,6 +35,15 @@ class Location(db.Model):
     @lng.expression
     def lng(cls):
         return cls.coord.ST_X()
+    
+    @hybrid_property
+    def count_orders(self):
+        return len(self.orders)
+    
+    @count_orders.expression
+    def count_orders(cls):
+        from godisbilen.order import Order
+        return select([func.count(Order.id)]).where(Order.location_id == cls.id).label("count_orders")
     
     @property
     def street_name(self):

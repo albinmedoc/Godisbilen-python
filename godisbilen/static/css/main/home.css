@@ -9,6 +9,7 @@
     border-radius: 10px;
     transition: 0.2s;
     display: inline-block;
+    cursor: pointer;
 }
 
 #sub_header > div > a:hover{
@@ -17,38 +18,25 @@
     box-shadow: 8px 8px 8px -8px rgba(0,0,0,0.52);
 }
 
-#order_form{
-    overflow: hidden;
-    opacity: 0;
-    max-height: 0px;
-    transition: 0.5s ease-out;
-    padding: 0px;
-}
-
-#order_form.active{
-    max-height: 800px;
-    opacity: 1;
-    transition: 0.5s ease-in;
-    padding: 20px 0;
-}
-
-#campaigns_container{
-    text-align: center;
-    width: 90vw;
-    margin: 20px auto;
-}
-#campaigns_container > h4{
-    font-size: 30px;
-    color: #e86ed0;
-}
-
-#campaigns{
+#content_container{
+    margin-top: 20px;
+    width: 100vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    align-items: center;
+}
+@media screen and (max-width: 600px) {
+    #content_container{
+      margin-top: 0;
+    }
+  }
+
+#content_container > a{
+    margin: 20px;
 }
 
-.campaign > img{
-    height: 400px;
-    margin: 20px;
+#content_container > a > img{
+    max-width: 470px;
+    width: 100%;
 }

@@ -14,7 +14,6 @@ Order placerad
             <h2>Vi ses snart!</h2>
         </section>
         <div id="queue_position">
-            <h2>Köplats: {{ order.queue_position }}</h2>
             <h2>Beräknad leverans: {{ order.estimated_delivery.time().strftime("%H:%M") }}</h2>
         </div>
         <section id="order_info">
@@ -24,7 +23,7 @@ Order placerad
             <h3>Leveransaddress:</h3>
             <h4>{{ order.location.street_name }} {{ order.location.street_number }}, {{ order.location.postal_town }}</h4>
             <h3>Ordernummer:</h3>
-            <h4>{{ order.order_number }}</h4>
+            <h4>{{ order.order_number.number }}</h4>
         </section>
     </div>
 {% endblock main %}

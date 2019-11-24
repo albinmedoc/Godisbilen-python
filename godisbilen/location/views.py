@@ -2,17 +2,20 @@ from flask_login import current_user
 from godisbilen.admin.views import AdminView
 
 class LocationView(AdminView):
-    column_searchable_list = []
+    column_searchable_list = ["id", "region.name"]
+    column_sortable_list = ["id", "region.name", "lat", "lng", "count_orders"]
     page_size = 50
     can_view_details = True
     create_modal = False
-    column_list = ("id", "street_name", "street_number", "lat", "lng", "region")
+    column_list = ["id", "street_name", "street_number", "lat", "lng", "region.name", "count_orders"]
     column_labels = {
+        "id": "Id",
         "street_name": "Gatunamn",
         "street_number": "Gatunummer",
         "lat": "Latitude",
         "lng": "Longitude",
-        "region": "Region",
+        "region.name": "Region",
+        "count_orders": "Antal ordrar"
     }
 
     def is_visible(self):

@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, ValidationError
 from wtforms.fields.html5 import EmailField
-from godisbilen.order import Order
+from godisbilen.order_number import OrderNumber
 from godisbilen.form_fields import DatalistField
 
 class ContactForm(FlaskForm):
@@ -15,6 +15,6 @@ class ContactForm(FlaskForm):
 
     def validate_order_number(self, order_number):
         if(order_number.data.strip() != ""):
-            order = Order.query.filter_by(order_number=order_number.data).first()
-            if(not order):
+            order_number = OrderNumber.query.filter_by(order_number=order_number.data).first()
+            if(not order_number):
                 raise ValidationError("Det finns ingen order med detta ordernummer!")

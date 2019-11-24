@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block main %}
 <section id="sub_header">
-    <h3>Skapa erbjudande</h3>
+    <h3>{{ "Skapa" if(request.endpoint == "create") else "Uppdatera" }} erbjudande</h3>
     <p>Detta kommer göra alla kunder glada :D</p>
 </section>
 <form method="POST" class="responsive_form" id="campaign_form" enctype="multipart/form-data" novalidate>

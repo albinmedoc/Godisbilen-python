@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, select
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, func, select
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from flask_login import UserMixin
@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):
     id = Column(Integer, primary_key=True)
     phone_number = Column(String, unique=True, nullable=False)
     orders = relationship("Order", back_populates="user")
-    campaigns = relationship("CampaignUsers", back_populates="user")
+    campaigns = relationship("CampaignOrder", back_populates="user")
     roles = db.relationship("Role", secondary=user_roles, backref="users")
     admin = relationship("Admin", uselist=False, back_populates="user")
 
@@ -35,7 +35,8 @@ class User(db.Model, UserMixin):
     
     @count_orders.expression
     def count_orders(cls):
-        return cls.orders.count()
+        from godisbilen.order import Order
+        return select([func.count(Order.id)]).where(Order.user_id == cls.id).label("count_orders")
     
     @property
     def home_adress(self):

@@ -1,1 +1,1 @@
-from .campaign import Campaign, CampaignUsers
+from .campaign import Campaign, CampaignOrder

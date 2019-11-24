@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for
 from flask_login import current_user
+from godisbilen.order_number import OrderNumber
 from godisbilen.order import Order, OrderForm
 from godisbilen.user import roles_accepted
 from godisbilen.location import Location
@@ -10,10 +11,11 @@ bp_order = Blueprint("order", __name__)
 
 @bp_order.route("/order_confirmation/<order_number>")
 def order_confirmation(order_number):
+    order_number = OrderNumber.query.filter_by(number=order_number).first()
     order = Order.query.filter_by(order_number=order_number).first()
     if(not order):
         return "Ordern hittades inte"
-    return render_template("order/order_confirmation.html", order=order)
+    return render_template("order/confirmation.html", order=order)
 
 @bp_order.route("/get_orders", methods=["GET", "POST"])
 @roles_accepted("Admin")

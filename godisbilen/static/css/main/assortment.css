@@ -1,0 +1,31 @@
+#assortment{
+    margin: 20px auto;
+    max-width: 500px;
+    padding: 0 10px;
+}
+
+#car_image_container > img{
+    width: 100%;
+}
+
+.assortment_table{
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.assortment_table tr{
+    border: 1px solid #ddd;
+}
+
+.assortment_table td{
+    padding: 8px;
+}
+
+.assortment_table tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+.assortment_table td:nth-child(2){
+    text-align: right;
+}

@@ -1,0 +1,226 @@
+{% extends "layout.html" %}
+{% block title %}
+Vårt sortiment
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main/assortment.css') }}">
+{% endblock css %}
+{% block main %}
+<section id="sub_header">
+    <h3>Vårt sortiment</h3>
+    <p>Här finner du alla produkter i godisbilen.</p>
+</section>
+<div id="assortment">
+    <div id="car_image_container">
+        <img id="car_image" alt="Godisbilens innehåll" src="{{ url_for('static', filename='img/car/car_inside.png') }}">
+    </div>
+    <section class="category_container">
+        <h4>Drycker</h4>
+        <table class="assortment_table">
+            <tr>
+                <td>Coca-Cola Energy 25cl</td>
+                <td>20kr</td>
+            </tr>
+            <tr>
+                <td>2st Coca-Cola Energy (25cl)</td>
+                <td>30kr</td>
+            </tr>
+            <tr>
+                <td>Coca-Cola 33cl</td>
+                <td>15kr</td>
+            </tr>
+            <tr>
+                <td>Coca-Cola Zero 33cl</td>
+                <td>15kr</td>
+            </tr>
+            <tr>
+                <td>Fanta 33cl</td>
+                <td>15kr</td>
+            </tr>
+            <tr>
+                <td>Fanta Exotic 33cl</td>
+                <td>15kr</td>
+            </tr>
+            <tr>
+                <td>Sprite 33cl</td>
+                <td>15kr</td>
+            </tr>
+            <tr>
+                <td>4st Läsk (33cl)</td>
+                <td>40kr</td>
+            </tr>
+            <tr>
+                <td>Capri-Sun Orange 20cl</td>
+                <td>8kr</td>
+            </tr>
+            <tr>
+                <td>Capri-Sun Safari Fruits 20cl</td>
+                <td>8kr</td>
+            </tr>
+            <tr>
+                <td>10st Capri-Sun (20cl)</td>
+                <td>60kr</td>
+            </tr>
+        </table>
+    </section>
+    <section class="category_container">
+        <h4>Godis</h4>
+        <table class="assortment_table">
+            <tr>
+                <td>Lösviktsgodis</td>
+                <td>9,90kr/hg</td>
+            </tr>
+            <tr>
+                <td>Gott & Blandat</td>
+                <td>25kr</td>
+            </tr>
+            <tr>
+                <td>Ahlgrens Bilar</td>
+                <td>25kr</td>
+            </tr>
+            <tr>
+                <td>Ahlgrens Bilar Saltlakrits</td>
+                <td>25kr</td>
+            </tr>
+            <tr>
+                <td>Polly Ahlgrens Bilar</td>
+                <td>25kr</td>
+            </tr>
+            <tr>
+                <td>Djungelvrål</td>
+                <td>15kr</td>
+            </tr>
+            <tr>
+                <td>Zoo Påse</td>
+                <td>15kr</td>
+            </tr>
+            <tr>
+                <td>Pingvinstång</td>
+                <td>6kr</td>
+            </tr>
+            <tr>
+                <td>4st Pingvinstänger</td>
+                <td>20kr</td>
+            </tr>
+            <tr>
+                <td>Kexchoklad</td>
+                <td>10kr</td>
+            </tr>
+            <tr>
+                <td>4st Kexchoklad</td>
+                <td>30kr</td>
+            </tr>
+            <tr>
+                <td>Delicatoboll</td>
+                <td>10kr</td>
+            </tr>
+            <tr>
+                <td>Punschrulle</td>
+                <td>10kr</td>
+            </tr>
+            <tr>
+                <td>Greta Gris</td>
+                <td>15kr</td>
+            </tr>
+            <tr>
+                <td>Snoris Gris</td>
+                <td>15kr</td>
+            </tr>
+            <tr>
+                <td>Mars*</td>
+                <td>12kr</td>
+            </tr>
+            <tr>
+                <td>Snickers*</td>
+                <td>12kr</td>
+            </tr>
+            <tr>
+                <td>Twix*</td>
+                <td>12kr</td>
+            </tr>
+            <tr>
+                <td>Bounty*</td>
+                <td>12kr</td>
+            </tr>
+            <tr>
+                <td>Skotte*</td>
+                <td>12kr</td>
+            </tr>
+            <tr>
+                <td>Pigall*</td>
+                <td>12kr</td>
+            </tr>
+            <tr>
+                <td>Fransk Nougat*</td>
+                <td>12kr</td>
+            </tr>
+            <tr>
+                <td>Japp*</td>
+                <td>12kr</td>
+            </tr>
+            <tr>
+                <td>Daim*</td>
+                <td>12kr</td>
+            </tr>
+            <tr>
+                <td>Dubbel Nougat*</td>
+                <td>12kr</td>
+            </tr>
+            <tr>
+                <td>3st Dubbla stycksaker (Makerat med *)</td>
+                <td>30kr</td>
+            </tr>
+        </table>
+    </section>
+    <section class="category_container">
+        <h4>Snacks</h4>
+        <table class="assortment_table">
+            <tr>
+                <td>Estrella Sourcream & Onion Chips</td>
+                <td>25kr</td>
+            </tr>
+            <tr>
+                <td>Estrella Dillchips</td>
+                <td>25kr</td>
+            </tr>
+            <tr>
+                <td>Estrella Grillchips</td>
+                <td>25kr</td>
+            </tr>
+            <tr>
+                <td>Estrella Saltade Chips</td>
+                <td>25kr</td>
+            </tr>
+            <tr>
+                <td>Estrella Jordnötsringar</td>
+                <td>25kr</td>
+            </tr>
+            <tr>
+                <td>Estrella Jordnötter</td>
+                <td>27kr</td>
+            </tr>
+            <tr>
+                <td>OLW Ostbågar</td>
+                <td>25kr</td>
+            </tr>
+            <tr>
+                <td>Pringles Orginal</td>
+                <td>30kr</td>
+            </tr>
+            <tr>
+                <td>Pringles Sourcream & Onion</td>
+                <td>30kr</td>
+            </tr>
+            <tr>
+                <td>Estrella Popcorn</td>
+                <td>15kr</td>
+            </tr>
+            <tr>
+                <td>Estrella Popcorn Cheddar</td>
+                <td>15kr</td>
+            </tr>
+        </table>
+    </section>
+</div>
+{% endblock main %}

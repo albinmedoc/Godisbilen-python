@@ -1,6 +1,12 @@
-#info{
+#info > section{
     max-width: 500px;
     margin: 50px auto;
     font-size: 20px;
     line-height: 30px;
+}
+
+#info > section >img{
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
 }

@@ -4,6 +4,12 @@ var currrent_pos_marker = undefined;
 var currrent_pos_radius = undefined;
 var infoWindow = null;
 
+addLiveEventListeners(".pin_complete", "click", function(e){
+    if(!confirm("Har du slutfört leveransen?")){
+        e.preventDefault();
+    }
+});
+
 //Uppdatera ordrar vartannan minut
 setInterval(function () {
     reload_markers();
@@ -42,20 +48,19 @@ function show_markers() {
 
                 google.maps.event.addListener(marker, "click", (function (marker, i) {
                     return function () {
-                        infowindow.setContent("<a target='_blank' href='https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + orders[i]["lat"] + "," + orders[i]["lng"] + "'>" + orders[i]["street"] + " " + orders[i]["street_number"] + "<br><a href='sms:" + orders[i]["tel"] + "'</a>" + orders[i]["tel"]);
+                        infowindow.setContent("<a target='_blank' href='https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + orders[i]["lat"] + "," + orders[i]["lng"] + "'>" + orders[i]["street"] + " " + orders[i]["street_number"] + "<br><a href='sms:" + orders[i]["tel"] + "'</a>" + orders[i]["tel"] + "<br><a class='pin_complete' href='/admin/complete_order/" + orders[i]["order_number"] + "'>Färdig</a>");
                         infowindow.open(map, marker);
                     }
                 })(marker, i));
             }
             document.querySelectorAll("#current_order > .order_number")[0].innerHTML = orders[0]["order_number"];
+            document.querySelectorAll("#current_order > .estimated_delivery")[0].innerHTML = Date(orders[0]["estimated_delivery"]);
             document.querySelectorAll("#current_order > .address")[0].innerHTML = "<a target='_blank' href='https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + orders[0]["lat"] + "," + orders[0]["lng"] + "'>" + orders[0]["street"] + " " + orders[0]["street_number"];
             document.querySelectorAll("#current_order > .phone_number")[0].innerHTML = "<a href='sms:" + orders[0]["tel"] + "'</a>" + orders[0]["tel"];
             if (orders[0]["phase"] == 1) {
-                document.querySelectorAll("#current_order > .action")[0].onclick = start_order;
-                document.querySelectorAll("#current_order > .action")[0].innerHTML = "Starta";
+                document.querySelectorAll("#current_order > .action")[0].innerHTML = "<a href='/admin/start_order/" + orders[0]["order_number"] + "'>Starta</a>";
             } else if (orders[0]["phase"] == 2) {
-                document.querySelectorAll("#current_order > .action")[0].onclick = complete_order;
-                document.querySelectorAll("#current_order > .action")[0].innerHTML = "Färdig";
+                document.querySelectorAll("#current_order > .action")[0].innerHTML = "<a href='/admin/complete_order/" + orders[0]["order_number"] + "'>Färdig</a>";
             }
         }
     }, "phase=1&phase=2");
@@ -67,30 +72,15 @@ function delete_markers() {
         markers[i].setMap(null);
     }
     markers = [];
+    document.querySelectorAll("#current_order > .order_number")[0].innerHTML = null;
+    document.querySelectorAll("#current_order > .estimated_delivery")[0].innerHTML = null;
+    document.querySelectorAll("#current_order > .address")[0].innerHTML = null;
+    document.querySelectorAll("#current_order > .phone_number")[0].innerHTML = null;
+    document.querySelectorAll("#current_order > .action")[0].onclick = null;
+    document.querySelectorAll("#current_order > .action")[0].innerHTML = "Ingen order";
 };
 
 function reload_markers() {
     delete_markers();
     show_markers();
-}
-
-function start_order() {
-    var order_number = document.querySelectorAll("#current_order > .order_number")[0].innerHTML;
-    getJSON("POST", "/admin/start_order", function (err) {
-        if (err !== null) {
-            alert("Something went wrong: " + err);
-        }
-    }, "order_number=" + order_number);
-    location.reload();
-}
-
-function complete_order(){
-    var order_number = document.querySelectorAll("#current_order > .order_number")[0].innerHTML;
-    var order_number = document.querySelectorAll("#current_order > .order_number")[0].innerHTML;
-    getJSON("POST", "/admin/complete_order", function (err) {
-        if (err !== null) {
-            alert("Something went wrong: " + err);
-        }
-    }, "order_number=" + order_number);
-    location.reload();
 }

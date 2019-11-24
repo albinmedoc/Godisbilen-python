@@ -1,17 +1,14 @@
-import os
-import secrets
 from datetime import datetime
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, current_app
 from flask_login import login_user, logout_user, current_user
 from sqlalchemy import func
 from godisbilen.app import db
+from godisbilen.order_number import OrderNumber
 from godisbilen.order import Order
 from godisbilen.region import Region
 from godisbilen.user import User, roles_accepted
 from godisbilen.admin import Admin
 from godisbilen.admin.forms import AdminLoginForm, AdminRegisterForm, AdminRegionForm
-from godisbilen.campaign import Campaign
-from godisbilen.campaign.forms import CreateCampaignForm
 
 bp_admin = Blueprint("admin_route", __name__)
 
@@ -20,31 +17,31 @@ bp_admin = Blueprint("admin_route", __name__)
 def map():
     return render_template("admin/map.html")
 
-@bp_admin.route("/admin/start_order", methods=["POST"])
+@bp_admin.route("/admin/start_order/<order_number>", methods=["GET"])
 @roles_accepted("Admin")
-def start_order():
-    order_number = request.values.get("order_number")
+def start_order(order_number):
     if(order_number):
-        order = Order.query.filter_by(order_number=order_number).first()
-        if(order and order.phase == 1):
-            order.phase = 2
-            db.session.commit()
-            return jsonify(True), 200, {"ContentType": "application/json"}
-    return jsonify(False), 400, {"ContentType": "application/json"}
+        order_number = OrderNumber.query.filter_by(number=order_number).first()
+        if(order_number):
+            order = Order.query.filter_by(order_number=order_number).first()
+            if(order and order.phase == 1):
+                order.phase = 2
+                db.session.commit()
+    return redirect(url_for("admin_route.map"))
 
-@bp_admin.route("/admin/complete_order", methods=["POST"])
+@bp_admin.route("/admin/complete_order/<order_number>", methods=["GET"])
 @roles_accepted("Admin")
-def compete_order():
-    order_number = request.values.get("order_number", default=None)
+def complete_order(order_number):
     if(order_number):
-        order = Order.query.filter_by(order_number=order_number).first()
-        if(order):
-            order.phase = 3
-            if not order.completed:
-                order.completed = datetime.now()
-            db.session.commit()
-            return jsonify(True), 200, {"ContentType": "application/json"}
-    return jsonify(False), 400, {"ContentType": "application/json"}
+        order_number = OrderNumber.query.filter_by(number=order_number).first()
+        if(order_number):
+            order = Order.query.filter_by(order_number=order_number).first()
+            if(order):
+                order.phase = 3
+                if not order.completed:
+                    order.completed = datetime.now()
+                db.session.commit()
+    return redirect(url_for("admin_route.map"))
 
 @bp_admin.route("/admin/register", methods=["GET", "POST"])
 @roles_accepted( "Admin", "Developer")
@@ -90,32 +87,3 @@ def select_region():
                 current_user.admin.region = region
         db.session.commit()
     return redirect(url_for("admin_route.home"))
-
-@bp_admin.route("/admin/create_campaign", methods=["GET", "POST"])
-@roles_accepted("Admin")
-def create_campaign():
-    form = CreateCampaignForm()
-    if(request.method == "POST"):
-        if(form.validate_on_submit()):
-            # Save image
-            location = os.path.join(current_app.root_path, "static/img/campaign")
-            filename = secrets.token_hex(8) + ".png"
-            while os.path.isfile(os.path.join(location, filename)):
-                filename = secrets.token_hex(8) + ".png"
-
-            # Checking if upload directory exists
-            if(not os.path.exists(location)):
-                # Creating the directory if needed
-                os.makedirs(location)
-            
-            image = form.image.data
-            image.save(os.path.join(location, filename))
-            
-            start = datetime.combine(form.start_date.data, form.start_time.data)
-            end = datetime.combine(form.end_date.data, form.end_time.data)
-
-            campaign = Campaign(image=filename, info=form.info.data, terms=form.terms.data, start=start, end=end, delivery=form.delivery.data, per_user=form.per_user.data, per_address=form.per_address.data, amount=form.amount.data)
-            db.session.add(campaign)
-            db.session.commit()
-            return redirect(url_for("admin_route.home"))
-    return render_template("admin/create_campaign.html", form=form)

@@ -101,7 +101,6 @@
 .responsive_form input.error,
 .responsive_form textarea.error {
     border: 2px solid red;
-    animation: shake .3s backwards;
 }
 
 .responsive_form .info {

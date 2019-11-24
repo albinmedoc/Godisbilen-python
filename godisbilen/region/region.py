@@ -30,7 +30,7 @@ class Region(db.Model):
         return cls.bounds.ST_Centroid()
 
     @staticmethod
-    def get_bounds(regions=None, lat_lng=False):
+    def get_bounds(regions:list=None, lat_lng:bool=False):
         bounds = db.session.query(Region.name, func.ST_AsGeoJSON(Region.bounds))
         if(regions):
             bounds = bounds.filter(Region.name.in_(regions))

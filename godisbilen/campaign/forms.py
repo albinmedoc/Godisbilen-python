@@ -6,7 +6,7 @@ from wtforms.fields.html5 import TelField, IntegerField, DecimalField, DateField
 from wtforms.widgets import HiddenInput
 from wtforms.validators import DataRequired, Length, Optional
 from geoalchemy2 import WKTElement
-from godisbilen.campaign import Campaign, CampaignUsers
+from godisbilen.campaign import Campaign, CampaignOrder
 from godisbilen.user import User
 from godisbilen.location import Location
 from godisbilen.region import Region
@@ -40,7 +40,7 @@ class JoinCampaignForm(FlaskForm):
             return False
         user = User.query.filter_by(phone_number=self.phone_number.data).first()
         if(user):
-            user_order_count = CampaignUsers.query.filter_by(user=user).count()
+            user_order_count = CampaignOrder.query.filter_by(user=user).count()
             if(campaign.per_user and user_order_count >= campaign.per_user):
                 temp = list(self.phone_number.errors)
                 temp.append("Du har nått maxantalet ordrar för detta erbjudande (" + str(campaign.per_user) + "st).")
@@ -49,7 +49,7 @@ class JoinCampaignForm(FlaskForm):
 
         location = Location.query.filter_by(lat=self.lat.data, lng=self.lng.data).first()
         if(location):
-            location_order_count = CampaignUsers.query.filter_by(location=location).count()
+            location_order_count = CampaignOrder.query.filter_by(location=location).count()
             if(campaign.per_address and location_order_count >= campaign.per_address):
                 temp = list(self.search.errors)
                 temp.append("Adressen har nått maxantalet ordrar för detta erbjudande (" + str(campaign.per_address) + "st).")
@@ -57,8 +57,9 @@ class JoinCampaignForm(FlaskForm):
                 return False
         return True
 
-class CreateCampaignForm(FlaskForm):
+class CreateEditCampaignForm(FlaskForm):
     image = FileField("Bild", validators=[FileRequired(message="Du måste välja en bild.")])
+    title = StringField("Titel", validators=[DataRequired("Detta fält är obligatorisk."), Length(max=60, message="Max %(max)d tecken.")])
     info = StringField("Extra information", validators=[Length(max=1000, message="Max %(max)d tecken.")])
     terms = StringField("Villkor", validators=[Length(max=400, message="Max %(max)d tecken.")])
     start_date = DateField("Börjar (datum)", validators=[DataRequired("Detta fält är obligatorisk.")])

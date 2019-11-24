@@ -5,10 +5,8 @@ from flask_mail import Message
 from .utils import shop_open
 from .forms import ContactForm
 from godisbilen.app import mail, db
-from godisbilen.user import User
-from godisbilen.location import Location
 from godisbilen.order import Order, OrderForm
-from godisbilen.campaign import Campaign, CampaignUsers
+from godisbilen.campaign import Campaign, CampaignOrder
 from godisbilen.campaign.forms import JoinCampaignForm
 
 bp_main = Blueprint("main", __name__)
@@ -19,36 +17,12 @@ def home():
     order_form = OrderForm()
     if(order_form.validate_on_submit()):
         order = Order.create(order_form.phone_number.data, order_form.lat.data, order_form.lng.data)
-        return redirect(url_for("order.order_confirmation", order_number=order.order_number))
+        return redirect(url_for("order.order_confirmation", order_number=order.order_number.number))
     return render_template("main/home.html", shop_open=shop_open(), campaigns=campaigns, order_form=order_form)
 
-@bp_main.route("/products")
-def products():
-    with open(os.path.join(current_app.root_path, "products.json")) as json_file:
-        products = json.load(json_file)
-    return render_template("main/products.html", products=products)
-
-@bp_main.route("/campaign/<int:campaign_id>", methods=["GET", "POST"])
-def campaign(campaign_id):
-    campaign = Campaign.query.filter_by(id=campaign_id).first()
-    if(not campaign):
-        return "Erbjudandet hittades inte"
-    form = JoinCampaignForm()
-    form.campaign_id.data = campaign_id
-    if(form.validate_on_submit()):
-        # Join campaign
-        user = User.query.filter_by(phone_number=form.phone_number.data).first()
-        if(not user):
-            user = User(phone_number=form.phone_number.data)
-            db.session.add(user)
-        location = Location.query.filter_by(lat=form.lat.data, lng=form.lng.data).first()
-        if(not location):
-            location = Location(lat=form.lat.data, lng=form.lng.data)
-            db.session.add(location)
-        campaign.buyers.append(CampaignUsers(campaign_id=campaign_id, user=user, location=location))
-        db.session.commit()
-        return "Order lagd"
-    return render_template("main/campaign.html", campaign=campaign, form=form)
+@bp_main.route("/assortment")
+def assortment():
+    return render_template("main/assortment.html")
 
 @bp_main.route("/regions")   
 def regions():

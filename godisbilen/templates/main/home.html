@@ -1,16 +1,16 @@
 {% extends "layout.html" %}
 {% block css %}
-{{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main/home.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/address_picker.css') }}">
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/address_picker.css') }}">
 {% endblock css %}
 {% block javascript %}
-{{ super() }}
-<script src="{{ url_for('static', filename='js/main/order_form.js') }}"></script>
-<script src="{{ url_for('static', filename='js/address_picker.js') }}"></script>
-<script
-    src="https://maps.googleapis.com/maps/api/js?key={{ config.GOOGLE_MAPS_API_KEY }}&libraries=places,geometry&callback=initMap"
-    async defer></script>
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/main/home.js') }}"></script>
+    {% if shop_open %}
+        <script src="{{ url_for('static', filename='js/address_picker.js') }}"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ config.GOOGLE_MAPS_API_KEY }}&libraries=places,geometry&callback=initMap" async defer></script>
+    {% endif %}
 {% endblock javascript %}
 {% block main %}
 <section id="sub_header">
@@ -24,61 +24,58 @@
         {% endif %}
     </div>
 </section>
-<form id="order_form" method="POST" class="responsive_form">
-    {{ order_form.hidden_tag() }}
-    <div class="form_row">
-        <div class="input_container">
-            <p class="info">Minsta belopp: 100kr</p>
-            <p class="info">Betalning sker vid leverans (endast Swish och kort)</p>
-        </div>
-    </div>
-    <div class="form_row">
-        <div class="input_container">
-            {{ order_form.phone_number(placeholder=" ", class="error" if order_form.phone_number.errors) }}
-            {{ order_form.phone_number.label() }}
-        </div>
-    </div>
-    <div class="form_row">
-        <div class="input_container">
-            {{ order_form.search(placeholder=" ", class="required error" if order_form.search.errors else "required") }}
-            {{ order_form.search.label() }}
-            <div class="errors">
-                {% for error in order_form.search.errors %}
-                    <p class="error">{{ error }}</p>
-                {% endfor %}
+{% if shop_open %}
+    <form id="address_picker_form" method="POST" class="responsive_form">
+        {{ order_form.hidden_tag() }}
+        <div class="form_row">
+            <div class="input_container">
+                <p class="info">Minsta belopp: 100kr</p>
+                <p class="info">Betalning sker vid leverans (endast Swish och kort)</p>
             </div>
         </div>
-    </div>
-    <div id="map_container">
-        <div id="map"></div>
-        <div id="infowindow-content">
-            <img width="16" height="16" id="place-icon" alt="Plats ikon">
-            <span id="place-name" class="title"></span><br>
-            <span id="postal"></span>
+        <div class="form_row">
+            <div class="input_container">
+                {{ order_form.phone_number(placeholder=" ", class="error" if order_form.phone_number.errors) }}
+                {{ order_form.phone_number.label() }}
+            </div>
         </div>
-    </div>
-    <div class="form_row">
-        <div class="input_container">
-            {{ order_form.submit() }}
+        <div class="form_row">
+            <div class="input_container">
+                {{ order_form.search(placeholder=" ", class="required error" if order_form.search.errors else "required") }}
+                {{ order_form.search.label() }}
+                <div class="errors">
+                    {% for error in order_form.search.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="form_row">
-        <div class="input_container">
-            <p class="info">Genom att klicka på "Skicka" accepterar jag de <a href="{{  url_for('main.tos') }}">allmänna villkoren</a> och <a href="{{  url_for('main.tos', _anchor='gdpr') }}">personuppgiftspolicyn</a>.</p>
+        <div id="map_container">
+            <div id="map"></div>
+            <div id="infowindow-content">
+                <img width="16" height="16" id="place-icon" alt="Plats ikon">
+                <span id="place-name" class="title"></span><br>
+                <span id="postal"></span>
+            </div>
         </div>
-    </div>
-</form>
-<section id="campaigns_container">
-    <h4>Nuvarande Erbjudande</h4>
-    <div id="campaigns">
-        <a class="campaign">
-            <img src="{{ url_for('static', filename='img/static_campaign/dubbla_stycksaker.png') }}" alt="Dubbla stycksaker">
-        </a>
-        {% for campaign in campaigns%}
-            <a href="{{ url_for('main.campaign', campaign_id=campaign.id) }}" class="campaign">
-                <img src="{{ url_for('static', filename='img/campaign/' + campaign.image) }}" alt="Erbjudande">
-            </a>
-        {% endfor %}
-    </div>
-</section>
+        <div class="form_row">
+            <div class="input_container">
+                {{ order_form.submit() }}
+            </div>
+        </div>
+        <div class="form_row">
+            <div class="input_container">
+                <p class="info">Genom att klicka på "Skicka" accepterar jag de <a href="{{  url_for('main.tos') }}">allmänna villkoren</a> och <a href="{{  url_for('main.tos', _anchor='gdpr') }}">personuppgiftspolicyn</a>.</p>
+            </div>
+        </div>
+    </form>
+{% endif %}
+<div id="content_container">
+    <a>
+        <img alt="Bild över kampanj" src="{{ url_for('static', filename='img/static_campaign/dubbla_stycksaker.png') }}">
+    </a>
+    <a href="{{ url_for('main.assortment') }}">
+        <img alt="Godisbilens innehåll" src="{{ url_for('static', filename='img/car/car_inside_link.png') }}">
+    </a>
+</div>
 {% endblock main %}

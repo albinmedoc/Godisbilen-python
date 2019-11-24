@@ -2,6 +2,7 @@ import os
 from flask import Flask, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
+from flask_admin.contrib.fileadmin import FileAdmin
 from flask_admin.base import MenuLink
 from flask_mail import Mail
 from flask_bcrypt import Bcrypt
@@ -37,32 +38,40 @@ def create_app(config_class=Config, create_db=False):
     login.init_app(app)
 
     from .main.routes import bp_main
+    from .campaign.routes import bp_campaign
     from .order.routes import bp_order
     from .location.routes import bp_loc
     from .admin.routes import bp_admin
     app.register_blueprint(bp_main)
+    app.register_blueprint(bp_campaign)
     app.register_blueprint(bp_order)
     app.register_blueprint(bp_loc)
     app.register_blueprint(bp_admin)
 
+    from godisbilen.order_number import OrderNumber
     from godisbilen.order import Order
     from godisbilen.user import User
     from godisbilen.admin import Admin
     from godisbilen.user.role import Role
     from godisbilen.location import Location
     from godisbilen.region import Region
-    from godisbilen.campaign import Campaign, CampaignUsers
+    from godisbilen.campaign import Campaign, CampaignOrder
 
     if(create_db):
         with app.test_request_context():
             db.create_all()
 
     from godisbilen.order.views import OrderView
+    from godisbilen.campaign.views import CampaignView, CampaignOrderView
     from godisbilen.user.views import UserView
     from godisbilen.location.views import LocationView
     from godisbilen.region.views import RegionView
 
+    path = os.path.join(os.path.dirname(__file__), "static")
+    admin.add_view(FileAdmin(path, "/static/", name="Filer"))
     admin.add_view(OrderView(Order, db.session, endpoint="orders", name="Ordrar", menu_icon_type="glyph", menu_icon_value="glyphicon-earphone"))
+    admin.add_view(CampaignView(Campaign, db.session, endpoint="campaigns", name="Erbjudanden", menu_icon_type="glyph", menu_icon_value="glyphicon-certificate"))
+    admin.add_view(CampaignOrderView(CampaignOrder, db.session, endpoint="campaign_orders", name="Erbjudande ordrar", menu_icon_type="glyph", menu_icon_value="glyphicon-calendar"))
     admin.add_view(UserView(User, db.session, endpoint="users", name="Användare", menu_icon_type="glyph", menu_icon_value="glyphicon-user"))
     admin.add_view(LocationView(Location, db.session, endpoint="location", name="Adresser", menu_icon_type="glyph", menu_icon_value="glyphicon-map-marker"))
     admin.add_view(RegionView(Region, db.session, endpoint="region", name="Områden", menu_icon_type="glyph", menu_icon_value="glyphicon-globe"))

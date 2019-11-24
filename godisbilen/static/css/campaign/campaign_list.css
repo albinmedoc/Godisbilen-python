@@ -1,0 +1,23 @@
+#campaigns{
+    max-width: 1000px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.campaigns_container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.campaigns_container > *{
+    height: 250px;
+    margin: 10px;
+}
+.campaigns_container img{
+    height: 100%;
+}
+
+.create_campaign > img{
+    height: 150px;
+    width: 150px;
+    margin: 50px;
+}
