@@ -17,6 +17,24 @@ var getJSON = function (method, url, callback, params) {
     xhr.send(params);
 };
 
+function addLiveEventListeners(selector, event, handler){
+    document.querySelector("body").addEventListener(
+         event
+        ,function(evt){
+            var target = evt.target;
+            while (target != null){
+                var isMatch = target.matches ? target.matches(selector) : target.msMatchesSelector(selector);
+                if (isMatch){
+                    handler(evt);
+                    return;
+                }
+                target = target.parentElement;
+            }
+        }
+        ,true
+    );
+}
+
 
 var city_boundaries = {};
 getJSON("POST", "/get_city_boundaries", function (err, data) {
