@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta
+from flask_mail import Message
 from flask import current_app
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, or_, select
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
-from godisbilen.app import db
+from godisbilen.app import db, mail
 from godisbilen.order_number import OrderNumber
 from godisbilen.user import User
 from godisbilen.location import Location
@@ -40,7 +41,7 @@ class Order(db.Model):
         locations = [order.location for order in orders] + [location]
 
         # Should start at region center to first location + startup
-        time = 240 + locations[0].time_between([db.session.scalar(location.region.center.ST_Y()), db.session.scalar(location.region.center.ST_X())])
+        time = current_app.config["START_TIME"] + locations[0].time_between([db.session.scalar(location.region.center.ST_Y()), db.session.scalar(location.region.center.ST_X())])
         last_location = None
         for _location in locations:
             if(last_location):
@@ -52,6 +53,13 @@ class Order(db.Model):
         order = Order(order_number=OrderNumber(sufix="O"), location=location, user=user, estimated_delivery=estimated_delivery)
         db.session.add(order)
         db.session.commit()
+
+        # Send mails to admins assigned to the region
+        recipients = [admin.email for admin in location.region.admins]
+        msg = Message(subject="Godisbilen - Ny Order", recipients=recipients)
+        msg.body = "Ny order från " + user.phone_number + " på adressen: " + location.street_name + " " + str(location.street_number) + ". Beräknad leverans: " + estimated_delivery.time().strftime("%H:%M")
+        mail.send(msg)
+
         return order
     
     @hybrid_property
