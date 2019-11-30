@@ -10,8 +10,11 @@ class Config(object):
     SECRET_KEY = "SECRET_KEY"
     FLASK_DEBUG=1
 
+    # Time for the driver to jump in the van
+    START_TIME = 240 # 4 min
+
     # How long does the van stay at each stop (seconds)
-    STOP_TIME = 480
+    STOP_TIME = 480 # 8 min
 
     GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
     GOOGLE_ANALYTICS_TRACK_ID = os.getenv("GOOGLE_ANALYTICS_TRACK_ID")
@@ -26,7 +29,8 @@ class Config(object):
 
     OPENING_HOURS = {
         "4": [[time(18), time(23, 59, 59, 59)]],
-        "5": [[time(0), time(1)], [time(18), time(23, 59, 59, 59)]]
+        "5": [[time(0), time(2)], [time(18), time(23, 59, 59, 59)]],
+        "6": [[time(0), time(1)]]
     }
 
     #Database
