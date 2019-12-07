@@ -60,7 +60,7 @@ class Location(db.Model):
         data = gmaps.reverse_geocode((self.lat, self.lng))[0]
         for x in data["address_components"]:
             if("street_number" in x["types"]):
-                return int(x["long_name"])
+                return x["long_name"]
         return None
     
     @property
