@@ -9,13 +9,13 @@ from godisbilen.app import db
 
 bp_order = Blueprint("order", __name__)
 
-@bp_order.route("/order_confirmation/<order_number>")
-def order_confirmation(order_number):
+@bp_order.route("/order_receipt/<order_number>")
+def receipt(order_number):
     order_number = OrderNumber.query.filter_by(number=order_number).first()
     order = Order.query.filter_by(order_number=order_number).first()
     if(not order):
         return "Ordern hittades inte"
-    return render_template("order/confirmation.html", order=order)
+    return render_template("order/receipt.html", order=order)
 
 @bp_order.route("/get_orders", methods=["GET", "POST"])
 @roles_accepted("Admin")

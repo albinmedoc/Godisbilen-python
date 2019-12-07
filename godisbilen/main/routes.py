@@ -17,7 +17,7 @@ def home():
     order_form = OrderForm()
     if(order_form.validate_on_submit()):
         order = Order.create(order_form.phone_number.data, order_form.lat.data, order_form.lng.data)
-        return redirect(url_for("order.order_confirmation", order_number=order.order_number.number))
+        return redirect(url_for("order.receipt", order_number=order.order_number.number))
     return render_template("main/home.html", shop_open=shop_open(), campaigns=campaigns, order_form=order_form)
 
 @bp_main.route("/assortment")
