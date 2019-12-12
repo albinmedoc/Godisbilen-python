@@ -30,7 +30,7 @@ class Config(object):
     OPENING_HOURS = {
         "4": [[time(17), time(23, 59, 59, 59)]],
         "5": [[time(0), time(1)], [time(16), time(23, 59, 59, 59)]],
-        "6": [[time(0), time(1)]]
+        "6": [[time(0), time(1)], [time(17), time(21, 30)]]
     }
 
     #Database
