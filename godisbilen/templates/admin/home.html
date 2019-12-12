@@ -13,15 +13,6 @@
     <p>Välkommen {{ current_user.admin.firstname + " " + current_user.admin.lastname }}!</p>
 </section>
 <div id="box_container">
-    <a class="box">
-        <h4>Arbetsområde</h4>
-        <form id="region_form" method="POST", action="{{ url_for('admin_route.select_region') }}">
-            {{ region_form.hidden_tag() }}
-            <span class="custom-dropdown">
-                {{ region_form.region() }}
-            </span>
-        </form>
-    </a>
     <a class="box" href="{{ url_for('admin_route.map') }}">
         <h4>Karta</h4>
         <img src="{{ url_for('static', filename='img/map.svg') }}">
