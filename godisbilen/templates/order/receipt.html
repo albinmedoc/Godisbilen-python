@@ -4,11 +4,11 @@ Order placerad
 {% endblock title %}
 {% block css %}
     {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/order/order_confirmation.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/order/receipt.css') }}">
 {% endblock css %}
 {% block main %}
     <div id="container">
-        <img src="{{ url_for('static', filename='img/order_confirmation.svg') }}" style="width:150px;">
+        <img src="{{ url_for('static', filename='img/check.svg') }}" style="width:150px;">
         <section id="message">
             <h1>Tack för din order!</h1>
             <h2>Vi ses snart!</h2>

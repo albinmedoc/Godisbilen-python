@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}
+Kontrollera information
+{% endblock title %}
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/order/confirmation.css') }}">
+{% endblock css %}
+{% block javascript %}
+    {{ super() }}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config.GOOGLE_MAPS_API_KEY }}&libraries=places,geometry&callback=initMap" async defer></script>
+{% endblock javascript %}
+{% block main %}
+    <div id="container">
+        <div id="map_container">
+            <div id="map"></div>
+            <div id="infowindow-content">
+                <img width="16" height="16" id="place-icon" alt="Plats ikon">
+            </div>
+        </div>
+    </div>
+    <form>
+        {{ order_form.hidden_tag() }}
+        {{ order_form.phone_number(placeholder=" ", class="error" if order_form.phone_number.errors) }}
+    </form>
+{% endblock main %}
