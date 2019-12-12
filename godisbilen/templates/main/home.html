@@ -18,8 +18,9 @@
         <h3>Öppettider</h3>
         <p>Fre: 17-01</p>
         <p>Lör: 16-01</p>
+        <p>Sön: 17-21:30</p>
         {% if shop_open %}
-        <a id="order_btn">Beställ nu</a>
+        <a id="order_btn">Extra öppet idag<br>Beställ nu</a>
         {% else %}
         <a>Stängt</a>
         {% endif %}
@@ -73,13 +74,10 @@
 {% endif %}
 <div id="content_container">
     <a>
-        <img alt="Bild över kampanj" src="{{ url_for('static', filename='img/static_campaign/erbjudande_.png') }}">
+        <img alt="Kör nu i Dalby" src="{{ url_for('static', filename='img/new_dalby.png') }}">
     </a>
     <a>
-        <img alt="Bild över kampanj" src="{{ url_for('static', filename='img/static_campaign/erbjudande__.png') }}">
-    </a>
-    <a>
-        <img alt="Bild över kampanj" src="{{ url_for('static', filename='img/static_campaign/erbjudande___.png') }}">
+        <img alt="Bild över kampanj" src="{{ url_for('static', filename='img/static_campaign/erbjudande.png') }}">
     </a>
     <a href="{{ url_for('main.assortment') }}">
         <img alt="Godisbilens innehåll" src="{{ url_for('static', filename='img/car/car_inside_link.png') }}">
