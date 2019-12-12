@@ -5,13 +5,18 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from geoalchemy2 import Geography
 from godisbilen.app import db
 
+admin_regions = db.Table("admin_regions",
+    db.Column("admin_id", db.Integer(), db.ForeignKey("admin.user_id")),
+    db.Column("region_id", db.Integer(), db.ForeignKey("region.id"))
+)
+
 class Region(db.Model):
     __tablename__ = "region"
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     locations = relationship("Location", back_populates="region")
     bounds = Column(Geography("POLYGON"))
-    admins = relationship("Admin", back_populates="region")
+    admins = relationship("Admin", secondary=admin_regions, back_populates="regions")
 
     @hybrid_property
     def area(self):

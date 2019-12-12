@@ -71,8 +71,7 @@ def logout():
 @bp_admin.route("/admin/home")
 @roles_accepted("Admin")
 def home():
-    region_form = AdminRegionForm(region=current_user.admin.region.id if current_user.admin.region else 0)
-    return render_template("admin/home.html", region_form=region_form)
+    return render_template("admin/home.html")
 
 @bp_admin.route("/admin/select_region", methods=["POST"])
 @roles_accepted("Admin")

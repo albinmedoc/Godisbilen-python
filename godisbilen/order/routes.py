@@ -23,7 +23,7 @@ def get_orders():
     phases = request.values.getlist("phase", type=int)
     all_regions = request.values.get("all_regions", default="false") in ["true", "True"]
     orders = db.session.query(Order)
-    if(not all_regions and current_user.admin.region):
+    if(not all_regions and current_user.admin.regions):
         orders = orders.join(Location).join(Region).filter(Region.id == current_user.admin.region.id)
     if(phases):
         orders = orders.filter(Order.phase.in_(phases))

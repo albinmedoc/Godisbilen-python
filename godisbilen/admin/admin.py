@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from godisbilen.app import db, bcrypt
 from godisbilen.user import User
+from godisbilen.region.region import admin_regions
 
 class Admin(db.Model):
     user_id = Column(Integer, ForeignKey("person.id"), primary_key=True)
@@ -10,8 +11,7 @@ class Admin(db.Model):
     lastname = Column(String(30))
     email = Column(String(60))
     password = Column(String(60))
-    region_id = Column(Integer, ForeignKey("region.id"))
-    region = relationship("Region", back_populates="admins")
+    regions = relationship("Region", secondary=admin_regions, back_populates="admins")
 
     def __repr__(self):
         return self.firstname + " " + self.lastname
