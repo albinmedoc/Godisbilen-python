@@ -8,6 +8,39 @@ from godisbilen.user import User
 from godisbilen.location import Location
 
 class Campaign(db.Model):
+    """
+    A class used to represent a Campaign
+
+    Attributes
+    ----------
+    id : int
+        The unique id of the campaign
+    image : str
+        The filename of the campaign image
+    title: str
+        The campaigns headline
+    info: str
+        Extra information about the campaign
+    terms: str
+        The terms you accept when ordering the campaign
+    start: datetime
+        When the campaign will open up
+    end: datetime
+        When the campaign will close
+    delivery: date
+        When the campaign will be delivered
+    per_user: int
+        Maximum order per user
+    per_address: int
+        Maximum order per address
+    amout: int
+        How many campaigns is in stock at the beginning
+    orders: list<CampaignOrder>
+        The orders of the campaign
+    count_orders: int
+        How many orders have been made
+    """
+
     __tablename__ = "campaign"
     id = Column(Integer, primary_key=True)
     image = Column(String(100))
@@ -32,6 +65,40 @@ class Campaign(db.Model):
                 
 
 class CampaignOrder(db.Model):
+    """
+    A class used to represent a Order of a Campaign
+
+    Attributes
+    ----------
+    id : int
+        The unique id of the order
+    order_number_id : int
+        The unique id of the OrderNumber object
+    order_number: OrderNumber
+        The OrderNumber object
+    campaign_id: int
+        The unique id of the Campaign object
+    campaign: Campaign
+        The Campaign
+    user_id: int
+        The orderer unique id
+    user: User
+        The User object of the orderer
+    location_id: int
+        The locations unique id
+    location: Location
+        The location object where the delevery should be made
+    delivered: datetime
+        When the campaign have been delivered
+    placed: datetime
+        When the order was made
+    
+    Methods
+    -------
+    create(campaign: Campaign, phone_number: str, lat: float, lng: float)
+        Creates a new order assigned to the specified campaign
+    """
+
     __tablename__ = "campaign_order"
     id = Column(Integer, primary_key=True)
     order_number_id = Column(Integer, ForeignKey("order_number.id"), nullable=False)
@@ -45,14 +112,17 @@ class CampaignOrder(db.Model):
     delivered = Column(DateTime, nullable=True)
 
     def create(campaign, phone_number, lat, lng):
+        # Creates the order number
         order_number = OrderNumber(sufix="C")
         db.session.add(order_number)
 
+        # Creates user if not exists
         user = User.query.filter_by(phone_number=phone_number).first()
         if(not user):
             user = User(phone_number=phone_number)
             db.session.add(user)
 
+        # Creates location if not exists
         location = Location.query.filter_by(lat=lat, lng=lng).first()
         if(not location):
             location = Location(lat=lat, lng=lng)

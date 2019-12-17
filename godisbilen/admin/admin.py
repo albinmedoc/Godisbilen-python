@@ -5,6 +5,31 @@ from godisbilen.user import User
 from godisbilen.region.region import admin_regions
 
 class Admin(db.Model):
+    """
+    A class used to represent an Admin
+
+    Attributes
+    ----------
+    user_id: int
+        The user_id of the admin
+    user: User
+        The user object of the admin
+    firstname: str
+        The admins firstname
+    lastname: str
+        The admins lastname
+    email: str
+        The admins email
+    password: str
+        The admins hashed password
+    regions: list<Region>
+        A list of regions assigned to the admin
+
+    Methods
+    -------
+    __repr__()
+        Returns a representation of the admin in a str-format
+    """
     user_id = Column(Integer, ForeignKey("person.id"), primary_key=True)
     user = relationship("User", back_populates="admin")
     firstname = Column(String(30))

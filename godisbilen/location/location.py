@@ -8,6 +8,40 @@ from godisbilen.app import db
 from godisbilen.region import Region
 
 class Location(db.Model):
+    """
+    A class used to represent a Location
+
+    Attributes
+    ----------
+    id : int
+        The unique id of the location
+    coord : TBA
+        The locations coordinates
+    region_id: int
+        The id of the region where the location is in
+    region: Region
+        The region where the location is in
+    orders: list<Order>
+        A list of orders that has been placed on the location
+    lat: float
+        The latitude of the location
+    lng: float
+        The longitude of the location
+    count_orders: int
+        How many orders thas has been placed on the location
+    street_name: str
+        The name of the street
+    street_number: str
+        The streetnumber
+    postal_town: str
+        The postal town
+    
+    Methods
+    -------
+    time_between(destination: Location)
+        Returns the time to the specified location. (Driving time)
+    """
+
     __tablename__ = "location"
     id = Column(Integer, primary_key=True)
     coord = Column(Geometry("POINT"))
