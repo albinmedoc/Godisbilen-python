@@ -40,12 +40,12 @@ def create_app(config_class=Config, create_db=False):
     from .main.routes import bp_main
     from .campaign.routes import bp_campaign
     from .order.routes import bp_order
-    from .location.routes import bp_loc
+    from .region.routes import bp_region
     from .admin.routes import bp_admin
     app.register_blueprint(bp_main)
     app.register_blueprint(bp_campaign)
     app.register_blueprint(bp_order)
-    app.register_blueprint(bp_loc)
+    app.register_blueprint(bp_region)
     app.register_blueprint(bp_admin)
 
     from godisbilen.order_number import OrderNumber

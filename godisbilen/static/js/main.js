@@ -37,7 +37,7 @@ function addLiveEventListeners(selector, event, handler){
 
 
 var city_boundaries = {};
-getJSON("POST", "/get_city_boundaries", function (err, data) {
+getJSON("POST", "/get_region_boundaries", function (err, data) {
     if (err !== null) {
         console.log("Something went wrong: " + err);
     } else {
@@ -45,6 +45,6 @@ getJSON("POST", "/get_city_boundaries", function (err, data) {
     }
 });
 
-function get_city_boundaries(callback, cities){
-    getJSON("POST", "/get_city_boundaries", callback);
+function get_city_boundaries(callback){
+    getJSON("POST", "/get_region_boundaries", callback);
 }
