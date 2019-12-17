@@ -73,8 +73,8 @@
     </form>
 {% endif %}
 <div id="content_container">
-    <a>
-        <img alt="Kör nu i Dalby" src="{{ url_for('static', filename='img/new_dalby.png') }}">
+    <a href="{{ url_for('main.regions') }}">
+        <img alt="Nytt leveransområde" src="{{ url_for('static', filename='img/new_region.png') }}">
     </a>
     <a href="{{ url_for('main.assortment') }}">
         <img alt="Godisbilens innehåll" src="{{ url_for('static', filename='img/car/car_inside_link.png') }}">
