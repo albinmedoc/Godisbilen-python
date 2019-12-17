@@ -1,5 +1,5 @@
 import os
-from datetime import time
+from datetime import time, date
 from dotenv import load_dotenv
 
 class Config(object):
@@ -28,9 +28,31 @@ class Config(object):
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 
     OPENING_HOURS = {
-        "4": [[time(17), time(23, 59, 59, 59)]],
-        "5": [[time(0), time(1)], [time(16), time(23, 59, 59, 59)]],
-        "6": [[time(0), time(1)], [time(17), time(21, 30)]]
+        "4": [[time(17), time(23, 59, 59, 59)]], # Friday
+        "5": [[time(0), time(1)], [time(16), time(23, 59, 59, 59)]], # Saturday
+        "6": [[time(0), time(1)], [time(17), time(21, 30)]] # Sunday
+    }
+
+    EXTRA_OPENING_HOURS = {
+        # December
+        date(2019, 12, 20): [[time(12), time(23, 59, 59, 59)]],
+        date(2019, 12, 22): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
+        date(2019, 12, 23): [[time(0), time(1)]],
+        date(2019, 12, 25): [[time(12), time(23, 59, 59, 59)]],
+        date(2019, 12, 26): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
+        date(2019, 12, 27): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
+        date(2019, 12, 28): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
+        date(2019, 12, 29): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
+        date(2019, 12, 30): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
+        date(2019, 12, 31): [[time(0), time(1)]],
+        # January
+        date(2020, 1, 1): [[time(12), time(23, 59, 59, 59)]],
+        date(2020, 1, 2): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
+        date(2020, 1, 3): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
+        date(2020, 1, 4): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
+        date(2020, 1, 5): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
+        date(2020, 1, 6): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
+        date(2020, 1, 7): [[time(0), time(1)]],
     }
 
     #Database
