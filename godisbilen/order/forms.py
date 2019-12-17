@@ -37,7 +37,7 @@ class OrderForm(FlaskForm):
             return False
         
         # Check if outside working area
-        if(Region.query.filter(Region.bounds.ST_Intersects(WKTElement("POINT({} {})".format(self.lng.data, self.lat.data)))).first() is None):
+        if(Region.query.filter_by(active=True).filter(Region.bounds.ST_Intersects(WKTElement("POINT({} {})".format(self.lng.data, self.lat.data)))).first() is None):
             temp = list(self.search.errors)
             temp.append("Addressen är utanför våra leveransområden.")
             self.search.errors = tuple(temp)
