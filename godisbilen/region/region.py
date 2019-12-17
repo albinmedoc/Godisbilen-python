@@ -1,5 +1,5 @@
 import json
-from sqlalchemy import Column, Integer, String, func, select
+from sqlalchemy import Column, Integer, String, Boolean, func, select
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from geoalchemy2 import Geography
@@ -14,6 +14,7 @@ class Region(db.Model):
     __tablename__ = "region"
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
+    active = Column(Boolean, default=True, nullable=False)
     locations = relationship("Location", back_populates="region")
     bounds = Column(Geography("POLYGON"))
     admins = relationship("Admin", secondary=admin_regions, back_populates="regions")
@@ -35,8 +36,10 @@ class Region(db.Model):
         return cls.bounds.ST_Centroid()
 
     @staticmethod
-    def get_bounds(regions:list=None, lat_lng:bool=False):
+    def get_bounds(regions:list=None, lat_lng:bool=False, active=None):
         bounds = db.session.query(Region.name, func.ST_AsGeoJSON(Region.bounds))
+        if(active is not None):
+            bounds = bounds.filter_by(active=active)
         if(regions):
             bounds = bounds.filter(Region.name.in_(regions))
         bounds = bounds.all()
