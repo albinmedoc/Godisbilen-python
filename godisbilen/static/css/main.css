@@ -63,13 +63,12 @@ header {
 /* Navigation */
 
 #navigation{
-    z-index: 2;
+    z-index: 1;
     position: fixed;
     top: var(--header-height);
-    bottom: 0;
+    min-height: calc(100vh - var(--header-height));
     right: calc(var(--nav-width) * -1);
     width: var(--nav-width);
-    overflow: hidden;
     transition: right .3s ease-in-out;
     color: #e86ed0;
     background-color: var(--header-background-color);
@@ -104,7 +103,7 @@ header {
 #socialmedias{
     width: 100%;
     padding: 0;
-    margin: 100px 0;
+    margin: 60px 0;
     display: flex;
     flex-wrap: wrap;
 }
