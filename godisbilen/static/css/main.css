@@ -182,4 +182,12 @@ main{
     #navigation.is-active{
         width: 100%;
     }
+
+    #navigation > #links > ul{
+        padding: 0;
+    }
+
+    #navigation > #links > ul > li{
+        text-align: center;
+    }
 }
