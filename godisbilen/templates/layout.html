@@ -46,23 +46,53 @@
 
         {% block css %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive_form.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/hamburger_icon.css') }}">
         {% endblock css %}
         {% block fonts %}
         <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
         {% endblock fonts %}
     </head>
-
     <body>
-        {% block nav %}
-        <nav>
-            <a href="{{ url_for('main.home') }}" id="logo" class="nav_link">
+        {% block header %}
+        <header>
+            <a href="{{ url_for('main.home') }}" id="logo">
                 <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Godisbilen logo" title="Startsida">
             </a>
+            <button id="nav_btn" class="hamburger hamburger--slider" type="button">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </button>
+        </header>
+        {% endblock header %}
+        <nav id="navigation" role="navigation">
+            <section id="links">
+                <h3>Snabblänkar</h3>
+                <ul>
+                    <li><a href="{{ url_for('main.regions') }}">Leveransområde</a></li>
+                    <li><a href="{{  url_for('main.tos') }}">Allmänna villkor</a></li>
+                    <li><a href="{{ url_for('main.faq') }}">Vanliga frågor</a></li>
+                    <li><a href="{{ url_for('main.contact') }}">Kontakta oss</a></li>
+                    <li><a href="{{ url_for('main.about') }}">Om oss</a></li>
+                </ul>
+            </section>
+            <ul id="socialmedias">
+                <li>
+                    <a href="https://www.facebook.com/godisbilen.nu" target="_blank" class="facebook">
+                        <img src="{{ url_for('static', filename='img/socialmedia/facebook.svg') }}">
+                        <span>Facebook</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/godisbilen.nu" target="_blank" class="instagram">
+                        <img src="{{ url_for('static', filename='img/socialmedia/instagram.svg') }}">
+                        <span>Instagram</span>
+                    </a>
+                </li>
+            </ul>
         </nav>
-        {% endblock nav %}
         <main id="main">
             {% block main %}
             {% endblock main %}
@@ -73,16 +103,6 @@
                 <h3>Godisbilen.nu</h3>
                 <p><q>Fixar godis när du behöver det!</q></p>
                 <small>&copy; Copyright 2019, Godisbilen Staffanstorp AB</small>
-            </section>
-            <section id="links">
-                <h3>Snabblänkar</h3>
-                <ul>
-                    <li><a href="{{ url_for('main.regions') }}">Leveransområde</a></li>
-                    <li><a href="{{  url_for('main.tos') }}">Allmänna villkor</a></li>
-                    <li><a href="{{ url_for('main.faq') }}">Vanliga frågor</a></li>
-                    <li><a href="{{ url_for('main.contact') }}">Kontakta oss</a></li>
-                    <li><a href="{{ url_for('main.about') }}">Om oss</a></li>
-                </ul>
             </section>
         </footer>
         {% endblock footer %}
