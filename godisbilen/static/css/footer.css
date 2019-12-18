@@ -1,5 +1,5 @@
 footer{
-    background-color: var(--nav-background-color);
+    background-color: var(--header-background-color);
     color: #e86ed0;
     width: 100%;
 }
@@ -24,50 +24,4 @@ footer > #motto > h3{
 footer > #motto > p{
     margin: 0;
     font-size: 20px;
-}
-
-footer > #links > h3{
-    font-size: 20px;
-}
-
-footer > #links > ul{
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-footer > #links a {
-    color: #e86ed0;
-    text-decoration: none;
-}
-
-footer > #links a:hover {
-    text-decoration: underline;
-}
-
-@media screen and (min-width: 750px) {
-    footer {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        height: 170px;
-    }
-    footer > section{
-        width: calc(100% - 60px);
-        padding: 20px 30px;
-        position: relative;
-        text-align: left;
-    }
-    footer > #motto{
-        text-align: right;
-    }
-    footer > #motto::after{
-        content: "";
-        position: absolute;
-        width: 2px;
-        height: 70%;
-        top: 15%;
-        right: -1px;
-        background-color: #e86ed0;
-        border-radius: 4px;
-    }
 }
