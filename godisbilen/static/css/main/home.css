@@ -20,7 +20,7 @@
 
 #content_container{
     margin-top: 20px;
-    width: 100vw;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
