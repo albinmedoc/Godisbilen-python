@@ -40,8 +40,8 @@ class Order(db.Model):
         # Adding current order location to list
         locations = [order.location for order in orders] + [location]
 
-        # Should start at region center to first location + startup
-        time = current_app.config["START_TIME"] + locations[0].time_between([db.session.scalar(location.region.center.ST_Y()), db.session.scalar(location.region.center.ST_X())])
+        # Time should start at Herrestadsvägen to first location + startup
+        time = current_app.config["START_TIME"] + locations[0].time_between([55.6413726,13.1969333])
         last_location = None
         for _location in locations:
             if(last_location):
@@ -91,7 +91,7 @@ class Order(db.Model):
     def json(self):
         temp =  {}
         temp["order_number"] = self.order_number.number
-        temp["estimated_delivery"] = self.estimated_delivery
+        temp["estimated_delivery"] = str(self.estimated_delivery)
         temp["phase"] = self.phase
         temp["queue_position"] = self.queue_position
         temp["tel"] = self.user.phone_number
