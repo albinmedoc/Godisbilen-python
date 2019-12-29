@@ -3,8 +3,8 @@
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/map.css') }}">
 {% endblock css %}
-{% block nav %}
-{% endblock nav %}
+{% block header %}
+{% endblock header %}
 {% block main %}
     <img id="logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="Godisbilen logo">
     <div id="map_overlay">
@@ -15,6 +15,7 @@
             <p class="address"></p>
             <p class="phone_number"></p>
             <p class="action">Ingen order</p>
+            <p class="orders_count"></p>
         </div>
     </div>
     <div id="map"></div>
