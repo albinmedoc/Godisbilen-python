@@ -11,7 +11,7 @@ class Config(object):
     FLASK_DEBUG=1
 
     # Time for the driver to jump in the van
-    START_TIME = 240 # 4 min
+    START_TIME = 600 # 10 min
 
     # How long does the van stay at each stop (seconds)
     STOP_TIME = 480 # 8 min
@@ -35,9 +35,6 @@ class Config(object):
 
     EXTRA_OPENING_HOURS = {
         # December
-        date(2019, 12, 20): [[time(12), time(23, 59, 59, 59)]],
-        date(2019, 12, 22): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
-        date(2019, 12, 23): [[time(0), time(1)]],
         date(2019, 12, 25): [[time(12), time(23, 59, 59, 59)]],
         date(2019, 12, 26): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
         date(2019, 12, 27): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
