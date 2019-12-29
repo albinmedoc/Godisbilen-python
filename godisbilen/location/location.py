@@ -51,7 +51,7 @@ class Location(db.Model):
 
     def __init__(self, lat, lng, *args, **kwargs):
         self.coord = "POINT({} {})".format(lng, lat)
-        self.region = Region.query.filter(Region.bounds.ST_Intersects(self.coord)).first()
+        self.region = Region.query.filter_by(active=True).filter(Region.bounds.ST_Intersects(self.coord)).first()
         super().__init__(*args, **kwargs)
 
     @hybrid_property
