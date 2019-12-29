@@ -3,10 +3,6 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/home.css') }}">
 {% endblock css %}
-{% block javascript %}
-{{ super() }}
-<script src="{{ url_for('static', filename='js/admin/home.js') }}"></script>
-{% endblock javascript %}
 {% block main %}
 <section id="sub_header">
     <h3>Admin - Hem</h3>
@@ -16,10 +12,6 @@
     <a class="box" href="{{ url_for('admin_route.map') }}">
         <h4>Karta</h4>
         <img src="{{ url_for('static', filename='img/map.svg') }}">
-    </a>
-    <a class="box" href="{{ url_for('campaign.home') }}">
-        <h4>Erbjudande</h4>
-        <img src="{{ url_for('static', filename='img/campaign.svg') }}">
     </a>
     {% if current_user.has_roles(["Developer"]) %}
     <a class="box" href="{{ url_for('admin.index') }}">

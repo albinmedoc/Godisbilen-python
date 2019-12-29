@@ -20,7 +20,6 @@ class User(db.Model, UserMixin):
     id = Column(Integer, primary_key=True)
     phone_number = Column(String, unique=True, nullable=False)
     orders = relationship("Order", back_populates="user")
-    campaigns = relationship("CampaignOrder", back_populates="user")
     roles = db.relationship("Role", secondary=user_roles, backref="users")
     admin = relationship("Admin", uselist=False, back_populates="user")
 
