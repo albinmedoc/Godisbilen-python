@@ -53,8 +53,8 @@ function show_markers() {
                     }
                 })(marker, i));
             }
-            document.querySelectorAll("#current_order > .order_number")[0].innerHTML = orders[0]["order_number"];
-            document.querySelectorAll("#current_order > .estimated_delivery")[0].innerHTML = Date(orders[0]["estimated_delivery"]);
+
+            document.querySelectorAll("#current_order > .estimated_delivery")[0].innerHTML = "Beräknad leverans: " + orders[0]["estimated_delivery"].substring(11, 16);
             document.querySelectorAll("#current_order > .address")[0].innerHTML = "<a target='_blank' href='https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + orders[0]["lat"] + "," + orders[0]["lng"] + "'>" + orders[0]["street"] + " " + orders[0]["street_number"];
             document.querySelectorAll("#current_order > .phone_number")[0].innerHTML = "<a href='sms:" + orders[0]["tel"] + "'</a>" + orders[0]["tel"];
             if (orders[0]["phase"] == 1) {
@@ -62,6 +62,7 @@ function show_markers() {
             } else if (orders[0]["phase"] == 2) {
                 document.querySelectorAll("#current_order > .action")[0].innerHTML = "<a href='/admin/complete_order/" + orders[0]["order_number"] + "'>Färdig</a>";
             }
+            document.querySelectorAll("#current_order > .orders_count")[0].innerHTML = "Antal ordrar: " + orders.length;
         }
     }, "phase=1&phase=2");
 }
