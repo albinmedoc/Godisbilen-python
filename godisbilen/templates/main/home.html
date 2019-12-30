@@ -45,6 +45,7 @@
             <div class="input_container">
                 {{ order_form.search(placeholder=" ", class="required error" if order_form.search.errors else "required") }}
                 {{ order_form.search.label() }}
+                <p id="autofill">Fyll i automatiskt</p>
                 <div class="errors">
                     {% for error in order_form.search.errors %}
                         <p class="error">{{ error }}</p>
@@ -55,7 +56,6 @@
         <div id="map_container">
             <div id="map"></div>
             <div id="infowindow-content">
-                <img width="16" height="16" id="place-icon" alt="Plats ikon">
                 <span id="place-name" class="title"></span><br>
                 <span id="postal"></span>
             </div>
