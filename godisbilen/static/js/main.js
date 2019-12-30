@@ -31,6 +31,19 @@ var getJSON = function (method, url, callback, params) {
     xhr.send(params);
 };
 
+function showLoader(bool){
+    var loader = document.getElementById("loader_container");
+    if(!loader){
+        console.log("Loader was not found!");
+    }else{
+        if(bool){
+            loader.classList.add("active");
+        }else{
+            loader.classList.remove("active");
+        }
+    }
+}
+
 function addLiveEventListeners(selector, event, handler){
     document.querySelector("body").addEventListener(
          event

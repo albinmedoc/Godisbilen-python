@@ -55,6 +55,9 @@
         {% endblock fonts %}
     </head>
     <body>
+        <div id="loader_container">
+            <div id="loader"></div>
+        </div>
         {% block header %}
         <header>
             <a href="{{ url_for('main.home') }}" id="logo">
