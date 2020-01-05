@@ -3,7 +3,7 @@ from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, ValidationError
 from wtforms.fields.html5 import EmailField
 from godisbilen.order_number import OrderNumber
-from godisbilen.form_fields import DatalistField
+from godisbilen.form.fields import DatalistField
 
 class ContactForm(FlaskForm):
     name = StringField("Namn", validators=[DataRequired(message="Detta fält är obligatoriskt.")])
