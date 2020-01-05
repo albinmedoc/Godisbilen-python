@@ -19,7 +19,7 @@ class Config(object):
     GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
     GOOGLE_ANALYTICS_TRACK_ID = os.getenv("GOOGLE_ANALYTICS_TRACK_ID")
 
-    #Mail
+    # Mail
     MAIL_SERVER = os.getenv("MAIL_SERVER")
     MAIL_PORT = os.getenv("MAIL_PORT")
     MAIL_USE_SSL = os.getenv("MAIL_USE_SSL")
@@ -27,6 +27,16 @@ class Config(object):
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 
+    # SMS
+    SMS_USERNAME = os.getenv("SMS_USERNAME")
+    SMS_USERID = os.getenv("SMS_USERID")
+    SMS_HANDLE = os.getenv("SMS_HANDLE")
+
+    # Database
+    SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # Opening hours
     OPENING_HOURS = {
         "4": [[time(17), time(23, 59, 59, 59)]], # Friday
         "5": [[time(0), time(1)], [time(16), time(23, 59, 59, 59)]], # Saturday
@@ -51,8 +61,4 @@ class Config(object):
         date(2020, 1, 6): [[time(0), time(1)], [time(12), time(23, 59, 59, 59)]],
         date(2020, 1, 7): [[time(0), time(1)]],
     }
-
-    #Database
-    SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
     
