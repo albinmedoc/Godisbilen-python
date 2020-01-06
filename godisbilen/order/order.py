@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timedelta
 from flask_mail import Message
 from flask import current_app
@@ -5,6 +6,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, or_, selec
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 from godisbilen.app import db, mail
+from godisbilen.main.utils import send_sms
 from godisbilen.order_number import OrderNumber
 from godisbilen.user import User
 from godisbilen.location import Location
@@ -25,6 +27,8 @@ class Order(db.Model):
     
     @staticmethod
     def create(phone_number, lat, lng):
+        phone_number = re.sub("[^0-9]", "", phone_number)
+
         user = User.query.filter_by(phone_number=phone_number).first()
         if(not user):
             user = User(phone_number=phone_number)
@@ -54,10 +58,16 @@ class Order(db.Model):
         db.session.add(order)
         db.session.commit()
 
+        # Send sms to admins assigned to the region
+        url = "https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + str(lat) + "," + str(lng)
+        message = "Ny order från " + user.phone_number + " på adressen: " + location.street_name + " " + str(location.street_number) + ". Beräknad leverans: " + estimated_delivery.time().strftime("%H:%M") + " \n " + url
+        for admin in location.region.admins:
+            send_sms(message, admin.user.phone_number)
+
         # Send mails to admins assigned to the region
         recipients = [admin.email for admin in location.region.admins]
         msg = Message(subject="Godisbilen - Ny Order", recipients=recipients)
-        msg.body = "Ny order från " + user.phone_number + " på adressen: " + location.street_name + " " + str(location.street_number) + ". Beräknad leverans: " + estimated_delivery.time().strftime("%H:%M")
+        msg.body = message
         mail.send(msg)
 
         return order
