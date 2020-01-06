@@ -39,13 +39,18 @@
             <div class="input_container">
                 {{ order_form.phone_number(placeholder=" ", class="error" if order_form.phone_number.errors) }}
                 {{ order_form.phone_number.label() }}
+                <div class="errors">
+                    {% for error in order_form.phone_number.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div class="form_row">
             <div class="input_container">
                 {{ order_form.search(placeholder=" ", class="required error" if order_form.search.errors else "required") }}
                 {{ order_form.search.label() }}
-                <p id="autofill">Fyll i automatiskt</p>
+                <a id="autofill">Fyll i automatiskt</a>
                 <div class="errors">
                     {% for error in order_form.search.errors %}
                         <p class="error">{{ error }}</p>
