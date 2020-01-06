@@ -65,13 +65,15 @@ function initMap() {
 
     var autofill = document.getElementById("autofill");
     if(autofill){
-        // Add event listener
-        autofill.addEventListener("click", function(){
-            // Show the loader
-            showLoader(true);
-
-            // Check if browser supports geolocation
-            if(navigator.geolocation){
+        // Check if browser supports geolocation
+        if(!navigator.geolocation){
+            // If not supported
+            autofill.style.display = "none";
+        }else{
+            // If supported, add event listener
+            autofill.addEventListener("ontouchstart" in window ? "touchstart" : "click", function(){
+                // Show the loader
+                showLoader(true);
 
                 // Get the users location
                 navigator.geolocation.getCurrentPosition(function(position){
@@ -82,15 +84,14 @@ function initMap() {
                         if (status === "OK" && results[0]) {
                             // Show location
                             set_location(results[0]);
+                            input.value = results[0].address_components[1].long_name + " " + results[0].address_components[0].short_name + ", " + results[0].address_components[3].short_name + ", " + results[0].address_components[5].long_name;
                         }
                     });
                 });
-            }else{
-                alert("Geolocation is not supported by this browser.");
-            }
 
-            // Hide the loader
-            showLoader(false);
-        });
+                // Hide the loader
+                showLoader(false);
+            });
+        }
     }
 }
