@@ -1,12 +1,13 @@
 import os
 from flask import Flask, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
 from flask_admin import Admin
 from flask_admin.contrib.fileadmin import FileAdmin
 from flask_admin.base import MenuLink
-from flask_mail import Mail
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_cors import CORS
 from config import Config
 
 db = SQLAlchemy()
@@ -14,7 +15,7 @@ mail = Mail()
 admin = Admin(name="Godisbilen", url="/admin/db", template_mode="bootstrap3")
 bcrypt = Bcrypt()
 login = LoginManager()
-
+cors = CORS()
 
 def create_app(config_class=Config, create_db=False):
     app = Flask(__name__)
@@ -36,16 +37,21 @@ def create_app(config_class=Config, create_db=False):
     mail.init_app(app)
     bcrypt.init_app(app)
     login.init_app(app)
+    cors.init_app(app)
 
+    # Register Blueprints
     from .main.routes import bp_main
     from .order.routes import bp_order
     from .region.routes import bp_region
     from .admin.routes import bp_admin
+    from .api import bp_api
     app.register_blueprint(bp_main)
     app.register_blueprint(bp_order)
     app.register_blueprint(bp_region)
     app.register_blueprint(bp_admin)
+    app.register_blueprint(bp_api)
 
+    # Register database models
     from godisbilen.order_number import OrderNumber
     from godisbilen.order import Order
     from godisbilen.user import User
@@ -57,6 +63,8 @@ def create_app(config_class=Config, create_db=False):
     if(create_db):
         with app.test_request_context():
             db.create_all()
+
+    # Register database views
 
     from godisbilen.order.views import OrderView
     from godisbilen.user.views import UserView
