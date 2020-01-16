@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}
+Kalas
+{% endblock title %}
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main/about.css') }}">
+{% endblock css %}
+{% block main %}
+<section id="sub_header">
+    <h3>Kalas</h3>
+    <p>Information om kalas</p>
+</section>
+<div id="info">
+    <section>
+        <img src="{{ url_for('static', filename='img/party.jpg') }}" alt="Kalas Godisbilen">
+        <p>Ska du ha kalas och önskar att Godisbilen.nu ska komma på besök mailar du en förfrågan till <a href="mailto:info@godisbilen.nu">info@godisbilen.nu</a>. Där anger du <b>datum</b>, <b>klockslag</b>, <b>adress</b> och <b>antal personer</b>. Du kommer få en bekräftelse när din förfrågan har godkänts av oss.</p>
+        <p>Det finns två upplägg vid kalas. Det ena alternativet är att personerna väljer fritt ur vårt sortiment. Minsta totalsumma är då 200kr. 
+            Det andra alternativet är att personerna får välja en av våra godisburkar och fylla den med lösviktsgodis. Det finns två storlekar att välja mellan. Den stora (3,5 dl) kostar 35kr styck och den lilla (2,5 dl) kostar 25kr styck.</p>
+            
+        <p>Minst antal personer är 8 om adressen ligger inom vårt leveransområde. Om adressen ligger utanför vårt leveransområde kan en utkörningsavgift tillkomma. Hör av dig för exakt prisuppgift.
+            Skulle antalet personer vara färre än 8 kan vi köra ut mot en tilläggsavgift. Hör av dig för exakt prisuppgift eller eventuella frågot.</p>
+    </section>
+</div>
+{% endblock main %}

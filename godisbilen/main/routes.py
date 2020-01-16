@@ -45,6 +45,10 @@ def contact():
 def about():
     return render_template("main/about.html")
 
+@bp_main.route("/party")   
+def party():
+    return render_template("main/party.html")
+
 @bp_main.route("/faq")   
 def faq():
     return render_template("main/faq.html")
