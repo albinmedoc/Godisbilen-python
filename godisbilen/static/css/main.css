@@ -139,50 +139,6 @@ header {
     line-height: 50px;
 }
 
-#socialmedias{
-    width: 100%;
-    padding: 0;
-    margin: 30px 0;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-#socialmedias > li{
-    list-style: none;
-    margin: 20px auto;
-}
-
-#socialmedias > li > a{
-    border-radius: 10px;
-    width: 220px;
-    height: 50px;
-    padding: 10px;
-    text-align: center;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-    align-items: center;
-    text-decoration: none;
-}
-
-#socialmedias > li > a.facebook{
-    background-color: #1877f2;
-}
-
-#socialmedias > li > a.instagram{
-    background-color: #c32aa3;
-}
-
-#socialmedias > li > a > img{
-    width: 40px
-}
-
-#socialmedias > li > a > span{
-    font-size: 25px;
-    color: #fff;
-}
-
-
 /* -Navigation */
 
 /* Subheader */
