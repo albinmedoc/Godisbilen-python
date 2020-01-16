@@ -61,14 +61,9 @@ class Order(db.Model):
         # Send sms to admins assigned to the region
         url = "https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + str(lat) + "," + str(lng)
         message = "Ny order från " + user.phone_number + " på adressen: " + location.street_name + " " + str(location.street_number) + ". Beräknad leverans: " + estimated_delivery.time().strftime("%H:%M") + " \n " + url
-        for admin in location.region.admins:
-            send_sms(message, admin.user.phone_number)
-
-        # Send mails to admins assigned to the region
-        recipients = [admin.email for admin in location.region.admins]
-        msg = Message(subject="Godisbilen - Ny Order", recipients=recipients)
-        msg.body = message
-        mail.send(msg)
+        recipients = [admin.user.phone_number for admin in location.region.admins] + current_app.config["INCLUDE_PHONE_NUMBER_ORDER"]
+        for phone_number in recipients:
+            send_sms(message, phone_number)
 
         return order
     

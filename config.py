@@ -32,6 +32,8 @@ class Config(object):
     SMS_USERID = os.getenv("SMS_USERID")
     SMS_HANDLE = os.getenv("SMS_HANDLE")
 
+    INCLUDE_PHONE_NUMBER_ORDER = []
+
     # Database
     SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
