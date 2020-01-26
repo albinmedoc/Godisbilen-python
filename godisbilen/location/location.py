@@ -56,6 +56,11 @@ class Location(db.Model):
 
     @hybrid_property
     def lat(self):
+        """Get latitude of the location
+
+        Returns:
+            float : The latitude
+        """
         return db.session.scalar(self.coord.ST_Y())
     
     @lat.expression
@@ -64,6 +69,11 @@ class Location(db.Model):
 
     @hybrid_property
     def lng(self):
+        """Get longitude of the location
+
+        Returns:
+            float : The longitude
+        """
         return db.session.scalar(self.coord.ST_X())
     
     @lng.expression
@@ -72,6 +82,11 @@ class Location(db.Model):
     
     @hybrid_property
     def count_orders(self):
+        """Get count of orders on the location
+
+        Returns:
+            int : The order count
+        """
         return len(self.orders)
     
     @count_orders.expression
@@ -81,6 +96,11 @@ class Location(db.Model):
     
     @property
     def street_name(self):
+        """Get the streetname of the location
+
+        Returns:
+            str : The streetname
+        """
         gmaps = googlemaps.Client(key=current_app.config["GOOGLE_MAPS_API_KEY"])
         data = gmaps.reverse_geocode((self.lat, self.lng))[0]
         for x in data["address_components"]:
@@ -90,6 +110,11 @@ class Location(db.Model):
     
     @property
     def street_number(self):
+        """Get the streetnumber of the location
+
+        Returns:
+            str : The streetnumber
+        """
         gmaps = googlemaps.Client(key=current_app.config["GOOGLE_MAPS_API_KEY"])
         data = gmaps.reverse_geocode((self.lat, self.lng))[0]
         for x in data["address_components"]:
@@ -99,6 +124,11 @@ class Location(db.Model):
     
     @property
     def postal_town(self):
+        """Get the postal_town of the location
+
+        Returns:
+            str : The postal_town
+        """
         gmaps = googlemaps.Client(key=current_app.config["GOOGLE_MAPS_API_KEY"])
         data = gmaps.reverse_geocode((self.lat, self.lng))[0]
         for x in data["address_components"]:
@@ -107,6 +137,11 @@ class Location(db.Model):
         return None
 
     def time_between(self, destination):
+        """Get the time between the location and another one
+
+        Returns:
+            int : The time between in seconds
+        """
         gmaps = googlemaps.Client(key=current_app.config["GOOGLE_MAPS_API_KEY"])
         if(isinstance(destination, list)):
             data = gmaps.distance_matrix((self.lat, self.lng), (destination[0], destination[1]), mode="driving")

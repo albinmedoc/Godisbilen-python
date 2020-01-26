@@ -3,6 +3,11 @@ import requests
 from flask import current_app
 
 def shop_open():
+    """Check if Godisbilen.nu is currently open
+
+    Returns:
+        bool : If Godisbilen.nu is open
+    """
     shop_open = False
 
     # Check standard opening hours
@@ -24,6 +29,16 @@ def shop_open():
     return shop_open
 
 def is_time_between(begin_time, end_time, check_time=None):
+    """Check if current time or check_time is between the specified interval
+
+    Args:
+        begin_time (time): The begin time of the interval
+        end_time (time): The end time of the interval
+        check_time (time): The time that will be checked
+
+    Returns:
+        bool : If the time is between the specified interval
+    """
     # If check time is not given, default to current time
     check_time = check_time or datetime.now().time()
     if begin_time < end_time:
@@ -32,6 +47,17 @@ def is_time_between(begin_time, end_time, check_time=None):
         return check_time >= begin_time or check_time <= end_time
 
 def send_sms(msg, to, from_="Godisbilen", customid=None):
+    """Check if current time or check_time is between the specified interval
+
+    Args:
+        msg (str): The message
+        to (str): The reciever
+        from_ (str): The sms sender 
+        customid (str): The custom identifier, should be unique
+
+    Returns:
+        str : The status code
+    """
     URL = "https://api.budgetsms.net/sendsms/"
     to = "46" + to[1:]
     data = {
