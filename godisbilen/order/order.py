@@ -100,6 +100,7 @@ class Order(db.Model):
         temp["phase"] = self.phase
         temp["queue_position"] = self.queue_position
         temp["tel"] = self.user.phone_number
+        temp["formatted_address"] = self.location.formatted_address
         temp["street"] = self.location.street_name
         temp["street_number"] = self.location.street_number
         temp["lat"] = self.location.lat

@@ -48,14 +48,14 @@ function show_markers() {
 
                 google.maps.event.addListener(marker, "click", (function (marker, i) {
                     return function () {
-                        infowindow.setContent("<a target='_blank' href='https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + orders[i]["lat"] + "," + orders[i]["lng"] + "'>" + orders[i]["street"] + " " + orders[i]["street_number"] + "<br><a href='sms:" + orders[i]["tel"] + "'</a>" + orders[i]["tel"] + "<br><a class='pin_complete' href='/admin/complete_order/" + orders[i]["order_number"] + "'>Färdig</a>");
+                        infowindow.setContent("<a target='_blank' href='https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + orders[i]["lat"] + "," + orders[i]["lng"] + "'>" + orders[i]["formatted_address"] + "<br><a href='sms:" + orders[i]["tel"] + "'</a>" + orders[i]["tel"] + "<br><a class='pin_complete' href='/admin/complete_order/" + orders[i]["order_number"] + "'>Färdig</a>");
                         infowindow.open(map, marker);
                     }
                 })(marker, i));
             }
 
             document.querySelectorAll("#current_order > .estimated_delivery")[0].innerHTML = "Beräknad leverans: " + orders[0]["estimated_delivery"].substring(11, 16);
-            document.querySelectorAll("#current_order > .address")[0].innerHTML = "<a target='_blank' href='https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + orders[0]["lat"] + "," + orders[0]["lng"] + "'>" + orders[0]["street"] + " " + orders[0]["street_number"];
+            document.querySelectorAll("#current_order > .address")[0].innerHTML = "<a target='_blank' href='https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + orders[0]["lat"] + "," + orders[0]["lng"] + "'>" + orders[0]["formatted_address"];
             document.querySelectorAll("#current_order > .phone_number")[0].innerHTML = "<a href='sms:" + orders[0]["tel"] + "'</a>" + orders[0]["tel"];
             if (orders[0]["phase"] == 1) {
                 document.querySelectorAll("#current_order > .action")[0].innerHTML = "<a href='/admin/start_order/" + orders[0]["order_number"] + "'>Starta</a>";
