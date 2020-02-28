@@ -7,11 +7,9 @@ class LocationView(AdminView):
     page_size = 50
     can_view_details = True
     create_modal = False
-    column_list = ["id", "street_name", "street_number", "formatted_address", "lat", "lng", "region.name", "count_orders"]
+    column_list = ["id", "formatted_address", "lat", "lng", "region.name", "count_orders"]
     column_labels = {
         "id": "Id",
-        "street_name": "Gatunamn",
-        "street_number": "Gatunummer",
         "formatted_address": "Formaterad adress",
         "lat": "Latitude",
         "lng": "Longitude",
