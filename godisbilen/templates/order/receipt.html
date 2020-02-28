@@ -21,7 +21,7 @@ Order placerad
             <h3>Telefonnummer:</h3>
             <h4>{{ order.user.phone_number }}</h4>
             <h3>Leveransaddress:</h3>
-            <h4>{{ order.location.street_name }} {{ order.location.street_number }}, {{ order.location.postal_town }}</h4>
+            <h4>{{ order.location.formatted_address }}</h4>
             <h3>Ordernummer:</h3>
             <h4>{{ order.order_number.number }}</h4>
         </section>

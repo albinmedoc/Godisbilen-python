@@ -15,7 +15,7 @@ class Location(db.Model):
     ----------
     id : int
         The unique id of the location
-    coord : TBA
+    coord : Geometry
         The locations coordinates
     region_id: int
         The id of the region where the location is in
@@ -29,6 +29,8 @@ class Location(db.Model):
         The longitude of the location
     count_orders: int
         How many orders thas has been placed on the location
+    formatted_address: str
+        A formatted address of the location
     street_name: str
         The name of the street
     street_number: str
@@ -93,7 +95,21 @@ class Location(db.Model):
     def count_orders(cls):
         from godisbilen.order import Order
         return select([func.count(Order.id)]).where(Order.location_id == cls.id).label("count_orders")
-    
+
+    @property
+    def formatted_address(self):
+        """Get a formatted address of the location
+
+        Returns:
+            str : The formatted address
+        """
+        gmaps = googlemaps.Client(key=current_app.config["GOOGLE_MAPS_API_KEY"])
+        data = gmaps.reverse_geocode((self.lat, self.lng))[0]
+        try:
+            return data["formatted_address"]
+        except:
+            return None
+
     @property
     def street_name(self):
         """Get the streetname of the location
@@ -152,4 +168,4 @@ class Location(db.Model):
         return 600
 
     def __repr__(self):
-        return self.street_name + " " + str(self.street_number) + ", " + self.postal_town
+        return self.formatted_address
