@@ -12,6 +12,8 @@ class Config(object):
 
     # Time for the driver to jump in the van
     START_TIME = 600 # 10 min
+    # The driver's starting position
+    START_LOC = [55.639291, 13.096950]
 
     # How long does the van stay at each stop (seconds)
     STOP_TIME = 480 # 8 min

@@ -45,7 +45,7 @@ class Order(db.Model):
         locations = [order.location for order in orders] + [location]
 
         # Time should start at Herrestadsvägen to first location + startup
-        time = current_app.config["START_TIME"] + locations[0].time_between([55.6413726,13.1969333])
+        time = current_app.config["START_TIME"] + locations[0].time_between(current_app.config["START_LOC"])
         last_location = None
         for _location in locations:
             if(last_location):
