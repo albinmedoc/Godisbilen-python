@@ -80,6 +80,7 @@
     transition: box-shadow .2s;
     border-radius: 5px;
     overflow: hidden;
+    font-size: var(--responsive-form-font-size);
 }
 
 .responsive_form input,
