@@ -75,3 +75,7 @@ getJSON("POST", "/get_region_boundaries", function (err, data) {
 function get_city_boundaries(callback){
     getJSON("POST", "/get_region_boundaries", callback);
 }
+
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, "g"), replace);
+}
