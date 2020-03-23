@@ -42,9 +42,9 @@ class Config(object):
 
     # Opening hours
     OPENING_HOURS = {
-        "4": [[time(17), time(23, 59, 59, 59)]], # Friday
-        "5": [[time(0), time(1)], [time(16), time(23, 59, 59, 59)]], # Saturday
-        "6": [[time(0), time(1)], [time(17), time(21, 30)]] # Sunday
+        "4": [[time(17), time(23)]], # Friday
+        "5": [[time(15), time(23)]], # Saturday
+        "6": [[time(17), time(21, 30)]] # Sunday
     }
 
     EXTRA_OPENING_HOURS = {

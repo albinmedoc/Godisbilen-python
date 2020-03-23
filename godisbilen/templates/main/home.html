@@ -16,8 +16,8 @@
 <section id="sub_header">
     <div>
         <h3>Öppettider</h3>
-        <p>Fre: 17-01</p>
-        <p>Lör: 16-01</p>
+        <p>Fre: 17-23</p>
+        <p>Lör: 15-23</p>
         <p>Sön: 17-21:30</p>
         {% if shop_open %}
         <a id="order_btn">Beställ nu</a>
@@ -82,8 +82,11 @@
     </form>
 {% endif %}
 <div id="content_container">
-    <a href="{{ url_for('main.regions') }}">
-        <img alt="Nytt leveransområde" src="{{ url_for('static', filename='img/new_region2.png') }}">
+    <a>
+        <img alt="Nya öppettider" src="{{ url_for('static', filename='img/new_opening_hours.png') }}">
+    </a>
+    <a href="{{ url_for('main.contact', subject='Påskägg', message='Hej, jag vill gärna beställa påskägg.%0A%0AAdress: %0A%0AAntal: ') }}">
+        <img alt="Påskägg" src="{{ url_for('static', filename='img/easter_egg.png') }}">
     </a>
     <a href="{{ url_for('main.assortment') }}">
         <img alt="Godisbilens innehåll" src="{{ url_for('static', filename='img/car/car_inside_link.png') }}">
