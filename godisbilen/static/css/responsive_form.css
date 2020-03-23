@@ -134,8 +134,8 @@
 }
 
 .responsive_form textarea{
-    min-height: 40px;
-    resize: vertical;
+    min-height: 100px;
+    resize: none;
 }
 
 .responsive_form button {
