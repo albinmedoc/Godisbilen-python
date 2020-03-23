@@ -9,7 +9,7 @@ class AutosizeTextarea{
                 this.textarea.addEventListener(events[event][0], events[event][1].bind(null, this), false);
             }
         }
-        this.resize(this.textarea);
+        this.resize(this);
     }
 
     resize(autosize){
