@@ -8,6 +8,7 @@ Kontakta oss
 {% endblock css %}
 {% block javascript %}
 {{ super() }}
+<script src="{{ url_for('static', filename='js/autosize_textarea.js') }}"></script>
 <script src="{{ url_for('static', filename='js/main/contact.js') }}"></script>
 {% endblock javascript %}
 {% block main %}
