@@ -1,5 +1,6 @@
-from flask import Blueprint, request, jsonify, redirect
+from flask import Blueprint, request, jsonify, redirect, render_template
 from .short_url import ShortUrl
+from .forms import ShortURLForm
 from godisbilen.app import db
 from godisbilen.user import roles_accepted
 
@@ -14,9 +15,13 @@ def redirect_to_url(short_url):
 
 
 
-@bp_short.route("/short/add_link", methods=["POST"])
+@bp_short.route("/short/add_link", methods=["GET", "POST"])
+@roles_accepted("Admin")
 def add_link():
-    original_url = request.form.get("original_url")
-    short_url = ShortUrl(original_url=original_url)
-    db.session.add(short_url)
-    db.session.commit()
+    form = ShortURLForm()
+    if(form.validate_on_submit()):
+        short_url = ShortUrl(original_url=form.original_url.data)
+        db.session.add(short_url)
+        db.session.commit()
+        return "URL added: " + short_url.short_url
+    return render_template("short_url/create.html", form=form)
