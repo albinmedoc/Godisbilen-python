@@ -19,3 +19,9 @@ def get_order(order_id):
     if(order):
         return jsonify(order.json)
     abort(404)
+
+def get_last_order():
+    order = Order.query.order_by(Order.placed.desc()).first()
+    if(order):
+        return jsonify(order.json)
+    abort(404)
