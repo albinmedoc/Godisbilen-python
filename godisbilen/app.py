@@ -45,11 +45,13 @@ def create_app(config_class=Config, create_db=False):
     from .region.routes import bp_region
     from .admin.routes import bp_admin
     from .api import bp_api
+    from .short_url.routes import bp_short
     app.register_blueprint(bp_main)
     app.register_blueprint(bp_order)
     app.register_blueprint(bp_region)
     app.register_blueprint(bp_admin)
     app.register_blueprint(bp_api)
+    app.register_blueprint(bp_short)
 
     # Register database models
     from godisbilen.order_number import OrderNumber
