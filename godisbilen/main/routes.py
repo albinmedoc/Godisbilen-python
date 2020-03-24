@@ -1,6 +1,6 @@
 from datetime import datetime
 import json, os
-from flask import Blueprint, render_template, current_app, url_for, redirect
+from flask import Blueprint, render_template, current_app, url_for, redirect, request
 from flask_mail import Message
 from .utils import shop_open
 from .forms import ContactForm
@@ -32,7 +32,7 @@ def tos():
 @bp_main.route("/contact", methods=["GET", "POST"])   
 def contact():
     form = ContactForm()
-    if(form.validate_on_submit()):
+    if(form.validate_on_submit() and request.method == "POST"):
         msg = Message(subject=form.subject.data, recipients=[current_app.config["MAIL_DEFAULT_SENDER"]])
         msg.body = "Meddelande från " + form.name.data + "(" + form.email.data + ")" + ". Innehåll: " + form.message.data
         if(form.order_number.data.strip() != ""):
@@ -52,3 +52,7 @@ def party():
 @bp_main.route("/faq")   
 def faq():
     return render_template("main/faq.html")
+
+@bp_main.app_errorhandler(404)
+def page_not_found(e):
+    return render_template("errors/404.html")

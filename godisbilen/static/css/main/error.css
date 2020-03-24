@@ -1,0 +1,32 @@
+main{
+    width: 100%;
+}
+
+#error_container{
+    margin: 0 auto;
+    text-align: center;
+}
+
+#error_code{
+    font-size: 150px;
+    margin: 15px;
+}
+
+#error_message{
+    font-size: 30px;
+    margin: 15px;
+}
+
+.error_hint{
+    font-size: 16px;
+    margin: 15px auto;
+    width: 300px;
+}
+
+#logo{
+    width: 90%;
+    max-width: 500px;
+    margin: 50px;
+    display: inline-block;
+    padding: 0;
+}

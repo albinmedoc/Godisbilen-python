@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main/error.css') }}">
+{% endblock css %}
+{% block header %}
+{% endblock header %}
+{% block footer %}
+{% endblock footer %}
+{% block main %}
+<div id="error_container">
+    <h3 id="error_code">404</h3>
+    <h4 id="error_message">Sidan hittades inte</h4>
+    <p class="error_hint">Det kan bero på ett stavfel, att sidan inte längre finns eller att den har flyttats.</p>
+    <p class="error_hint">Klicka <a href="{{ url_for('main.home') }}">här</a> för att komma till startsidan</p>
+    <img id="logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="Godisbilen.nu logotyp">
+</div>
+{% endblock main %}
