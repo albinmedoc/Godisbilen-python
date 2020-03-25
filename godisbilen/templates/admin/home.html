@@ -19,6 +19,10 @@
         <img src="{{ url_for('static', filename='img/icon/database.svg') }}">
     </a>
     {% endif %}
+    <a class="box" href="{{ url_for('short.add_link') }}">
+        <h4>Kort URL</h4>
+        <img src="{{ url_for('static', filename='img/icon/short_url.svg') }}">
+    </a>
     <a class="box" href="{{ url_for('admin_route.logout') }}">
         <h4>Logga ut</h4>
         <img src="{{ url_for('static', filename='img/icon/logout.svg') }}">
