@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
 {% block main %}
-<form id="contact_form" class="responsive_form" method="POST">
+<section id="sub_header">
+    <h3>Kort URL</h3>
+    <p>Skapa en kort URL genom att fylla i mållänken nedan</p>
+</section>
+<form class="responsive_form" method="POST">
     {{ form.hidden_tag() }}
     {% for field in form if field.widget.input_type != "hidden" and field.widget.input_type != "submit" %}
         <div class="form_row">
@@ -19,4 +23,9 @@
         </div>
     </div>
 </form>
+{% if result is defined %}
+    <div style="text-align:center;">
+        <p>Kort URL: <a href="{{ result}}">{{ result}}</a></p>
+    </div>
+{% endif %}
 {% endblock main %}
