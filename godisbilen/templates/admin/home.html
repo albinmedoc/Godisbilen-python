@@ -11,17 +11,17 @@
 <div id="box_container">
     <a class="box" href="{{ url_for('admin_route.map') }}">
         <h4>Karta</h4>
-        <img src="{{ url_for('static', filename='img/map.svg') }}">
+        <img src="{{ url_for('static', filename='img/icon/map.svg') }}">
     </a>
     {% if current_user.has_roles(["Developer"]) %}
     <a class="box" href="{{ url_for('admin.index') }}">
         <h4>Databas</h4>
-        <img src="{{ url_for('static', filename='img/database.svg') }}">
+        <img src="{{ url_for('static', filename='img/icon/database.svg') }}">
     </a>
     {% endif %}
     <a class="box" href="{{ url_for('admin_route.logout') }}">
         <h4>Logga ut</h4>
-        <img src="{{ url_for('static', filename='img/logout.svg') }}">
+        <img src="{{ url_for('static', filename='img/icon/logout.svg') }}">
     </a>
 </div>
 {% endblock main %}
