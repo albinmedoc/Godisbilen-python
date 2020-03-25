@@ -61,6 +61,7 @@ def create_app(config_class=Config, create_db=False):
     from godisbilen.user.role import Role
     from godisbilen.location import Location
     from godisbilen.region import Region
+    from godisbilen.short_url import ShortUrl
 
     if(create_db):
         with app.test_request_context():
@@ -72,6 +73,7 @@ def create_app(config_class=Config, create_db=False):
     from godisbilen.user.views import UserView
     from godisbilen.location.views import LocationView
     from godisbilen.region.views import RegionView
+    from godisbilen.short_url.views import ShortURLView
 
     path = os.path.join(os.path.dirname(__file__), "static")
     admin.add_view(FileAdmin(path, "/static/", name="Filer"))
@@ -79,6 +81,7 @@ def create_app(config_class=Config, create_db=False):
     admin.add_view(UserView(User, db.session, endpoint="users", name="Användare", menu_icon_type="glyph", menu_icon_value="glyphicon-user"))
     admin.add_view(LocationView(Location, db.session, endpoint="location", name="Adresser", menu_icon_type="glyph", menu_icon_value="glyphicon-map-marker"))
     admin.add_view(RegionView(Region, db.session, endpoint="region", name="Områden", menu_icon_type="glyph", menu_icon_value="glyphicon-globe"))
+    admin.add_view(ShortURLView(ShortUrl, db.session, endpoint="short_url", name="Korta URLer", menu_icon_type="glyph", menu_icon_value="glyphicon-link"))
     admin.add_link(MenuLink(name="Admin Hem", endpoint="admin_route.home", icon_type="glyph", icon_value="glyphicon-home"))
     admin.init_app(app)
 
