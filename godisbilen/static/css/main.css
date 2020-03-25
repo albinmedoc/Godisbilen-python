@@ -171,7 +171,7 @@ header {
 main{
     width: 100vw;
     margin-top: 70px;
-    min-height: calc(100vh - 240px);
+    min-height: calc(100vh - 70px - 143px); /* 100vh - header - footer */
     transition: width .3s ease-in-out;
     position: relative;
 }
