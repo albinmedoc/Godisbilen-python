@@ -1,7 +1,5 @@
 var map = null;
 var markers = [];
-var currrent_pos_marker = undefined;
-var currrent_pos_radius = undefined;
 var infoWindow = null;
 
 addLiveEventListeners(".pin_complete", "click", function(e){
@@ -12,6 +10,8 @@ addLiveEventListeners(".pin_complete", "click", function(e){
 
 //Uppdatera ordrar vartannan minut
 setInterval(function () {
+    // Dont reload if no change in database
+    // Save the current order_id and compare it with the latest in database
     reload_markers();
 }, 120000);
 
