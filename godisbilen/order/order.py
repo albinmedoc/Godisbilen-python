@@ -27,33 +27,44 @@ class Order(db.Model):
     
     @staticmethod
     def create(phone_number, lat, lng):
+        # Delete all non-numeric characters
         phone_number = re.sub("[^0-9]", "", phone_number)
 
+        # get user, create if none exists
         user = User.query.filter_by(phone_number=phone_number).first()
         if(not user):
             user = User(phone_number=phone_number)
             db.session.add(user)
+        
+        # Get a place, create if it doesn't exist
         location = Location.query.filter_by(lat=lat, lng=lng).first()
         if(not location):
             location = Location(lat=lat, lng=lng)
             db.session.add(location)
         db.session.commit()
 
+        # Get the current time
         now = datetime.now()
-        orders = Order.query.join(Location).join(Region).filter(Region.id == location.region.id).filter(Order.placed < now).filter(or_(Order.phase == 1, Order.phase == 2)).all()
-        # Adding current order location to list
-        locations = [order.location for order in orders] + [location]
 
-        # Time should start at Herrestadsvägen to first location + startup
-        time = current_app.config["START_TIME"] + locations[0].time_between(current_app.config["START_LOC"])
-        last_location = None
-        for _location in locations:
-            if(last_location):
-                time = time + last_location.time_between(_location)
-            last_location = _location
-        # Add stoptime (8min) 
-        time = time + len(orders) * current_app.config["STOP_TIME"]
-        estimated_delivery = now + timedelta(seconds=time)
+        # Get the latest order that is active in the current region
+        last_active_order = Order.query.join(Location).join(Region).filter(Region.id == location.region.id).filter(Order.placed < now).filter(or_(Order.phase == 1, Order.phase == 2)).order_by(Order.placed.desc()).first()
+        
+        # Check if an order was found
+        if(last_active_order is not None):
+            # Calculate the time between the last active order and the current order
+            time_between = last_active_order.location.time_between(location)
+
+            # Add time between locations and stop time to the last active order's estimated delivery time
+            estimated_delivery = last_active_order.estimated_delivery + timedelta(seconds=time_between + current_app.config["STOP_TIME"])
+
+        else:
+            # Calculate the time between the starting point and the current order
+            time_between = location.time_between(current_app.config["START_LOC"])
+
+            # Add time between locations and start time to the current time
+            estimated_delivery = now + timedelta(seconds=time_between + current_app.config["START_TIME"])
+
+        # Create order and add to database
         order = Order(order_number=OrderNumber(sufix="O"), location=location, user=user, estimated_delivery=estimated_delivery)
         db.session.add(order)
         db.session.commit()
